@@ -8,7 +8,8 @@ This is an independent portfolio/concept project. It is not affiliated with, end
 
 ## What it does
 
-- **Anticipation rulebook** — 14 rules across four families (queue anticipation, curb & access, positioning & staging, energy discipline), each written as a human instinct, a measurable machine trigger, an action, and a sensor-degraded fallback.
+- **Landscape** — grounds the whole project in Austin's real transit system: Capital Metro's actual MetroRapid corridors and ridership, Project Connect's rail timeline, peer-reviewed research on whether ride-hail helps or hurts transit ridership, the empty-miles/VMT problem in robotaxi deadheading, and where Austin's own transit-access gaps are. Sourced from public data, not modeled — see the citations at the bottom of that tab. One finding from this research pass directly corrected the corridor model: the original "preferred" downtown route sat on CapMetro's dedicated transit-priority bus lanes, which is now fixed in the Corridors tab.
+- **Anticipation rulebook** — 15 rules across five families (queue anticipation, curb & access, positioning & staging, energy discipline, transit awareness), each written as a human instinct, a measurable machine trigger, an action, and a sensor-degraded fallback.
 - **Corridor scorecard** — 16 real Austin street segments scored on a six-term Segment Efficiency Index (volatility, pedestrian conflict, signal delay, curb deficit, energy cost, turn exposure), computed rather than hand-labeled.
 - **Energy model** — accounts for the fact that Waymo's Austin fleet is electric (Jaguar I-PACE): propulsion drag plus a per-second sensor/compute/climate overhead term, which puts the fleet's cheapest mile at 30–35 mph rather than on the freeway or in gridlock.
 - **Staging optimizer** — ranks legal waiting positions by a Staging Position Score (local demand, reachability, deadhead cost, curb quality, event bonus) across time-of-day, season, and event context.
