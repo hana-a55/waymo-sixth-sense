@@ -1,0 +1,2824 @@
+<title>Sixth Sense</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+
+<style>
+/* ============================================================
+   SIXTH SENSE — Austin AV Fleet Operations
+   Palette: pine (chrome accent) + signal amber (alert spot)
+   Data encoding uses the validated viz slots, kept separate
+   from chrome accent by design.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* --- chrome --- */
+  --ground:        #f8f7f2;
+  --surface:       #fdfdfa;
+  --surface-sunk:  #f1f0e9;
+  --ink:           #101614;
+  --ink-2:         #4d5a54;
+  --ink-3:         #7d8a84;
+  --hair:          #dcdbd1;
+  --hair-strong:   #bfbfb2;
+  --accent:        #14523f;
+  --accent-soft:   #e4efe8;
+  --alert:         #b8690c;
+  --alert-soft:    #faeedd;
+
+  /* --- data encoding (validated slots) --- */
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+
+  --seq-100: #cde2fb;
+  --seq-200: #9ec5f4;
+  --seq-300: #6da7ec;
+  --seq-400: #3987e5;
+  --seq-500: #256abf;
+  --seq-600: #184f95;
+  --seq-700: #0d366b;
+
+  --st-good:     #0ca30c;
+  --st-warning:  #fab219;
+  --st-serious:  #ec835a;
+  --st-critical: #d03b3b;
+
+  --grid:     #e1e0d9;
+  --baseline: #c3c2b7;
+
+  /* --- type --- */
+  --f-ui:   "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-prose:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+
+  --r: 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground:       #0d1211;
+    --surface:      #151c1a;
+    --surface-sunk: #101715;
+    --ink:          #f2f3ef;
+    --ink-2:        #adbab3;
+    --ink-3:        #7d8a84;
+    --hair:         #28322e;
+    --hair-strong:  #3b4742;
+    --accent:       #5fbf95;
+    --accent-soft:  #163026;
+    --alert:        #e0a03c;
+    --alert-soft:   #30250f;
+
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+
+    --seq-100: #0d366b;
+    --seq-200: #104281;
+    --seq-300: #184f95;
+    --seq-400: #256abf;
+    --seq-500: #2a78d6;
+    --seq-600: #3987e5;
+    --seq-700: #5598e7;
+
+    --grid:     #2c2c2a;
+    --baseline: #383835;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground:       #0d1211;
+  --surface:      #151c1a;
+  --surface-sunk: #101715;
+  --ink:          #f2f3ef;
+  --ink-2:        #adbab3;
+  --ink-3:        #7d8a84;
+  --hair:         #28322e;
+  --hair-strong:  #3b4742;
+  --accent:       #5fbf95;
+  --accent-soft:  #163026;
+  --alert:        #e0a03c;
+  --alert-soft:   #30250f;
+
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+
+  --seq-100: #0d366b;
+  --seq-200: #104281;
+  --seq-300: #184f95;
+  --seq-400: #256abf;
+  --seq-500: #2a78d6;
+  --seq-600: #3987e5;
+  --seq-700: #5598e7;
+
+  --grid:     #2c2c2a;
+  --baseline: #383835;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--f-ui);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-inline: 20px;
+  padding-block: 0 72px;
+}
+
+/* ---------- title block (plan-sheet convention) ---------- */
+
+.titleblock {
+  border-bottom: 2px solid var(--ink);
+  padding-block: 26px 0;
+}
+.tb-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px 28px;
+}
+.tb-name {
+  font-size: clamp(34px, 6.4vw, 58px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+  margin: 0;
+  text-wrap: balance;
+}
+.tb-name em {
+  font-style: normal;
+  color: var(--accent);
+}
+.tb-sub {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin: 10px 0 0;
+}
+.tb-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, auto));
+  gap: 2px 26px;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  line-height: 1.7;
+  color: var(--ink-3);
+  padding-bottom: 6px;
+}
+.tb-meta b {
+  display: block;
+  color: var(--ink);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.tb-meta span {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 9.5px;
+}
+
+/* ---------- tab rail ---------- */
+
+.rail {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--ground);
+  border-bottom: 1px solid var(--hair);
+  margin-bottom: 34px;
+}
+.rail-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-inline: 20px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.tab {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 13px 15px 11px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s;
+}
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+.tab-n {
+  color: var(--hair-strong);
+  margin-right: 7px;
+}
+.tab[aria-selected="true"] .tab-n { color: var(--accent); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- generic section furniture ---------- */
+
+.pane[hidden] { display: none !important; }
+
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--hair);
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+}
+.sec-head h2 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+.sec-head .code {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.lede {
+  font-family: var(--f-prose);
+  font-size: 18px;
+  line-height: 1.62;
+  max-width: 64ch;
+  color: var(--ink);
+  margin: 0 0 22px;
+}
+.prose {
+  font-family: var(--f-prose);
+  font-size: 16px;
+  line-height: 1.68;
+  max-width: 66ch;
+  color: var(--ink-2);
+}
+.prose p { margin: 0 0 14px; }
+.prose strong { color: var(--ink); font-weight: 600; }
+
+.block { margin-bottom: 46px; }
+
+/* ---------- stat row ---------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+  margin-bottom: 30px;
+}
+.stat {
+  padding: 20px 22px 20px 0;
+  border-right: 1px solid var(--hair);
+}
+.stat:last-child { border-right: 0; }
+.stat-v {
+  font-size: 33px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--accent);
+}
+.stat-v small {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink-2);
+  margin-left: 2px;
+}
+.stat-l {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-top: 9px;
+}
+.stat-d {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-top: 6px;
+  line-height: 1.45;
+}
+
+/* ---------- callout ---------- */
+
+.callout {
+  border-left: 3px solid var(--alert);
+  background: var(--alert-soft);
+  padding: 18px 20px;
+  margin-block: 26px;
+  border-radius: 0 var(--r) var(--r) 0;
+}
+.callout.pine {
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+}
+.callout h4 {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 9px;
+  color: var(--ink);
+}
+.callout p {
+  margin: 0 0 10px;
+  font-family: var(--f-prose);
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 68ch;
+}
+.callout p:last-child { margin-bottom: 0; }
+.callout strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- controls ---------- */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  padding: 12px 0 16px;
+  margin-bottom: 4px;
+}
+.ctl-label {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.segbar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--hair-strong);
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--surface);
+}
+.seg {
+  appearance: none;
+  border: 0;
+  border-right: 1px solid var(--hair);
+  background: none;
+  color: var(--ink-2);
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background .13s, color .13s;
+}
+.seg:last-child { border-right: 0; }
+.seg:hover { background: var(--surface-sunk); color: var(--ink); }
+.seg[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--surface);
+  font-weight: 600;
+}
+
+/* ---------- panel ---------- */
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  border-radius: var(--r);
+  padding: 20px;
+}
+.panel-t {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 14px;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+@media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
+
+/* ---------- map ---------- */
+
+.mapwrap {
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  border-radius: var(--r);
+  padding: 8px;
+  overflow-x: auto;
+}
+.mapwrap svg { display: block; width: 100%; min-width: 560px; height: auto; }
+
+.zone-hit { cursor: pointer; }
+.zone-hit:hover .zone-ring { stroke-width: 2.5; }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-top: 14px;
+}
+.legend-item { display: inline-flex; align-items: center; gap: 7px; }
+.swatch { width: 13px; height: 13px; border-radius: 2px; flex: none; }
+.ramp { display: inline-flex; gap: 2px; }
+.ramp i { width: 19px; height: 11px; display: block; border-radius: 1px; }
+
+/* ---------- zone readout ---------- */
+
+.readout dt {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-top: 13px;
+}
+.readout dd {
+  margin: 3px 0 0;
+  font-size: 14px;
+  color: var(--ink);
+}
+.gen-bar {
+  display: grid;
+  grid-template-columns: 74px 1fr 34px;
+  align-items: center;
+  gap: 9px;
+  margin-top: 5px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--ink-2);
+}
+.gen-track {
+  height: 7px;
+  background: var(--surface-sunk);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.gen-fill { height: 100%; background: var(--series-1); border-radius: 1px; }
+.gen-bar b {
+  font-weight: 500;
+  color: var(--ink);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- heatmap ---------- */
+
+.heat {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 2px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+}
+.heat th {
+  font-weight: 500;
+  font-size: 9.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 4px 6px;
+  text-align: center;
+  white-space: nowrap;
+}
+.heat th.rowh {
+  text-align: left;
+  color: var(--ink);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+.heat td {
+  text-align: center;
+  padding: 7px 4px;
+  border-radius: 2px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+.tblscroll { overflow-x: auto; }
+
+/* ---------- data table ---------- */
+
+.dt {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.dt th {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+  text-align: left;
+  padding: 0 12px 8px 0;
+  border-bottom: 1px solid var(--hair-strong);
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+.dt th.num, .dt td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.dt td {
+  padding: 11px 12px 11px 0;
+  border-bottom: 1px solid var(--hair);
+  vertical-align: top;
+  color: var(--ink-2);
+}
+.dt tr:hover td { background: var(--surface-sunk); }
+.dt .nm { color: var(--ink); font-weight: 500; }
+.dt .sub {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  display: block;
+  margin-top: 2px;
+}
+.dt .note { font-size: 12.5px; line-height: 1.45; min-width: 210px; }
+
+.pill {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 2px;
+  white-space: nowrap;
+  border: 1px solid;
+}
+.pill.prefer      { color: var(--st-good);     border-color: var(--st-good); }
+.pill.conditional { color: var(--alert);       border-color: var(--alert); }
+.pill.avoid       { color: var(--st-critical); border-color: var(--st-critical); }
+
+.sei {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.sei-track {
+  width: 46px; height: 6px;
+  background: var(--surface-sunk);
+  border-radius: 1px;
+  overflow: hidden;
+  flex: none;
+}
+.sei-fill { height: 100%; border-radius: 1px; }
+
+/* ---------- rulebook ---------- */
+
+.family {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 1px solid var(--hair-strong);
+  padding-bottom: 7px;
+  margin: 34px 0 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.family span { color: var(--ink-3); font-weight: 400; letter-spacing: 0.06em; text-transform: none; font-size: 11px; }
+
+.rules {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 16px;
+}
+.rule {
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  border-radius: var(--r);
+  padding: 16px 17px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.rule-h {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-bottom: 10px;
+}
+.rule-id {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--surface);
+  background: var(--accent);
+  padding: 2px 6px;
+  border-radius: 2px;
+  flex: none;
+}
+.rule-n {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.rule dl { margin: 0; }
+.rule dt {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-top: 11px;
+}
+.rule dd { margin: 3px 0 0; font-size: 13.5px; line-height: 1.48; color: var(--ink-2); }
+.rule dd.human { font-family: var(--f-prose); font-size: 14.5px; color: var(--ink); }
+.rule dd.trig {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--surface-sunk);
+  border-left: 2px solid var(--series-1);
+  padding: 7px 9px;
+  border-radius: 0 2px 2px 0;
+  overflow-wrap: anywhere;
+}
+.rule-f {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 13px;
+  padding-top: 11px;
+  border-top: 1px solid var(--hair);
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.rule-f b { color: var(--ink); font-weight: 600; }
+
+/* ---------- staging ---------- */
+
+.nodes { display: flex; flex-direction: column; gap: 2px; }
+.node {
+  display: grid;
+  grid-template-columns: 26px minmax(0,1fr) 132px 62px;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 14px 12px 8px;
+  border-bottom: 1px solid var(--hair);
+}
+.node:hover { background: var(--surface-sunk); }
+.node.top3 { background: var(--accent-soft); }
+.node-rk {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-3);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.node.top3 .node-rk { color: var(--accent); }
+.node-nm { font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+.node-meta {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
+  margin-top: 3px;
+}
+.node-note { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; line-height: 1.4; max-width: 58ch; }
+.bars { display: flex; height: 9px; border-radius: 1px; overflow: hidden; background: var(--surface-sunk); }
+.bars i { display: block; height: 100%; }
+.node-sc {
+  font-family: var(--f-mono);
+  font-size: 17px;
+  font-weight: 600;
+  text-align: right;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 700px) {
+  .node { grid-template-columns: 24px minmax(0,1fr) 56px; }
+  .node > .node-rk { grid-area: 1 / 1; }
+  .node > div:nth-child(2) { grid-area: 1 / 2; }
+  .node > .node-sc { grid-area: 1 / 3; }
+  .node > .bars { grid-area: 2 / 2 / 3 / 4; margin-top: 8px; }
+}
+
+/* ---------- integration ---------- */
+
+pre.code {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  line-height: 1.62;
+  background: var(--surface-sunk);
+  border: 1px solid var(--hair);
+  border-radius: var(--r);
+  padding: 15px 16px;
+  overflow-x: auto;
+  color: var(--ink);
+  margin: 0;
+}
+pre.code .k { color: var(--series-1); }
+pre.code .s { color: var(--st-good); }
+pre.code .c { color: var(--ink-3); font-style: italic; }
+
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0;
+  margin-block: 4px 26px;
+}
+.flow-step {
+  flex: 1 1 158px;
+  border: 1px solid var(--hair);
+  border-right: 0;
+  padding: 14px 15px;
+  background: var(--surface);
+}
+.flow-step:last-child { border-right: 1px solid var(--hair); }
+.flow-step.hi { background: var(--accent-soft); border-color: var(--accent); position: relative; z-index: 1; }
+.flow-k {
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.flow-t { font-size: 14px; font-weight: 600; margin-top: 5px; color: var(--ink); line-height: 1.25; }
+.flow-d { font-size: 12.5px; color: var(--ink-2); margin-top: 5px; line-height: 1.45; }
+@media (max-width: 620px) {
+  .flow-step { border-right: 1px solid var(--hair); border-bottom: 0; }
+  .flow-step:last-child { border-bottom: 1px solid var(--hair); }
+}
+
+/* ---------- log ---------- */
+
+.logform {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+.field label {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 5px;
+}
+.field input, .field select, .field textarea {
+  width: 100%;
+  font-family: var(--f-ui);
+  font-size: 13.5px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--hair-strong);
+  border-radius: var(--r);
+  padding: 8px 9px;
+}
+.field textarea { resize: vertical; min-height: 62px; font-size: 13.5px; }
+.btn {
+  appearance: none;
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--r);
+  padding: 9px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn:hover { filter: brightness(1.12); }
+.btn.ghost {
+  background: none;
+  color: var(--ink-2);
+  border-color: var(--hair-strong);
+}
+.btn.ghost:hover { color: var(--ink); background: var(--surface-sunk); filter: none; }
+
+.entries { margin-top: 20px; display: flex; flex-direction: column; gap: 0; }
+.entry {
+  display: grid;
+  grid-template-columns: 84px minmax(0,1fr);
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px solid var(--hair);
+}
+.entry-w {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+.entry-b { font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
+.entry-b b { color: var(--ink); font-weight: 600; }
+.entry-tag {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  padding: 1px 5px;
+  margin-right: 7px;
+}
+@media (max-width: 560px) { .entry { grid-template-columns: 1fr; gap: 5px; } }
+
+/* ---------- footnote ---------- */
+
+.fn {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  line-height: 1.65;
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+  margin-top: 12px;
+  max-width: 84ch;
+}
+.fn b { color: var(--ink-2); font-weight: 500; }
+
+.modeled {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--alert);
+  border: 1px solid var(--alert);
+  border-radius: 2px;
+  padding: 1px 5px;
+  vertical-align: 2px;
+  margin-left: 8px;
+}
+
+/* ---------- live coverage ---------- */
+
+.livebadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-good);
+}
+.livebadge i {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--st-good);
+  animation: sixpulse 1.8s ease-in-out infinite;
+}
+.livebadge.paused { color: var(--ink-3); }
+.livebadge.paused i { background: var(--ink-3); animation: none; }
+@keyframes sixpulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.7); }
+}
+
+.dot-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-2); align-items: center; }
+.swatch.circle { border-radius: 50%; }
+
+.ticker { display: flex; flex-direction: column; gap: 0; max-height: 336px; overflow-y: auto; }
+.tick-row { display: grid; grid-template-columns: 52px 1fr; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--hair); font-size: 12.5px; }
+.tick-time { font-family: var(--f-mono); font-size: 9.5px; color: var(--ink-3); white-space: nowrap; padding-top: 1px; }
+.tick-body b { color: var(--ink); font-weight: 600; }
+.tick-body .arrow { color: var(--accent); font-weight: 600; }
+.tick-sub { display: block; color: var(--ink-3); font-family: var(--f-mono); font-size: 10px; margin-top: 2px; }
+.tick-empty { color: var(--ink-3); font-size: 12.5px; padding: 10px 0; }
+
+.reportcard { border: 1px solid var(--hair); border-radius: var(--r); padding: 10px 12px; margin-bottom: 8px; background: var(--surface); }
+.reportcard:last-child { margin-bottom: 0; }
+.reportcard-h { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.reportcard-h b { font-size: 13px; color: var(--ink); }
+.reportcard p { margin: 5px 0 8px; font-size: 12.5px; color: var(--ink-2); line-height: 1.4; }
+.decaybar { height: 4px; background: var(--surface-sunk); border-radius: 2px; overflow: hidden; }
+.decaybar i { display: block; height: 100%; background: var(--alert); border-radius: 2px; }
+.report-empty { color: var(--ink-3); font-size: 12.5px; }
+
+.sev-tag { display: inline-block; font-family: var(--f-mono); font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 6px; border-radius: 2px; border: 1px solid; flex: none; }
+.sev-tag.elevated { color: var(--st-warning); border-color: var(--st-warning); }
+.sev-tag.heavy { color: var(--alert); border-color: var(--alert); }
+.sev-tag.severe { color: var(--st-critical); border-color: var(--st-critical); }
+
+svg text { font-family: var(--f-mono); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+
+<div class="wrap">
+  <header class="titleblock">
+    <div class="tb-top">
+      <div>
+        <h1 class="tb-name">Sixth<br><em>Sense</em></h1>
+        <p class="tb-sub">Perception-led routing &amp; staging · Austin AV fleet</p>
+      </div>
+      <div class="tb-meta">
+        <div><span>Service area</span><b>Austin, TX core</b></div>
+        <div><span>Platform</span><b>Uber-dispatched AV</b></div>
+        <div><span>Vehicle</span><b>Jaguar I-PACE BEV</b></div>
+        <div><span>Layer</span><b>Advisory — non-safety</b></div>
+        <div><span>Rules</span><b>14 across 4 families</b></div>
+        <div><span>Revision</span><b>A · 2026-09-14</b></div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<nav class="rail">
+  <div class="rail-inner" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" id="tab-brief"     aria-controls="pane-brief"     aria-selected="true"><span class="tab-n">01</span>Brief</button>
+    <button class="tab" role="tab" id="tab-network"   aria-controls="pane-network"   aria-selected="false"><span class="tab-n">02</span>Network</button>
+    <button class="tab" role="tab" id="tab-corridors" aria-controls="pane-corridors" aria-selected="false"><span class="tab-n">03</span>Corridors</button>
+    <button class="tab" role="tab" id="tab-rulebook"  aria-controls="pane-rulebook"  aria-selected="false"><span class="tab-n">04</span>Rulebook</button>
+    <button class="tab" role="tab" id="tab-staging"   aria-controls="pane-staging"   aria-selected="false"><span class="tab-n">05</span>Staging</button>
+    <button class="tab" role="tab" id="tab-live"      aria-controls="pane-live"      aria-selected="false"><span class="tab-n">06</span>Live Coverage</button>
+    <button class="tab" role="tab" id="tab-integrate" aria-controls="pane-integrate" aria-selected="false"><span class="tab-n">07</span>Integration</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============================ 01 BRIEF ============================ -->
+<section class="pane" id="pane-brief" role="tabpanel" aria-labelledby="tab-brief">
+
+  <p class="lede">A human driver reads the road two blocks ahead. They see the queue building on the street they were about to turn onto, keep going straight, and take the next right instead. No map told them to. <strong>Sixth Sense is the layer that gives an autonomous fleet that same instinct</strong> — and then spends it on arriving sooner, picking up cleaner, and burning fewer kilowatt-hours.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-v">90–180<small>s</small></div>
+      <div class="stat-l">Perception lead</div>
+      <div class="stat-d">Median head start of onboard queue detection over crowd-sourced map traffic.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-v">30–35<small>mph</small></div>
+      <div class="stat-l">Energy optimum</div>
+      <div class="stat-d">Where an I-PACE with a live sensor stack is cheapest per mile — not the freeway.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-v">14</div>
+      <div class="stat-l">Codified rules</div>
+      <div class="stat-d">Each with a measurable trigger, a threshold, an action and a sensor-degraded fallback.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-v">~39<small>%</small></div>
+      <div class="stat-l">Gridlock penalty</div>
+      <div class="stat-d">Extra energy per mile at 10 mph vs. the optimum, driven by time-based loads.</div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="sec-head">
+      <h2>The gap this closes</h2>
+      <span class="code">Sec 01.1 · Thesis</span>
+    </div>
+    <div class="split">
+      <div class="prose">
+        <p>Routing engines are <strong>reactive by construction</strong>. Crowd-sourced traffic needs enough probe vehicles to slow down, report, and clear a confidence threshold before a link turns red. On an arterial with thin probe coverage that takes minutes. By the time the map knows, the vehicle is already committed to the turn pocket.</p>
+        <p>An autonomous vehicle already carries the sensors that would have told it earlier. The lidar returns and camera frames that keep the car in its lane <strong>also contain the queue</strong> — its length, its growth rate, whether it is discharging. That signal is generated locally and is available in seconds, not minutes. It is simply not being used for routing.</p>
+        <p>Sixth Sense reads those same streams for <em>operational</em> intent rather than control intent, and converts them into three decisions: which link to take, where to wait, and when moving is worth the energy.</p>
+      </div>
+      <div class="panel">
+        <p class="panel-t">Detection latency by source <span class="modeled">Modeled</span></p>
+        <div id="chart-lead"></div>
+        <p class="fn">Ranges are modeled from typical probe-penetration and signal-cycle assumptions, not measured fleet telemetry. Directionally reliable; absolute values require validation against real logs.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="sec-head">
+      <h2>Three levers</h2>
+      <span class="code">Sec 01.2 · Scope</span>
+    </div>
+    <div class="flow">
+      <div class="flow-step hi">
+        <div class="flow-k">Lever 1</div>
+        <div class="flow-t">Anticipate</div>
+        <div class="flow-d">Bias the route cost before congestion is visible to the map. Families A and B of the rulebook.</div>
+      </div>
+      <div class="flow-step hi">
+        <div class="flow-k">Lever 2</div>
+        <div class="flow-t">Position</div>
+        <div class="flow-d">Wait where the next ride will be, on a curb that actually works. Family C plus the staging model.</div>
+      </div>
+      <div class="flow-step hi">
+        <div class="flow-k">Lever 3</div>
+        <div class="flow-t">Conserve</div>
+        <div class="flow-d">Treat time as an energy cost, not just a service cost. Family D and the speed-band model.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h4>A correction worth making up front</h4>
+      <p>The brief asked about conserving gas. Waymo's Austin fleet is the <strong>all-electric Jaguar I-PACE</strong>, and that flips several conclusions rather than just changing the units. Regenerative braking recovers roughly two-thirds of the energy a stop would otherwise waste, so stop-and-go traffic is <em>less</em> punishing for this fleet than for a combustion car. Aerodynamic drag, meanwhile, scales with the square of speed, so freeway running is <em>more</em> punishing.</p>
+      <p>And there is a third term a passenger car does not have: <strong>the sensor and compute stack draws roughly 1.2 kW whenever the vehicle is awake</strong>, plus 0.5–3.5 kW of climate load in an Austin summer. That draw is billed per <em>second</em>, not per mile. A vehicle creeping at 10 mph pays it over six minutes to cover one mile; at 35 mph it pays for under two. Time in traffic is therefore a direct energy cost even when the motor is barely working — which is why the optimum sits on a moving arterial rather than on either the freeway or the crawl.</p>
+    </div>
+
+    <div class="split">
+      <div class="panel">
+        <p class="panel-t">Energy per mile vs. average speed — I-PACE with live AV stack <span class="modeled">Modeled</span></p>
+        <div id="chart-energy"></div>
+      </div>
+      <div class="prose">
+        <p><strong>The curve is the argument.</strong> Propulsion alone falls to a floor and then climbs with drag. Overhead — compute plus climate — is a hyperbola: enormous at low speed, negligible at freeway speed. Their sum is a shallow bowl with its floor around <strong>30–35 mph</strong>.</p>
+        <p>Practically: a signal-coordinated Austin arterial held at 35 beats both the I-35 run at 65 and the downtown crawl at 12. The fleet's cheapest mile is the mile that keeps moving at a moderate, predictable speed — which is exactly the mile the anticipation rules are trying to protect.</p>
+        <p>It also means <strong>idling to wait is never free</strong>. A vehicle staged on a curb with the stack awake burns about 0.02 kWh a minute and covers no distance at all. Rule C-01 exists because of this number.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="sec-head">
+      <h2>What this is, and what it is not</h2>
+      <span class="code">Sec 01.3 · Boundaries</span>
+    </div>
+    <div class="callout pine">
+      <h4>Advisory layer, explicitly outside the safety case</h4>
+      <p>Sixth Sense <strong>biases route and dispatch cost. It does not command the vehicle.</strong> Every output is a weight handed to the planner, which remains free to ignore it, and no rule here can cause or prevent a maneuver. The safety-critical driving stack — perception, prediction, planning, the fallback behaviours — is untouched and remains the authority.</p>
+      <p>That boundary is deliberate. A routing heuristic that can veto a planner decision inherits the planner's entire validation burden. Keeping the layer advisory means a bad threshold produces a slightly worse route, never an unsafe one, and lets the rules be tuned on operational data at operational speed.</p>
+    </div>
+    <p class="fn"><b>Data provenance.</b> Every figure on this page marked <span class="modeled">Modeled</span> is generated from the stated assumptions in this document, not from Waymo, Uber or City of Austin telemetry — none of which is public at this granularity. Street-level characteristics, service-area geography and event constraints reflect real Austin conditions. The models are structured so that real data can replace the synthetic inputs without changing the logic; the integration section names the exact fields that would be swapped.</p>
+  </div>
+</section>
+
+<!-- ============================ 02 NETWORK ============================ -->
+<section class="pane" id="pane-network" role="tabpanel" aria-labelledby="tab-network" hidden>
+
+  <p class="lede">Demand is not a heat blob — it is the sum of generators with different clocks. An office tower and a bar on Rainey want cars at opposite ends of the day, and a staging plan that ignores which is which will always be two hours late.</p>
+
+  <div class="controls">
+    <span class="ctl-label">Time block</span>
+    <div class="segbar" id="timebar" role="group" aria-label="Time block"></div>
+  </div>
+
+  <div class="split">
+    <div>
+      <div class="mapwrap" id="mapwrap"></div>
+      <div class="legend">
+        <span class="legend-item">Demand index
+          <span class="ramp" id="ramp-legend"></span>
+          <span style="letter-spacing:0.04em">low → high</span>
+        </span>
+        <span class="legend-item"><span class="swatch" style="background:var(--accent)"></span>Staging node</span>
+        <span class="legend-item"><span class="swatch" style="background:var(--series-1);opacity:.3"></span>Lady Bird Lake</span>
+      </div>
+      <p class="fn" style="margin-top:14px"><b>Schematic, not survey-accurate.</b> Relative positions, the I-35 seam and the river crossings are correct; distances are compressed. Travel time between any two points is computed as straight-line distance plus a <b>+3.5 min penalty for crossing I-35</b> and <b>+2.5 min for crossing the river</b> — the two barriers that actually govern cross-town time in Austin.</p>
+    </div>
+    <div class="panel" id="zonepanel">
+      <p class="panel-t">Zone readout</p>
+      <div id="zoneout"></div>
+    </div>
+  </div>
+
+  <div class="block" style="margin-top:44px">
+    <div class="sec-head">
+      <h2>Demand index by zone and time block</h2>
+      <span class="code">Sec 02.2 · Generator model <span class="modeled">Modeled</span></span>
+    </div>
+    <div class="tblscroll">
+      <table class="heat" id="heatmap"></table>
+    </div>
+    <p class="fn"><b>Method.</b> Each zone carries an intensity 0–10 for seven generator classes — office, nightlife, residential, campus, retail, transport, event. Each class carries a demand profile across the six time blocks. Zone demand is the dot product of the two, normalised so the busiest cell on the grid reads 100. Values are printed in every cell so the reading never depends on colour alone.</p>
+  </div>
+</section>
+
+<!-- ============================ 03 CORRIDORS ============================ -->
+<section class="pane" id="pane-corridors" role="tabpanel" aria-labelledby="tab-corridors" hidden>
+
+  <p class="lede">Ask which streets a Waymo should take and the honest answer is that it depends on six things at once. The Segment Efficiency Index makes that dependency explicit rather than burying it in a routing cost function nobody can read.</p>
+
+  <div class="split" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-bottom:34px">
+    <div class="panel">
+      <p class="panel-t">Segment Efficiency Index — composition</p>
+      <pre class="code">SEI = 100 − 10 × Σ (wᵢ · cᵢ)
+
+<span class="c">where each cᵢ is scored 0–10, worse = higher</span>
+
+  <span class="k">volatility</span>      w = 0.22  <span class="c">unpredictable delay</span>
+  <span class="k">pedConflict</span>     w = 0.16  <span class="c">crossing / jaywalk load</span>
+  <span class="k">signalDelay</span>     w = 0.18  <span class="c">stops per mile × cycle</span>
+  <span class="k">curbDeficit</span>     w = 0.15  <span class="c">legal pickup availability</span>
+  <span class="k">energyIndex</span>     w = 0.15  <span class="c">kWh/mi vs. fleet baseline</span>
+  <span class="k">turnExposure</span>    w = 0.14  <span class="c">unprotected left burden</span>
+
+<span class="c">verdict thresholds</span>
+  SEI ≥ 70   <span class="s">PREFER</span>
+  45 – 69    <span class="s">CONDITIONAL</span>
+  SEI &lt; 45   <span class="s">AVOID</span></pre>
+    </div>
+    <div class="prose">
+      <p><strong>Volatility is weighted highest on purpose.</strong> A corridor that is reliably slow can be planned around; a corridor that is fine four days in five and catastrophic on the fifth destroys ETA accuracy, and ETA accuracy is what riders actually rate. Predictability beats raw speed.</p>
+      <p><strong>Curb deficit earns its own term</strong> because a fast corridor you cannot legally stop on is not a fast corridor — it is a fast corridor plus a lap around the block, which is 4–7 minutes of rider-visible delay and roughly 0.4 kWh.</p>
+      <p><strong>AVOID is rarely absolute.</strong> Most avoided segments here are high-demand destinations. The rule is to avoid them <em>as through-routes</em> and approach them only on the final block — which is exactly what the parallel-pair recommendations in the notes column encode.</p>
+    </div>
+  </div>
+
+  <div class="controls">
+    <span class="ctl-label">Sort</span>
+    <div class="segbar" id="sortbar" role="group" aria-label="Sort corridors"></div>
+  </div>
+
+  <div class="tblscroll">
+    <table class="dt" id="corridors">
+      <thead>
+        <tr>
+          <th>Corridor / segment</th>
+          <th>Class</th>
+          <th class="num">Vol</th>
+          <th class="num">Ped</th>
+          <th class="num">Sig</th>
+          <th class="num">Curb</th>
+          <th class="num">kWh</th>
+          <th class="num">Turn</th>
+          <th class="num" style="width:118px">SEI</th>
+          <th>Verdict</th>
+          <th class="note">Operating note</th>
+        </tr>
+      </thead>
+      <tbody id="corridor-body"></tbody>
+    </table>
+  </div>
+  <p class="fn"><b>Component scores</b> are 0–10 where higher is worse, authored from street geometry, signal spacing, land use and known event constraints. <b>SEI is computed</b> from them by the formula above — the table is derived, not asserted, so re-weighting the model changes every verdict consistently. <span class="modeled">Modeled</span></p>
+</section>
+
+<!-- ============================ 04 RULEBOOK ============================ -->
+<section class="pane" id="pane-rulebook" role="tabpanel" aria-labelledby="tab-rulebook" hidden>
+
+  <p class="lede">Every rule below starts as a sentence a driver would say out loud, and ends as a threshold a machine can evaluate. If a rule cannot survive that translation it does not belong in the book.</p>
+
+  <div class="split" style="align-items:stretch;margin-bottom:10px">
+    <div class="panel">
+      <p class="panel-t">Rule A-01 in the field — the originating scenario</p>
+      <div id="diagram-a01"></div>
+    </div>
+    <div class="prose">
+      <p><strong>The scenario the whole system was specified around.</strong> The vehicle intends to turn right at the next intersection. Over two consecutive signal cycles its cameras watch the queue on that receiving approach grow — six cars, then nine, then twelve — without the front of the queue discharging normally.</p>
+      <p>The map still shows the link green. No probe vehicle has finished traversing it slowly enough to trigger a report, and none will for another two minutes.</p>
+      <p>A human keeps going straight and turns at the next signal, losing one block and saving four minutes. <strong>Sixth Sense raises the traversal cost of that link by 4.2× for 180 seconds</strong> and lets the planner reach the same conclusion on its own — then logs the firing so the threshold can be scored against what actually happened.</p>
+    </div>
+  </div>
+
+  <div id="rulebook"></div>
+
+  <p class="fn" style="margin-top:30px"><b>Thresholds are starting points, not findings.</b> Each is set to a value that is defensible from traffic-engineering first principles — saturation headway, storage ratio, cycle length — and every one is expected to move once scored against real firings. The integration section defines the precision/recall loop that does the moving. <span class="modeled">Modeled</span></p>
+</section>
+
+<!-- ============================ 05 STAGING ============================ -->
+<section class="pane" id="pane-staging" role="tabpanel" aria-labelledby="tab-staging" hidden>
+
+  <p class="lede">An idle vehicle is a decision, not a pause. The Staging Position Score ranks every legal waiting spot in the service area against the demand that is about to exist, the cost of reaching it, and whether the curb will actually work when a rider walks up.</p>
+
+  <div class="split" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-bottom:30px">
+    <div class="panel">
+      <p class="panel-t">Staging Position Score</p>
+      <pre class="code">SPS = 45·D<span class="c">ₗ</span> + 25·R − 20·H − 10·C + E
+
+  <span class="k">D</span><span class="c">ₗ  local demand</span>      <span class="c">zone demand at t, 0–1</span>
+  <span class="k">R</span>  <span class="c">reachability</span>     <span class="c">Σ demand(z)·e^(−t/8)</span>
+  <span class="k">H</span>  <span class="c">deadhead cost</span>    <span class="c">min to demand centroid</span>
+  <span class="k">C</span>  <span class="c">curb penalty</span>     <span class="c">grade A=0 … D=1</span>
+  <span class="k">E</span>  <span class="c">event bonus</span>      <span class="c">0–12, egress-aware</span>
+
+<span class="c">travel time between nodes</span>
+  t = dist · 0.047
+      + 3.5 <span class="c">if crosses I-35</span>
+      + 2.5 <span class="c">if crosses the river</span></pre>
+      <p class="fn" style="margin-top:12px">Reachability decays exponentially with an 8-minute half-life, which is roughly the point where a rider's patience and the dispatch system's willingness to reassign both start to bite.</p>
+    </div>
+    <div>
+      <div class="controls" style="padding-top:0">
+        <span class="ctl-label">Time block</span>
+        <div class="segbar" id="timebar2" role="group" aria-label="Time block"></div>
+      </div>
+      <div class="controls" style="padding-top:0">
+        <span class="ctl-label">Season</span>
+        <div class="segbar" id="seasonbar" role="group" aria-label="Season"></div>
+      </div>
+      <div class="controls" style="padding-top:0">
+        <span class="ctl-label">Event</span>
+        <div class="segbar" id="eventbar" role="group" aria-label="Active event"></div>
+      </div>
+      <div class="panel" style="margin-top:6px">
+        <p class="panel-t">Directive — top node</p>
+        <div id="directive"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <h2>Ranked staging nodes</h2>
+    <span class="code">Sec 05.2 · <span id="stagectx">—</span></span>
+  </div>
+  <div class="nodes" id="nodelist"></div>
+  <div class="legend" style="margin-top:16px">
+    <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>Local demand</span>
+    <span class="legend-item"><span class="swatch" style="background:var(--series-3)"></span>Reachability</span>
+    <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>Event bonus</span>
+    <span class="legend-item"><span class="swatch" style="background:var(--hair-strong)"></span>Deadhead + curb penalty</span>
+  </div>
+  <p class="fn"><b>Bars show the score decomposition</b>, not just the total — so a dispatcher can see <em>why</em> a node ranks where it does and override on grounds the model does not carry. A node that scores well purely on reachability is a different instruction from one that scores well on local demand. <span class="modeled">Modeled</span></p>
+</section>
+
+<!-- ============================ 06 LIVE COVERAGE ============================ -->
+<section class="pane" id="pane-live" role="tabpanel" aria-labelledby="tab-live" hidden>
+
+  <p class="lede">A staging plan picked once a shift is a snapshot. This is the same fleet a minute later — vehicles reporting position, a coordinator matching surplus to deficit before a rider ever opens the app, and every dispatch checked against what the rest of the fleet already committed to.</p>
+
+  <div class="callout pine">
+    <h4>What's actually running on this tab</h4>
+    <p><strong>The coordination algorithm is real and live</strong> — it re-runs in your browser roughly every 1.5 seconds: recomputing demand, checking which zones sit below target, matching the nearest free vehicle to the largest gap, and refusing to send a second car to a zone that already has one en route. That refusal is the entire point of fleet-to-fleet awareness, and you can watch it happen in the ticker on the right.</p>
+      <p><strong>What isn't real:</strong> the 48 vehicles are a simulated fleet, not Waymo's actual cars — no outside party has access to that telemetry, and this project is an independent concept, not affiliated with or endorsed by Waymo. The reports you submit below are stored in this browser only, the same way the field-intel log on the Staging tab works. The <a href="#" data-goto="tab-integrate" style="color:inherit">Integration tab</a> gives the exact message schema this would run on against real fleet and rider data.</p>
+  </div>
+
+  <div class="stats" id="live-stats"></div>
+
+  <div class="controls">
+    <span class="livebadge" id="livebadge"><i></i><span id="livebadge-text">Live</span></span>
+    <div class="segbar" id="playbar" role="group" aria-label="Simulation control"></div>
+    <span class="ctl-label" id="live-clock">—</span>
+  </div>
+
+  <div class="split" style="margin-top:6px">
+    <div>
+      <div class="mapwrap" id="livemapwrap"></div>
+      <div class="dot-legend" style="margin-top:14px">
+        <span class="legend-item"><span class="swatch circle" style="background:var(--st-good)"></span>Available</span>
+        <span class="legend-item"><span class="swatch circle" style="background:var(--st-warning)"></span>Repositioning</span>
+        <span class="legend-item"><span class="swatch circle" style="background:var(--ink-3)"></span>On trip</span>
+        <span class="legend-item"><span class="swatch" style="background:var(--st-critical);border-radius:50%;opacity:.85"></span>Ring = zone below target</span>
+      </div>
+    </div>
+    <div class="panel">
+      <p class="panel-t">Dispatch ticker</p>
+      <div class="ticker" id="ticker"></div>
+    </div>
+  </div>
+
+  <div class="block" style="margin-top:34px">
+    <div class="sec-head">
+      <h2>Coverage by zone</h2>
+      <span class="code">Target = ⌈ demand ÷ <span id="dpv-label">14</span> ⌉ · floor 1 · cap 9</span>
+    </div>
+    <div class="tblscroll">
+      <table class="dt" id="coverage-table"></table>
+    </div>
+    <p class="fn">The "at least 4 free cars on a busy corridor" example from the brief falls directly out of this rule once demand is high enough — it isn't a hardcoded case for South Congress. The same formula sets a lower target for Mueller at 2am and a higher one for the UT campus zone during a football egress.</p>
+  </div>
+
+  <div class="split" style="margin-top:34px;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)">
+    <div class="panel">
+      <p class="panel-t">Report live conditions <span style="text-transform:none;letter-spacing:0;font-weight:400">— this browser only</span></p>
+      <form class="logform" id="reportform">
+        <div class="field">
+          <label for="rep-zone">Zone</label>
+          <select id="rep-zone"></select>
+        </div>
+        <div class="field">
+          <label for="rep-sev">Severity</label>
+          <select id="rep-sev">
+            <option value="1">Elevated</option>
+            <option value="2" selected>Heavy</option>
+            <option value="3">Severe</option>
+          </select>
+        </div>
+        <div class="field" style="grid-column:1/-1">
+          <label for="rep-note">What are you seeing?</label>
+          <input id="rep-note" type="text" placeholder="e.g. patio bar just let out, sidewalk is packed" required>
+        </div>
+        <button class="btn" type="submit" style="grid-column:1/-1">Submit report</button>
+      </form>
+      <p class="fn" style="margin-top:12px">A report raises that zone's demand for 6 minutes, decaying linearly, then folds back into ordinary coverage targets. Submit one and watch its zone's target and ring update on the next tick.</p>
+    </div>
+    <div class="panel">
+      <p class="panel-t">Active reports</p>
+      <div id="reportlist"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 07 INTEGRATION ============================ -->
+<section class="pane" id="pane-integrate" role="tabpanel" aria-labelledby="tab-integrate" hidden>
+
+  <p class="lede">None of this is useful as a document. It is useful as two JSON objects on a message bus, a console a dispatcher actually watches, and a feedback loop that scores the rules against what really happened.</p>
+
+  <div class="block">
+    <div class="sec-head">
+      <h2>Where the layer sits</h2>
+      <span class="code">Sec 06.1 · Architecture</span>
+    </div>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-k">Upstream</div>
+        <div class="flow-t">Perception stack</div>
+        <div class="flow-d">Existing detections and tracks. Read-only subscription — no new sensors, no new compute on the safety path.</div>
+      </div>
+      <div class="flow-step hi">
+        <div class="flow-k">This layer</div>
+        <div class="flow-t">Rules engine</div>
+        <div class="flow-d">Evaluates the 14 rules at 2 Hz. Emits advisories with a TTL. Stateless per-vehicle; thresholds served from config.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-k">Downstream A</div>
+        <div class="flow-t">Route planner</div>
+        <div class="flow-d">Consumes link-cost multipliers. Free to ignore any advisory. Never receives a command.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-k">Downstream B</div>
+        <div class="flow-t">Fleet dispatch</div>
+        <div class="flow-d">Consumes staging directives and curb reassignments. Pushes rider-facing pin updates.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-k">Loop</div>
+        <div class="flow-t">Ops console</div>
+        <div class="flow-d">Humans confirm or dispute firings. Scored nightly into threshold updates.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="sec-head">
+      <h2>Message contracts</h2>
+      <span class="code">Sec 06.2 · Schema</span>
+    </div>
+    <div class="split" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+      <div>
+        <p class="panel-t">RouteAdvisory — emitted per firing</p>
+        <pre class="code">{
+  <span class="k">"schema"</span>: <span class="s">"sixthsense.route_advisory/1"</span>,
+  <span class="k">"vehicleId"</span>: <span class="s">"ATX-0417"</span>,
+  <span class="k">"emittedAt"</span>: <span class="s">"2026-09-14T18:42:07.310Z"</span>,
+  <span class="k">"rule"</span>: <span class="s">"A-01"</span>,
+  <span class="k">"confidence"</span>: 0.82,
+  <span class="k">"target"</span>: {
+    <span class="k">"linkId"</span>: <span class="s">"osm:way/27714503"</span>,
+    <span class="k">"name"</span>: <span class="s">"E 5th St EB, Brazos→San Jacinto"</span>,
+    <span class="k">"maneuver"</span>: <span class="s">"right_turn_receiving"</span>
+  },
+  <span class="k">"effect"</span>: {
+    <span class="k">"costMultiplier"</span>: 4.2,
+    <span class="k">"ttlSeconds"</span>: 180,
+    <span class="k">"binding"</span>: <span class="s">"advisory"</span>   <span class="c">// never "command"</span>
+  },
+  <span class="k">"evidence"</span>: {
+    <span class="k">"queueLenVeh"</span>: 12,
+    <span class="k">"growthVehPerCycle"</span>: 3.0,
+    <span class="k">"cyclesObserved"</span>: 2,
+    <span class="k">"storageRatio"</span>: 0.74,
+    <span class="k">"dischargeHeadwaySec"</span>: 5.1
+  },
+  <span class="k">"alternative"</span>: {
+    <span class="k">"linkId"</span>: <span class="s">"osm:way/27714511"</span>,
+    <span class="k">"name"</span>: <span class="s">"E 6th St EB"</span>,
+    <span class="k">"deltaEtaSec"</span>: -214,
+    <span class="k">"deltaKwh"</span>: -0.09
+  }
+}</pre>
+      </div>
+      <div>
+        <p class="panel-t">StagingDirective — emitted per idle vehicle</p>
+        <pre class="code">{
+  <span class="k">"schema"</span>: <span class="s">"sixthsense.staging_directive/1"</span>,
+  <span class="k">"vehicleId"</span>: <span class="s">"ATX-0417"</span>,
+  <span class="k">"issuedAt"</span>: <span class="s">"2026-09-14T22:05:00Z"</span>,
+  <span class="k">"validUntil"</span>: <span class="s">"2026-09-14T22:35:00Z"</span>,
+  <span class="k">"node"</span>: {
+    <span class="k">"id"</span>: <span class="s">"SN-04"</span>,
+    <span class="k">"name"</span>: <span class="s">"River St @ Rainey"</span>,
+    <span class="k">"zone"</span>: <span class="s">"RNY"</span>,
+    <span class="k">"curbGrade"</span>: <span class="s">"C"</span>,
+    <span class="k">"capacityVeh"</span>: 5
+  },
+  <span class="k">"score"</span>: {
+    <span class="k">"sps"</span>: 71.4,
+    <span class="k">"localDemand"</span>: 38.2,
+    <span class="k">"reachability"</span>: 19.6,
+    <span class="k">"deadheadPenalty"</span>: -4.1,
+    <span class="k">"curbPenalty"</span>: -6.7,
+    <span class="k">"eventBonus"</span>: 24.4
+  },
+  <span class="k">"constraints"</span>: [
+    <span class="s">"avoid:driskill_st_2200_0230"</span>,
+    <span class="s">"shade_preferred:false"</span>
+  ],
+  <span class="k">"rulesApplied"</span>: [<span class="s">"C-01"</span>, <span class="s">"C-03"</span>, <span class="s">"C-04"</span>],
+  <span class="k">"binding"</span>: <span class="s">"advisory"</span>
+}</pre>
+      </div>
+    </div>
+    <p class="fn" style="margin-top:16px">The <b>Live Coverage</b> tab runs a client-side simulation of this same exchange — a coordinator receiving positions, computing coverage, and emitting directives — on a 1.5 s tick instead of a message bus. Its dispatch decisions serialize to the same shape as <code>RouteAdvisory.effect</code> above, shown below as the production contract for that loop.</p>
+  </div>
+
+  <div class="block">
+    <p class="panel-t">CoverageDirective — emitted by the fleet coordinator per reposition</p>
+    <pre class="code">{
+  <span class="k">"schema"</span>: <span class="s">"sixthsense.coverage_directive/1"</span>,
+  <span class="k">"issuedAt"</span>: <span class="s">"2026-09-14T21:58:12.004Z"</span>,
+  <span class="k">"vehicleId"</span>: <span class="s">"ATX-1042"</span>,
+  <span class="k">"fromZone"</span>: <span class="s">"MUE"</span>,
+  <span class="k">"toZone"</span>: <span class="s">"SOC"</span>,
+  <span class="k">"reason"</span>: <span class="s">"coverage_deficit"</span>,
+  <span class="k">"deficitAtIssue"</span>: 2,
+  <span class="k">"zoneTarget"</span>: 4,
+  <span class="k">"zoneCommittedBefore"</span>: 2,
+  <span class="k">"etaMin"</span>: 9.4,
+  <span class="k">"consideredVehicles"</span>: 6,
+  <span class="k">"skippedAlreadyEnroute"</span>: 1,   <span class="c">// the anti-redundancy check</span>
+  <span class="k">"demandSource"</span>: {
+    <span class="k">"baseline"</span>: 71.2,
+    <span class="k">"crowdReportBonus"</span>: 14.6
+  }
+}</pre>
+    <p class="fn" style="margin-top:10px"><code>skippedAlreadyEnroute</code> is the field the whole "vehicles know where every other one is" requirement rests on — every candidate zone is scored on vehicles <em>already committed</em> (available on-site plus already en route), never on available vehicles alone, so a second car is never dispatched to close a gap the fleet has already closed.</p>
+  </div>
+
+  <div class="block">
+    <div class="sec-head">
+      <h2>Replacing the synthetic inputs</h2>
+      <span class="code">Sec 06.3 · Data plan</span>
+    </div>
+    <div class="tblscroll">
+      <table class="dt">
+        <thead><tr><th>Model input</th><th>Currently</th><th>Production source</th><th class="note">Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="nm">Zone demand</td><td>Generator dot product</td><td>Uber trip-request density, 15-min bins, H3 res-8</td><td class="note">Requests, not completed trips — unserved demand is the signal that matters for staging.</td></tr>
+          <tr><td class="nm">Travel time</td><td>Distance + barrier penalties</td><td>Fleet GPS traces, per-link per-time-block percentiles</td><td class="note">Carry p50 and p90; the gap between them <em>is</em> the volatility term.</td></tr>
+          <tr><td class="nm">Corridor components</td><td>Authored 0–10 scores</td><td>City of Austin signal inventory, ATD crash and volume data, fleet disengagement logs</td><td class="note">Curb deficit from the city's curb inventory plus observed successful-stop rate per segment.</td></tr>
+          <tr><td class="nm">Rule thresholds</td><td>First-principles estimates</td><td>Scored firings, nightly precision/recall</td><td class="note">A firing is a true positive if the avoided link's realised travel time exceeded its prediction by the margin the rule claimed.</td></tr>
+          <tr><td class="nm">Energy curve</td><td>Drag + constant overhead</td><td>Vehicle CAN pack-power logs vs. speed and ambient</td><td class="note">Split HVAC from compute; the Austin summer term is large enough to warrant its own coefficient.</td></tr>
+          <tr><td class="nm">Event calendar</td><td>Hand-entered</td><td>ACL, Q2 Stadium, Moody Center, DKR, Circuit of the Americas feeds</td><td class="note">Egress time matters more than start time. Ingest doors-close, not doors-open.</td></tr>
+          <tr><td class="nm">Fleet position</td><td>Simulated, in-browser</td><td>Vehicle CAN/GPS broadcast over the fleet's internal mesh, ~1 Hz</td><td class="note">The coordinator becomes a server process; the tick loop shown on the Live Coverage tab is otherwise unchanged.</td></tr>
+          <tr><td class="nm">Public condition reports</td><td>localStorage, this browser only</td><td>An in-app "traffic tip" affordance (rider app or a driver-facing partner app), moderated ingestion</td><td class="note">Same decay-weighted demand bonus; the moderation queue is the only new component the real version needs.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="sec-head">
+      <h2>Success metrics</h2>
+      <span class="code">Sec 06.4 · Measurement</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-v" style="color:var(--ink)">Deadhead ratio</div><div class="stat-l">Primary · fleet</div><div class="stat-d">Unoccupied miles ÷ total miles. The single number the staging model is accountable for.</div></div>
+      <div class="stat"><div class="stat-v" style="color:var(--ink)">p90 ETA error</div><div class="stat-l">Primary · rider</div><div class="stat-d">Riders rate the tail, not the median. Volatility reduction should show here first.</div></div>
+      <div class="stat"><div class="stat-v" style="color:var(--ink)">kWh / paid mile</div><div class="stat-l">Primary · energy</div><div class="stat-d">Paid, not total — otherwise staging improvements hide inside the denominator.</div></div>
+      <div class="stat"><div class="stat-v" style="color:var(--ink)">Rule precision</div><div class="stat-l">Guardrail</div><div class="stat-d">Per rule. A rule below 0.6 gets its threshold widened or is retired.</div></div>
+    </div>
+    <div class="callout">
+      <h4>The metric that would kill this if ignored</h4>
+      <p><strong>Reroute churn.</strong> A layer that fires often enough to change the route every 30 seconds will improve every metric above while making the ride feel erratic and the ETA feel dishonest. Cap advisories at one accepted reroute per 4 minutes per vehicle, and track the cap's hit rate — if it is binding often, the thresholds are too loose regardless of what precision says.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="sec-head">
+      <h2>Field intel log</h2>
+      <span class="code">Sec 06.5 · Human loop</span>
+    </div>
+    <div class="prose" style="margin-bottom:20px">
+      <p>The rules encode what a driver knows. The log is how the fleet keeps learning things no sensor will report — that a specific curb is blocked every Tuesday morning, that a construction detour has moved, that a venue changed its egress route. Ops staff and field technicians enter observations against a corridor and a rule; those entries feed threshold tuning and, where a pattern is stable, become a scheduled constraint.</p>
+    </div>
+    <div class="panel">
+      <form class="logform" id="logform">
+        <div class="field">
+          <label for="log-corridor">Corridor / location</label>
+          <input id="log-corridor" type="text" placeholder="e.g. Red River @ 8th" required>
+        </div>
+        <div class="field">
+          <label for="log-window">Time window</label>
+          <input id="log-window" type="text" placeholder="e.g. Thu–Sat 22:00–02:30">
+        </div>
+        <div class="field">
+          <label for="log-rule">Related rule</label>
+          <select id="log-rule"></select>
+        </div>
+        <div class="field" style="grid-column:1/-1">
+          <label for="log-obs">Observation</label>
+          <textarea id="log-obs" placeholder="What did you see that the system would not have known?" required></textarea>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn" type="submit">Log entry</button>
+          <button class="btn ghost" type="button" id="log-export">Export JSON</button>
+        </div>
+      </form>
+      <div class="entries" id="entries"></div>
+      <p class="fn" style="margin-top:16px"><b>This demo stores entries in your browser only</b>, so the page stays publicly shareable. In deployment the same form <code>POST</code>s to <code>/v1/field-intel</code> with the corridor, window, rule id, observer id and free text, and entries become visible fleet-wide. The export button emits exactly that payload shape.</p>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+"use strict";
+
+/* ============================================================
+   DATA
+   ============================================================ */
+
+const TIME_BLOCKS = [
+  { id:"AM",   label:"AM peak",  span:"Wkdy 06:30–09:30" },
+  { id:"MID",  label:"Midday",   span:"Wkdy 09:30–15:00" },
+  { id:"PM",   label:"PM peak",  span:"Wkdy 15:00–18:30" },
+  { id:"EVE",  label:"Evening",  span:"Daily 18:30–22:00" },
+  { id:"LATE", label:"Late",     span:"Daily 22:00–02:30" },
+  { id:"WKD",  label:"Weekend",  span:"Sat–Sun 10:00–18:00" }
+];
+
+const GENERATORS = [
+  { id:"OFFICE",      label:"Office" },
+  { id:"NIGHTLIFE",   label:"Nightlife" },
+  { id:"RESIDENTIAL", label:"Residential" },
+  { id:"CAMPUS",      label:"Campus" },
+  { id:"RETAIL",      label:"Retail" },
+  { id:"TRANSPORT",   label:"Transport" },
+  { id:"EVENT",       label:"Event" }
+];
+
+/* temporal profile: generator → multiplier per time block */
+const PROFILE = {
+  OFFICE:      { AM:0.95, MID:0.45, PM:1.00, EVE:0.30, LATE:0.05, WKD:0.10 },
+  NIGHTLIFE:   { AM:0.05, MID:0.10, PM:0.25, EVE:0.80, LATE:1.00, WKD:0.70 },
+  RESIDENTIAL: { AM:0.85, MID:0.40, PM:0.70, EVE:0.55, LATE:0.35, WKD:0.60 },
+  CAMPUS:      { AM:0.80, MID:0.90, PM:0.75, EVE:0.40, LATE:0.30, WKD:0.25 },
+  RETAIL:      { AM:0.20, MID:0.65, PM:0.70, EVE:0.60, LATE:0.20, WKD:1.00 },
+  TRANSPORT:   { AM:0.90, MID:0.70, PM:0.85, EVE:0.75, LATE:0.45, WKD:0.80 },
+  EVENT:       { AM:0.05, MID:0.10, PM:0.20, EVE:0.85, LATE:0.60, WKD:0.75 }
+};
+
+/* zones: schematic coords on a 1000×700 viewBox.
+   northOfRiver / eastOfI35 drive the barrier penalties. */
+const ZONES = [
+  { id:"DTC", name:"Downtown Core",        x:520, y:320, r:34, gen:{OFFICE:9,NIGHTLIFE:7,RETAIL:6,RESIDENTIAL:5,TRANSPORT:4,EVENT:5,CAMPUS:0} },
+  { id:"SIX", name:"Sixth St / Red River", x:552, y:283, r:24, gen:{OFFICE:2,NIGHTLIFE:10,RETAIL:4,RESIDENTIAL:2,TRANSPORT:1,EVENT:6,CAMPUS:1} },
+  { id:"RNY", name:"Rainey / Waterfront",  x:578, y:360, r:22, gen:{OFFICE:2,NIGHTLIFE:10,RETAIL:3,RESIDENTIAL:7,TRANSPORT:1,EVENT:2,CAMPUS:0} },
+  { id:"UTC", name:"UT / West Campus",     x:452, y:196, r:32, gen:{OFFICE:3,NIGHTLIFE:4,RETAIL:3,RESIDENTIAL:8,TRANSPORT:2,EVENT:7,CAMPUS:10} },
+  { id:"EAS", name:"East Austin",          x:682, y:300, r:32, gen:{OFFICE:3,NIGHTLIFE:8,RETAIL:6,RESIDENTIAL:8,TRANSPORT:1,EVENT:3,CAMPUS:0} },
+  { id:"MUE", name:"Mueller",              x:762, y:198, r:28, gen:{OFFICE:4,NIGHTLIFE:2,RETAIL:6,RESIDENTIAL:7,TRANSPORT:1,EVENT:2,CAMPUS:0} },
+  { id:"HYD", name:"Hyde Park / N Loop",   x:424, y:118, r:26, gen:{OFFICE:2,NIGHTLIFE:3,RETAIL:5,RESIDENTIAL:8,TRANSPORT:1,EVENT:1,CAMPUS:2} },
+  { id:"DOM", name:"The Domain",           x:330, y:48,  r:26, gen:{OFFICE:8,NIGHTLIFE:6,RETAIL:8,RESIDENTIAL:6,TRANSPORT:2,EVENT:3,CAMPUS:0} },
+  { id:"SOC", name:"South Congress",       x:508, y:474, r:28, gen:{OFFICE:2,NIGHTLIFE:7,RETAIL:9,RESIDENTIAL:6,TRANSPORT:1,EVENT:3,CAMPUS:0} },
+  { id:"BLD", name:"Bouldin / S 1st",      x:436, y:504, r:24, gen:{OFFICE:2,NIGHTLIFE:3,RETAIL:4,RESIDENTIAL:8,TRANSPORT:1,EVENT:1,CAMPUS:0} },
+  { id:"ZLK", name:"Zilker / Barton",      x:302, y:462, r:28, gen:{OFFICE:1,NIGHTLIFE:2,RETAIL:2,RESIDENTIAL:5,TRANSPORT:1,EVENT:9,CAMPUS:0} },
+  { id:"ERV", name:"East Riverside",       x:702, y:468, r:32, gen:{OFFICE:3,NIGHTLIFE:4,RETAIL:4,RESIDENTIAL:10,TRANSPORT:1,EVENT:1,CAMPUS:3} },
+  { id:"MON", name:"Montopolis",           x:800, y:540, r:24, gen:{OFFICE:2,NIGHTLIFE:2,RETAIL:3,RESIDENTIAL:7,TRANSPORT:1,EVENT:1,CAMPUS:0} },
+  { id:"STE", name:"St. Elmo / S Lamar",   x:396, y:592, r:26, gen:{OFFICE:3,NIGHTLIFE:4,RETAIL:5,RESIDENTIAL:6,TRANSPORT:1,EVENT:2,CAMPUS:0} },
+  { id:"AUS", name:"ABIA Airport",         x:872, y:618, r:26, gen:{OFFICE:1,NIGHTLIFE:0,RETAIL:2,RESIDENTIAL:0,TRANSPORT:10,EVENT:0,CAMPUS:0} }
+];
+
+const RIVER_Y = 396;
+const I35_X   = 604;
+
+const STAGING = [
+  { id:"SN-01", name:"Brazos St @ 4th",           zone:"DTC", x:528, y:330, curb:"B", cap:3, note:"One-way northbound, low pedestrian load. The quiet parallel to Congress — use it instead of Congress for any downtown approach." },
+  { id:"SN-02", name:"Red River @ 8th",           zone:"SIX", x:566, y:290, curb:"C", cap:4, note:"Closest legal staging to the 6th Street closure perimeter. Thu–Sat nights this is the only sane way to serve the district." },
+  { id:"SN-03", name:"Driskill St @ Rainey",      zone:"RNY", x:588, y:368, curb:"D", cap:2, note:"Rainey has effectively one way in and out. Do not stage here 22:00–02:30 — vehicles get trapped behind the pickup queue. Use SN-04." },
+  { id:"SN-04", name:"River St @ Rainey",         zone:"RNY", x:570, y:376, curb:"C", cap:5, note:"Preferred Rainey node. Sits outside the choke point with a walkable approach for riders leaving the district." },
+  { id:"SN-05", name:"Nueces St @ 24th",          zone:"UTC", x:436, y:200, curb:"B", cap:4, note:"Parallel to Guadalupe. Keeps the vehicle off The Drag's pedestrian load entirely while staying a two-minute walk from it." },
+  { id:"SN-06", name:"E 5th @ Robert T. Martinez",zone:"EAS", x:690, y:312, curb:"B", cap:4, note:"Good curb, wide street, east of the I-35 seam so it serves East Austin without paying the crossing penalty." },
+  { id:"SN-07", name:"Aldrich St @ Mueller Blvd", zone:"MUE", x:768, y:210, curb:"A", cap:6, note:"Best curb geometry in the service area — wide, new, shaded, generous loading zones. The default northeast anchor." },
+  { id:"SN-08", name:"S 1st @ Monroe",            zone:"BLD", x:444, y:512, curb:"A", cap:4, note:"The under-used parallel to South Congress. Nearly all SoCo demand is reachable from here without touching SoCo's curb problem." },
+  { id:"SN-09", name:"S Congress @ Elizabeth",    zone:"SOC", x:512, y:484, curb:"C", cap:2, note:"High demand, poor curb: angled parking, constant backing movements, heavy jaywalking. Stage only when SN-08 is saturated." },
+  { id:"SN-10", name:"Riverside @ Pleasant Valley",zone:"ERV",x:712, y:476, curb:"B", cap:6, note:"Dense student-housing catchment. Light-rail construction is reshaping the corridor — re-survey this node quarterly." },
+  { id:"SN-11", name:"Barton Springs @ Azie Morton",zone:"ZLK",x:316,y:470, curb:"C", cap:3, note:"Zilker gateway. Unusable during ACL weekends and Trail of Lights; the event bonus turns negative and the model pushes vehicles out." },
+  { id:"SN-12", name:"Presidential Blvd cell lot", zone:"AUS",x:866, y:626, curb:"A", cap:12,note:"Airport TNC staging. Deep queue, predictable service rate — but a long deadhead back to the core, so only worth holding when arrivals are heavy." },
+  { id:"SN-13", name:"Burnet Rd @ Koenig",        zone:"HYD", x:412, y:126, curb:"B", cap:3, note:"North anchor. Covers Hyde Park and North Loop and gives a fast run south on Lamar when downtown demand spikes." },
+  { id:"SN-14", name:"Domain Dr @ Rock Rose",     zone:"DOM", x:338, y:58,  curb:"B", cap:5, note:"Serves a genuinely separate market. Vehicles staged here should be treated as a distinct pool, not as core-fleet overflow." },
+  { id:"SN-15", name:"Lavaca St @ 15th",          zone:"DTC", x:502, y:296, curb:"B", cap:3, note:"Capitol complex. Strong on weekday mornings and at session close; near-dead at night. The clearest example of a time-conditional node." }
+];
+
+const CURB_PENALTY = { A:0, B:0.35, C:0.7, D:1.0 };
+
+const EVENTS = [
+  { id:"NONE",  label:"None",            zones:{},                          note:"" },
+  { id:"ACL",   label:"ACL Fest",        zones:{ ZLK:-14, BLD:9, SOC:8, STE:6, DTC:5 }, note:"Zilker is closed to staging; the model pushes vehicles to the Bouldin and South Congress ring where egress crowds actually walk to." },
+  { id:"UTFB",  label:"UT football",     zones:{ UTC:-10, HYD:8, DTC:7, SIX:6, EAS:4 }, note:"DKR egress floods the campus ring. Stage north and downtown, never inside the stadium ring." },
+  { id:"MOODY", label:"Moody Center",    zones:{ SIX:9, DTC:7, EAS:5, UTC:-6 },         note:"Red River and the 6th Street district absorb most post-event demand on foot." },
+  { id:"Q2",    label:"Austin FC (Q2)",  zones:{ DOM:10, HYD:7, DTC:4 },                note:"Q2 Stadium egress runs north. The Domain node becomes the primary, not the core fleet." },
+  { id:"BATS",  label:"Bat emergence",   zones:{ RNY:7, DTC:5, SOC:4, BLD:3 },          note:"Sunset bat flight at the Congress Ave bridge, March–October. Real, seasonal, and reliably mis-modelled by every routing engine — the bridge sidewalks and both approaches choke for about 40 minutes." }
+];
+
+/* corridors: component scores 0–10, higher = worse */
+const CORRIDORS = [
+  { name:"Lavaca St (NB) / Guadalupe St (SB)", seg:"Downtown, Cesar Chavez–15th", cls:"One-way pair",
+    c:{ volatility:3, pedConflict:4, signalDelay:4, curbDeficit:3, energyIndex:3, turnExposure:2 },
+    note:"Signal-coordinated one-way pair with good progression. The default downtown through-route in both directions." },
+  { name:"Brazos St (NB) / Colorado St (SB)", seg:"Downtown, 2nd–11th", cls:"One-way pair",
+    c:{ volatility:3, pedConflict:3, signalDelay:5, curbDeficit:2, energyIndex:3, turnExposure:2 },
+    note:"Quieter than the Lavaca pair with materially better curb availability. Preferred for the final approach to a downtown pickup." },
+  { name:"Aldrich St / Mueller Blvd", seg:"Mueller district", cls:"Local arterial",
+    c:{ volatility:2, pedConflict:3, signalDelay:3, curbDeficit:1, energyIndex:2, turnExposure:2 },
+    note:"Best-performing segment in the set. Modern geometry, generous loading zones, predictable signals, shade." },
+  { name:"S 1st St", seg:"Riverside–Oltorf", cls:"Minor arterial",
+    c:{ volatility:3, pedConflict:3, signalDelay:4, curbDeficit:3, energyIndex:3, turnExposure:3 },
+    note:"The under-used parallel to South Congress. Nearly the same catchment at roughly half the delay — route here and walk the last block." },
+  { name:"Airport Blvd", seg:"Manor Rd–I-35", cls:"Major arterial",
+    c:{ volatility:3, pedConflict:2, signalDelay:4, curbDeficit:3, energyIndex:3, turnExposure:4 },
+    note:"Reconstructed corridor, consistent speeds in the 30–35 band. Sits close to the fleet energy optimum." },
+  { name:"Manor Rd", seg:"I-35–Airport Blvd", cls:"Minor arterial",
+    c:{ volatility:3, pedConflict:4, signalDelay:4, curbDeficit:3, energyIndex:3, turnExposure:3 },
+    note:"Reliable East Austin spine. Restaurant cluster creates evening curb contention between Coleto and Alamo." },
+  { name:"Cesar Chavez St", seg:"Lamar–I-35", cls:"Major arterial",
+    c:{ volatility:5, pedConflict:5, signalDelay:5, curbDeficit:4, energyIndex:4, turnExposure:5 },
+    note:"Strong east–west spine that degrades sharply at the Lamar and Congress intersections. Fine as a through-route, poor as a destination." },
+  { name:"Red River St", seg:"Cesar Chavez–MLK", cls:"Minor arterial",
+    c:{ volatility:6, pedConflict:6, signalDelay:4, curbDeficit:4, energyIndex:4, turnExposure:3 },
+    note:"Serves Moody Center, Dell Seton and the Red River cultural district. Volatility is event-driven and therefore predictable from a calendar." },
+  { name:"MLK Jr Blvd", seg:"Lamar–Chicon", cls:"Major arterial",
+    c:{ volatility:5, pedConflict:6, signalDelay:5, curbDeficit:5, energyIndex:4, turnExposure:4 },
+    note:"Clean east–west run outside UT event windows. Inside them, treat the campus segment as closed." },
+  { name:"Barton Springs Rd", seg:"S Lamar–S 1st", cls:"Minor arterial",
+    c:{ volatility:7, pedConflict:6, signalDelay:4, curbDeficit:6, energyIndex:4, turnExposure:4 },
+    note:"Baseline performance is fine; ACL weekends and Trail of Lights make it unusable. Calendar-gate this segment rather than scoring it statically." },
+  { name:"E Riverside Dr", seg:"I-35–Pleasant Valley", cls:"Major arterial",
+    c:{ volatility:6, pedConflict:5, signalDelay:6, curbDeficit:5, energyIndex:5, turnExposure:5 },
+    note:"Very high residential demand density. Light-rail construction is actively changing lane geometry — highest re-survey priority in the set." },
+  { name:"S Congress Ave (SoCo)", seg:"Riverside–Oltorf", cls:"Major arterial",
+    c:{ volatility:6, pedConflict:9, signalDelay:6, curbDeficit:8, energyIndex:5, turnExposure:5 },
+    note:"Destination, not a through-route. Angled parking, constant backing movements and heavy mid-block crossing. Approach on S 1st, turn in for the last block only." },
+  { name:"N Lamar Blvd", seg:"5th–15th", cls:"Major arterial",
+    c:{ volatility:8, pedConflict:6, signalDelay:7, curbDeficit:6, energyIndex:6, turnExposure:7 },
+    note:"The 5th/6th intersections are the single worst predictable delay north of the river. Prefer Nueces or West Ave to bypass entirely." },
+  { name:"Guadalupe St (The Drag)", seg:"21st–29th", cls:"Campus arterial",
+    c:{ volatility:7, pedConflict:10, signalDelay:7, curbDeficit:8, energyIndex:6, turnExposure:6 },
+    note:"Continuous mid-block pedestrian crossing plus bus dwell. An AV behaves correctly here and is punished for it. Run parallel on Nueces; touch The Drag for the final block only." },
+  { name:"E 6th St", seg:"I-35–Brazos", cls:"Entertainment",
+    c:{ volatility:9, pedConflict:10, signalDelay:6, curbDeficit:9, energyIndex:6, turnExposure:5 },
+    note:"Closed to vehicles Thu–Sat nights. Even open, pedestrian density makes it a trap. Serve the district from Red River and 7th — never enter the closure box." },
+  { name:"I-35 frontage roads", seg:"Riverside–MLK", cls:"Frontage",
+    c:{ volatility:9, pedConflict:4, signalDelay:7, curbDeficit:9, energyIndex:8, turnExposure:9 },
+    note:"Braided merges, very short weaving sections and constant ramp conflict. High volatility and no usable curb. Avoid as a through-route regardless of what the map's travel time says." }
+];
+
+const WEIGHTS = { volatility:0.22, pedConflict:0.16, signalDelay:0.18, curbDeficit:0.15, energyIndex:0.15, turnExposure:0.14 };
+
+const RULES = [
+  { fam:"A", famName:"Queue anticipation", famNote:"Reading the road ahead before the map does",
+    items:[
+      { id:"A-01", name:"Standing queue growth",
+        human:"The line on the street I was about to turn onto is getting longer, not shorter. I'll go one more block.",
+        trig:"queueLen(receivingLink) grows ≥ 1.5 veh per cycle\n  over ≥ 2 consecutive cycles\nOR storageRatio ≥ 0.70",
+        act:"Raise traversal cost of the receiving link ×4.2 for 180 s. Planner re-evaluates; the parallel turn one block on is normally cheaper.",
+        lead:"60–150 s", conf:"High", fb:"Fall back to fleet peer reports for the same link within the last 5 min." },
+      { id:"A-02", name:"Brake-light cascade",
+        human:"Brake lights are rippling backwards toward me. Something just stopped up there.",
+        trig:"≥ 4 tracked vehicles enter braking state\n  in upstream-propagating order within 2.5 s",
+        act:"Do not commit to a downstream turn pocket. Hold the through lane and defer the lane change by one block.",
+        lead:"20–45 s", conf:"High", fb:"Radar closing-rate on the lead vehicle only; reduce confidence to 0.5." },
+      { id:"A-03", name:"Green starvation",
+        human:"That light is green and nobody is moving. Something is blocking it past the intersection.",
+        trig:"signalState = GREEN\n  AND dischargeHeadway > 4.0 s at stop bar\n  for > 8 s of green time",
+        act:"Treat the link as blocked irrespective of signal state. Cost ×6.0 for 240 s. This is the highest-value rule in the book — a map sees a green light and a short link and reports no problem at all.",
+        lead:"30–90 s", conf:"High", fb:"None. Rule disables without signal-state estimation rather than guessing." },
+      { id:"A-04", name:"Cross-street spillback",
+        human:"Cars from the cross street are sitting in the box. This intersection is going to lock.",
+        trig:"stationary vehicles occupy conflict area\n  at onset of own green, ≥ 2 cycles",
+        act:"Avoid the intersection for the next 2 cycles. Penalise every approach to it, not just the current one.",
+        lead:"45–120 s", conf:"Medium", fb:"Occupancy from lidar only; raise the threshold to 3 cycles." }
+    ]},
+  { fam:"B", famName:"Curb & access", famNote:"The part of the trip the rider actually rates",
+    items:[
+      { id:"B-01", name:"Double-park displacement",
+        human:"There's a delivery truck on the curb where I was told to stop. I'll pull up just past it.",
+        trig:"classifier = {box_truck, van} AND hazards = ON\n  AND occupancy of target curb segment > 60%",
+        act:"Shift the pickup point to the next legal curb segment and push the updated pin to the rider before arrival — never after. The rider standing in the wrong place is the failure, not the truck.",
+        lead:"Pre-arrival", conf:"High", fb:"Reassign on arrival with an in-app message; degrade gracefully." },
+      { id:"B-02", name:"Far-side preference",
+        human:"I'll stop past the light, not before it — otherwise I'm sitting in the queue with the door shut.",
+        trig:"candidate curb within 40 m of signalised\n  intersection on the approach side",
+        act:"Prefer the far-side curb. The rider walks with the signal and the vehicle is not held in the discharging queue with a door open. Borrowed directly from transit stop placement practice.",
+        lead:"Planning", conf:"High", fb:"None needed — geometric, not sensor-dependent." },
+      { id:"B-03", name:"No unprotected crossing",
+        human:"I'm not making someone run across six lanes of Lamar to reach me.",
+        trig:"rider path crosses roadway with ≥ 3 lanes\n  or AADT ≥ 25,000\n  AND no signalised crossing within 45 m",
+        act:"Reject the candidate pickup point outright. Re-solve on the rider's side of the roadway even at a time cost.",
+        lead:"Planning", conf:"High", fb:"None — this is a hard constraint, not a preference." },
+      { id:"B-04", name:"Curb-side door rule",
+        human:"They should be getting in from the sidewalk, not from the traffic lane.",
+        trig:"assigned stop orientation places rider\n  entry on the travel-lane side",
+        act:"Re-solve for a stop where the rider's nearest door faces the curb. On one-way streets this constrains which side of the street is eligible at all.",
+        lead:"Planning", conf:"High", fb:"None needed — geometric." }
+    ]},
+  { fam:"C", famName:"Positioning & staging", famNote:"Where to wait, and what waiting costs",
+    items:[
+      { id:"C-01", name:"Anticipatory dwell",
+        human:"No point driving in circles. I'll park somewhere useful and wait.",
+        trig:"no assigned trip AND expectedWait > 90 s",
+        act:"Stage stationary at the highest-SPS reachable node. Never circle. Circling burns propulsion on top of the overhead that a stationary vehicle pays anyway, for no positional gain.",
+        lead:"Continuous", conf:"High", fb:"Default to the zone's primary node." },
+      { id:"C-02", name:"Shade staging",
+        human:"It's 103 out. I'm not parking in the sun.",
+        trig:"month ∈ May–Sep AND ambient ≥ 32 °C\n  AND dwell forecast > 6 min",
+        act:"Prefer a shaded or covered node within 3 minutes. Cabin soak at Austin summer ambient costs 2–3.5 kW of recovery load across the first five minutes of the trip, and the rider gets into a hot car — an energy cost and a satisfaction cost in one.",
+        lead:"Continuous", conf:"Medium", fb:"Use static canopy data where live thermal is unavailable." },
+      { id:"C-03", name:"Egress pre-position",
+        human:"The show lets out in twenty minutes. I want to be where they walk to, not where they walk from.",
+        trig:"scheduled event egress within 25 min\n  AND node ∈ venue ring < 2 blocks",
+        act:"Stage 2–4 blocks out on the venue's outbound flow, never inside the immediate ring. Vehicles in the ring become part of the jam they are trying to serve.",
+        lead:"15–25 min", conf:"High", fb:"Static per-venue egress vectors from the calendar." },
+      { id:"C-04", name:"Demand gradient climb",
+        human:"Is it worth driving across town for that, or do I hold here?",
+        trig:"ΔSPS(target, current) · fareValue\n  > (deadheadMin · timeCost + ΔkWh · energyCost)",
+        act:"Reposition only when the inequality holds. Prevents the whole fleet chasing the same surge and arriving together after it has cleared — the classic repositioning failure mode.",
+        lead:"Continuous", conf:"Medium", fb:"Hold position; holding is the safe default." }
+    ]},
+  { fam:"D", famName:"Energy discipline", famNote:"Where a BEV with a live sensor stack differs from a car",
+    items:[
+      { id:"D-01", name:"Speed-band targeting",
+        human:"The highway isn't always faster, and here it isn't cheaper either.",
+        trig:"freeway alternative saves < 4 min\n  AND arterial sustains 28–38 mph",
+        act:"Prefer the arterial. Total energy per mile bottoms out at 30–35 mph for this platform; a 65 mph freeway mile costs roughly 22% more than a 35 mph arterial mile.",
+        lead:"Planning", conf:"High", fb:"Use posted speeds where live speed data is unavailable." },
+      { id:"D-02", name:"Regen corridor preference",
+        human:"I'd rather coast into a light I can see changing than get surprised by it.",
+        trig:"corridor has coordinated signals\n  OR net downgrade on the return leg",
+        act:"Prefer corridors where deceleration is predictable. Anticipated braking recovers roughly 60–70% through regen; a surprise stop dumps it into the friction brakes.",
+        lead:"Planning", conf:"Medium", fb:"Signal-coordination flag from the city inventory." },
+      { id:"D-03", name:"Time-cost of compute",
+        human:"Sitting still isn't free.",
+        trig:"always active — applied as a cost term",
+        act:"Charge ~0.02 kWh per stationary minute against every routing decision. This converts delay directly into energy and is what makes the anticipation rules pay for themselves rather than merely improving ETAs.",
+        lead:"Continuous", conf:"High", fb:"None — a constant, not a detection." }
+    ]}
+];
+
+const SEED_ENTRIES = [
+  { corridor:"Red River @ 8th", window:"Thu–Sat 22:00–02:30", rule:"C-03", obs:"APD sets the 6th Street barricades at the 7th/Red River corner about 20 minutes earlier than the published time on Halloween weekend and during SXSW. Staging here got blocked in twice.", who:"Field tech · ATX-N", at:"2026-09-09" },
+  { corridor:"S Congress @ Elizabeth", window:"Sat–Sun 11:00–16:00", rule:"B-01", obs:"Angled-parking vehicles back out across the whole curb lane with no warning. The curb reads as free to the classifier right up until it isn't. Suggest treating the entire block face as grade D on weekends.", who:"Dispatch · shift 2", at:"2026-09-11" },
+  { corridor:"Congress Ave bridge", window:"Mar–Oct, sunset −15 to +40 min", rule:"A-04", obs:"Bat crowd spills off the sidewalks into the traffic lane on the south approach. Pedestrian density spikes hard enough that vehicles hold for minutes. Every routing engine we've used treats this as normal traffic.", who:"Field tech · ATX-S", at:"2026-09-12" },
+  { corridor:"E Riverside @ Wickersham", window:"Weekdays, all day", rule:"A-03", obs:"Light-rail construction moved the temporary signal again. Green starvation firing constantly here — genuinely blocked, not a false positive, but the geometry changed so the storage ratio baseline is stale.", who:"Ops engineer", at:"2026-09-13" }
+];
+
+/* live coverage tuning */
+const DEMAND_PER_VEHICLE = 24;  // 1 free vehicle per this much demand index — tuned so baseline target sum sits under FLEET_SIZE with slack for demand spikes
+const COVERAGE_FLOOR = 1;
+const COVERAGE_CAP   = 9;
+const FLEET_SIZE   = 48;
+const TICK_MS       = 1500;
+const REPORT_DECAY_MS = 6 * 60 * 1000; // 6 minutes
+const VEHICLE_STEP  = 26;       // px covered per tick while en route
+const MAX_DISPATCH_MIN = 22;    // don't reposition further than this
+
+/* ============================================================
+   COMPUTE
+   ============================================================ */
+
+const SEQ = ["--seq-100","--seq-200","--seq-300","--seq-400","--seq-500","--seq-600","--seq-700"];
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+function rawDemand(zone, tb) {
+  let s = 0;
+  for (const g of GENERATORS) s += (zone.gen[g.id] || 0) * PROFILE[g.id][tb];
+  return s;
+}
+let DEMAND_MAX = 0;
+for (const z of ZONES) for (const tb of TIME_BLOCKS) DEMAND_MAX = Math.max(DEMAND_MAX, rawDemand(z, tb.id));
+const demand = (zone, tb) => (rawDemand(zone, tb) / DEMAND_MAX) * 100;
+
+function travelMin(ax, ay, bx, by) {
+  const d = Math.hypot(ax - bx, ay - by) * 0.047;
+  const i35   = ((ax < I35_X) !== (bx < I35_X)) ? 3.5 : 0;
+  const river = ((ay < RIVER_Y) !== (by < RIVER_Y)) ? 2.5 : 0;
+  return d + i35 + river;
+}
+
+function sei(c) {
+  let s = 0;
+  for (const k in WEIGHTS) s += WEIGHTS[k] * c[k];
+  return 100 - 10 * s;
+}
+const verdict = v => v >= 70 ? "prefer" : v >= 45 ? "conditional" : "avoid";
+
+function scoreNodes(tb, season, eventId) {
+  const ev = EVENTS.find(e => e.id === eventId) || EVENTS[0];
+  const dz = {};
+  for (const z of ZONES) dz[z.id] = demand(z, tb) / 100;
+
+  let cx = 0, cy = 0, tw = 0;
+  for (const z of ZONES) { cx += z.x * dz[z.id]; cy += z.y * dz[z.id]; tw += dz[z.id]; }
+  cx /= tw; cy /= tw;
+
+  return STAGING.map(n => {
+    const local = dz[n.zone] || 0;
+
+    let reach = 0, norm = 0;
+    for (const z of ZONES) {
+      const t = travelMin(n.x, n.y, z.x, z.y);
+      const w = Math.exp(-t / 8);
+      reach += dz[z.id] * w;
+      norm  += w;
+    }
+    reach = reach / norm;
+
+    const dh = travelMin(n.x, n.y, cx, cy);
+    const hPen = Math.min(1, dh / 26);
+    const cPen = CURB_PENALTY[n.curb];
+
+    let bonus = (ev.zones[n.zone] || 0);
+    if (season === "SUMMER" && n.curb === "A") bonus += 3;
+    if (n.id === "SN-03" && (tb === "LATE" || tb === "EVE")) bonus -= 12;
+    if (n.id === "SN-15" && (tb === "LATE" || tb === "EVE")) bonus -= 6;
+    if (n.id === "SN-12" && tb === "LATE") bonus -= 5;
+
+    const parts = {
+      local: 45 * local,
+      reach: 25 * reach,
+      dh:   -20 * hPen,
+      curb: -10 * cPen,
+      event: bonus
+    };
+    const sps = parts.local + parts.reach + parts.dh + parts.curb + parts.event;
+    return { n, sps, parts, dh, ev };
+  }).sort((a, b) => b.sps - a.sps);
+}
+
+/* ============================================================
+   RENDER — tabs
+   ============================================================ */
+
+const tabs  = Array.from(document.querySelectorAll(".tab"));
+const panes = Array.from(document.querySelectorAll(".pane"));
+tabs.forEach(t => t.addEventListener("click", () => {
+  tabs.forEach(x => x.setAttribute("aria-selected", String(x === t)));
+  panes.forEach(p => { p.hidden = (p.id !== "pane-" + t.id.slice(4)); });
+  window.scrollTo({ top: 0, behavior: "instant" });
+}));
+
+/* ============================================================
+   RENDER — segmented controls
+   ============================================================ */
+
+function segbar(el, items, initial, onPick) {
+  el.innerHTML = "";
+  let cur = initial;
+  items.forEach(it => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "seg";
+    b.textContent = it.label;
+    b.id = el.id + "-" + it.id;
+    if (it.title) b.title = it.title;
+    b.setAttribute("aria-pressed", String(it.id === cur));
+    b.addEventListener("click", () => {
+      cur = it.id;
+      Array.from(el.children).forEach(c => c.setAttribute("aria-pressed", String(c === b)));
+      onPick(it.id);
+    });
+    el.appendChild(b);
+  });
+}
+
+/* ============================================================
+   RENDER — chart: detection latency
+   ============================================================ */
+
+function chartLead() {
+  const rows = [
+    { label:"Onboard — queue growth",  lo:15,  hi:40,  s:"--series-3" },
+    { label:"Onboard — green starve",  lo:20,  hi:50,  s:"--series-3" },
+    { label:"V2I signal feed",         lo:45,  hi:90,  s:"--series-1" },
+    { label:"Fleet peer reports",      lo:60,  hi:140, s:"--series-1" },
+    { label:"Crowd-sourced map",       lo:150, hi:420, s:"--series-2" }
+  ];
+  const W = 440, LEFT = 152, RIGHT = 24, top = 26, rh = 34;
+  const H = top + rows.length * rh + 26;
+  const max = 440;
+  const xs = v => LEFT + (v / max) * (W - LEFT - RIGHT);
+  const ticks = [0, 100, 200, 300, 400];
+
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Detection latency by source, seconds">`;
+  ticks.forEach(t => {
+    s += `<line x1="${xs(t)}" y1="${top - 8}" x2="${xs(t)}" y2="${top + rows.length * rh - 10}" stroke="${cssv('--grid')}" stroke-width="1"/>`;
+    s += `<text x="${xs(t)}" y="${H - 10}" fill="${cssv('--ink-3')}" font-size="9" text-anchor="middle">${t}</text>`;
+  });
+  s += `<text x="${LEFT}" y="${H - 10}" fill="${cssv('--ink-3')}" font-size="9" text-anchor="start" opacity="0"></text>`;
+  s += `<text x="${W - RIGHT}" y="${top - 14}" fill="${cssv('--ink-3')}" font-size="9" text-anchor="end" letter-spacing="1">SECONDS</text>`;
+
+  rows.forEach((r, i) => {
+    const y = top + i * rh + 8;
+    s += `<text x="${LEFT - 10}" y="${y + 4}" fill="${cssv('--ink-2')}" font-size="9.5" text-anchor="end">${r.label}</text>`;
+    s += `<rect x="${xs(r.lo)}" y="${y - 4}" width="${Math.max(2, xs(r.hi) - xs(r.lo))}" height="9" rx="4" fill="${cssv(r.s)}"/>`;
+    s += `<text x="${xs(r.hi) + 7}" y="${y + 4}" fill="${cssv('--ink-3')}" font-size="9">${r.lo}–${r.hi}</text>`;
+  });
+  s += `</svg>`;
+  document.getElementById("chart-lead").innerHTML = s;
+}
+
+/* ============================================================
+   RENDER — chart: energy vs speed
+   ============================================================ */
+
+function chartEnergy() {
+  const P_OH = 2.8;
+  const speeds = [];
+  for (let v = 10; v <= 75; v += 2.5) speeds.push(v);
+  const prop = v => 0.265 + 0.000042 * v * v;
+  const oh   = v => P_OH / v;
+
+  const W = 560, H = 330, L = 52, R = 96, T = 20, B = 44;
+  const xmin = 10, xmax = 75, ymin = 0, ymax = 0.58;
+  const X = v => L + ((v - xmin) / (xmax - xmin)) * (W - L - R);
+  const Y = e => T + (1 - (e - ymin) / (ymax - ymin)) * (H - T - B);
+
+  const path = f => speeds.map((v, i) => (i ? "L" : "M") + X(v).toFixed(1) + " " + Y(f(v)).toFixed(1)).join(" ");
+
+  let best = speeds[0];
+  speeds.forEach(v => { if (prop(v) + oh(v) < prop(best) + oh(best)) best = v; });
+  const bestE = prop(best) + oh(best);
+
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Energy per mile versus average speed">`;
+
+  [0, 0.1, 0.2, 0.3, 0.4, 0.5].forEach(g => {
+    s += `<line x1="${L}" y1="${Y(g)}" x2="${W - R}" y2="${Y(g)}" stroke="${cssv('--grid')}" stroke-width="1"/>`;
+    s += `<text x="${L - 8}" y="${Y(g) + 3}" fill="${cssv('--ink-3')}" font-size="9" text-anchor="end">${g.toFixed(1)}</text>`;
+  });
+  [10, 20, 30, 40, 50, 60, 70].forEach(t => {
+    s += `<text x="${X(t)}" y="${H - B + 17}" fill="${cssv('--ink-3')}" font-size="9" text-anchor="middle">${t}</text>`;
+  });
+  s += `<line x1="${L}" y1="${Y(0)}" x2="${W - R}" y2="${Y(0)}" stroke="${cssv('--baseline')}" stroke-width="1"/>`;
+  s += `<text x="${L}" y="${H - 8}" fill="${cssv('--ink-3')}" font-size="9" letter-spacing="1">AVERAGE SPEED (MPH)</text>`;
+  s += `<text x="${L - 8}" y="${T - 6}" fill="${cssv('--ink-3')}" font-size="9" text-anchor="end" letter-spacing="1">kWh/mi</text>`;
+
+  /* optimum band */
+  s += `<rect x="${X(30)}" y="${T}" width="${X(35) - X(30)}" height="${H - T - B}" fill="${cssv('--accent')}" opacity="0.10"/>`;
+  s += `<line x1="${X(best)}" y1="${Y(bestE)}" x2="${X(best)}" y2="${Y(0)}" stroke="${cssv('--accent')}" stroke-width="1" stroke-dasharray="3 3"/>`;
+
+  s += `<path d="${path(v => prop(v))}" fill="none" stroke="${cssv('--series-1')}" stroke-width="2" stroke-linecap="round"/>`;
+  s += `<path d="${path(v => oh(v))}" fill="none" stroke="${cssv('--series-2')}" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 3"/>`;
+  s += `<path d="${path(v => prop(v) + oh(v))}" fill="none" stroke="${cssv('--series-3')}" stroke-width="2.6" stroke-linecap="round"/>`;
+
+  /* direct labels */
+  s += `<text x="${W - R + 8}" y="${Y(prop(75)) + 3}" fill="${cssv('--series-1')}" font-size="9.5" font-weight="600">Propulsion</text>`;
+  s += `<text x="${W - R + 8}" y="${Y(oh(75)) + 3}" fill="${cssv('--series-2')}" font-size="9.5" font-weight="600">Overhead</text>`;
+  s += `<text x="${W - R + 8}" y="${Y(prop(75) + oh(75)) + 3}" fill="${cssv('--series-3')}" font-size="9.5" font-weight="600">Total</text>`;
+
+  /* optimum marker */
+  s += `<circle cx="${X(best)}" cy="${Y(bestE)}" r="4.5" fill="${cssv('--series-3')}" stroke="${cssv('--surface')}" stroke-width="2"/>`;
+  s += `<text x="${X(best)}" y="${Y(bestE) - 13}" fill="${cssv('--ink')}" font-size="9.5" font-weight="600" text-anchor="middle">${bestE.toFixed(3)} @ ${best} mph</text>`;
+
+  /* annotated comparison points */
+  const ann = [
+    { v:12, t:"downtown crawl" },
+    { v:65, t:"I-35 running" }
+  ];
+  ann.forEach(a => {
+    const e = prop(a.v) + oh(a.v);
+    s += `<circle cx="${X(a.v)}" cy="${Y(e)}" r="3.2" fill="${cssv('--surface')}" stroke="${cssv('--ink-2')}" stroke-width="1.6"/>`;
+    s += `<text x="${X(a.v) + (a.v < 40 ? 8 : -8)}" y="${Y(e) - 9}" fill="${cssv('--ink-2')}" font-size="9" text-anchor="${a.v < 40 ? 'start' : 'end'}">${a.t} · ${e.toFixed(2)}</text>`;
+  });
+
+  s += `</svg>`;
+  document.getElementById("chart-energy").innerHTML = s;
+}
+
+/* ============================================================
+   RENDER — map
+   ============================================================ */
+
+let activeTB = "PM";
+let activeZone = "DTC";
+
+function rampColor(pct) {
+  const i = Math.min(SEQ.length - 1, Math.max(0, Math.floor((pct / 100) * SEQ.length)));
+  return cssv(SEQ[i]);
+}
+/* The sequential ramp inverts between themes, so pick the label ink from the
+   measured luminance of the resolved swatch rather than from the percentile. */
+function rampInk(pct) {
+  const hex = rampColor(pct).replace("#", "");
+  if (hex.length !== 6) return cssv("--ink");
+  const ch = i => {
+    const c = parseInt(hex.substr(i, 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  };
+  const L = 0.2126 * ch(0) + 0.7152 * ch(2) + 0.0722 * ch(4);
+  return L > 0.35 ? "#0b0b0b" : "#ffffff";
+}
+
+function drawMap() {
+  const hair = cssv("--hair-strong"), ink3 = cssv("--ink-3"), ink = cssv("--ink"), surf = cssv("--surface");
+  const road = (x1,y1,x2,y2,w,c) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+
+  let s = `<svg viewBox="0 0 1000 700" role="img" aria-label="Schematic map of the Austin service area with demand by zone">`;
+
+  /* water */
+  s += `<path d="M0 386 C 160 378, 300 402, 430 400 C 560 398, 700 384, 1000 392 L1000 414 C 700 406, 560 420, 430 422 C 300 424, 160 400, 0 408 Z" fill="${cssv('--series-1')}" opacity="0.22"/>`;
+  s += `<text x="250" y="440" fill="${ink3}" font-size="10" letter-spacing="1.5">LADY BIRD LAKE</text>`;
+
+  /* freeways */
+  s += road(604, 0, 604, 700, 7, hair);
+  s += `<text x="614" y="660" fill="${ink3}" font-size="11" font-weight="600" letter-spacing="1">I-35</text>`;
+  s += road(214, 0, 214, 700, 5, hair);
+  s += `<text x="224" y="660" fill="${ink3}" font-size="10" letter-spacing="1">MOPAC</text>`;
+  s += road(160, 96, 900, 96, 5, hair);
+  s += `<text x="880" y="84" fill="${ink3}" font-size="10" text-anchor="end" letter-spacing="1">US-183</text>`;
+  s += road(640, 470, 900, 640, 5, hair);
+  s += `<text x="812" y="556" fill="${ink3}" font-size="9" letter-spacing="1" transform="rotate(33 812 556)">SH-71</text>`;
+
+  /* arterials */
+  const art = cssv("--hair");
+  s += road(330, 60, 330, 386, 2.5, art);
+  s += road(420, 96, 420, 386, 2.5, art);
+  s += road(500, 200, 500, 640, 2.5, art);
+  s += road(440, 414, 440, 640, 2.5, art);
+  s += road(240, 360, 604, 360, 2.5, art);
+  s += road(240, 452, 520, 452, 2.5, art);
+  s += road(604, 470, 800, 470, 2.5, art);
+  s += road(604, 262, 800, 240, 2.5, art);
+  s += road(604, 200, 790, 130, 2.5, art);
+  s += road(420, 250, 700, 250, 2.5, art);
+
+  const lbl = (x,y,t,rot) => `<text x="${x}" y="${y}" fill="${ink3}" font-size="8.5" letter-spacing="0.8"${rot?` transform="rotate(${rot} ${x} ${y})"`:""}>${t}</text>`;
+  s += lbl(334, 150, "N LAMAR", 90);
+  s += lbl(424, 150, "GUADALUPE", 90);
+  s += lbl(504, 560, "S CONGRESS", 90);
+  s += lbl(444, 600, "S 1ST", 90);
+  s += lbl(250, 354, "CESAR CHAVEZ");
+  s += lbl(250, 446, "BARTON SPRINGS");
+  s += lbl(700, 464, "E RIVERSIDE");
+  s += lbl(700, 252, "MANOR RD");
+  s += lbl(660, 186, "AIRPORT BLVD", -20);
+  s += lbl(430, 244, "MLK JR BLVD");
+
+  /* zones */
+  for (const z of ZONES) {
+    const d = demand(z, activeTB);
+    const fill = rampColor(d);
+    const isActive = z.id === activeZone;
+    s += `<g class="zone-hit" data-zone="${z.id}" role="button" tabindex="0" aria-label="${z.name}, demand index ${Math.round(d)}">`;
+    s += `<circle class="zone-ring" cx="${z.x}" cy="${z.y}" r="${z.r}" fill="${fill}" stroke="${isActive ? ink : surf}" stroke-width="${isActive ? 2.5 : 1.5}"/>`;
+    s += `<text x="${z.x}" y="${z.y + 4}" fill="${rampInk(d)}" font-size="12" font-weight="600" text-anchor="middle">${Math.round(d)}</text>`;
+    s += `<text x="${z.x}" y="${z.y + z.r + 13}" fill="${isActive ? ink : ink3}" font-size="9.5" font-weight="${isActive ? 600 : 400}" text-anchor="middle">${z.name}</text>`;
+    s += `</g>`;
+  }
+
+  /* staging nodes */
+  for (const n of STAGING) {
+    s += `<g><rect x="${n.x - 3.5}" y="${n.y - 3.5}" width="7" height="7" fill="${cssv('--accent')}" stroke="${surf}" stroke-width="1.2" transform="rotate(45 ${n.x} ${n.y})"/></g>`;
+  }
+
+  s += `</svg>`;
+  document.getElementById("mapwrap").innerHTML = s;
+
+  document.querySelectorAll(".zone-hit").forEach(g => {
+    const pick = () => { activeZone = g.dataset.zone; drawMap(); drawZoneOut(); };
+    g.addEventListener("click", pick);
+    g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
+  });
+}
+
+function drawZoneOut() {
+  const z = ZONES.find(x => x.id === activeZone);
+  const tb = TIME_BLOCKS.find(t => t.id === activeTB);
+  const d = demand(z, activeTB);
+
+  const rows = GENERATORS
+    .map(g => ({ g, raw: (z.gen[g.id] || 0) * PROFILE[g.id][activeTB], base: z.gen[g.id] || 0 }))
+    .filter(r => r.base > 0)
+    .sort((a, b) => b.raw - a.raw);
+  const top = rows.length ? rows[0].raw : 1;
+
+  const nodes = STAGING.filter(n => n.zone === z.id);
+
+  let h = `<div style="font-size:19px;font-weight:600;letter-spacing:-0.015em">${z.name}</div>`;
+  h += `<div style="font-family:var(--f-mono);font-size:10px;letter-spacing:0.1em;color:var(--ink-3);margin-top:3px">${z.id} · ${tb.span}</div>`;
+  h += `<div style="display:flex;align-items:baseline;gap:9px;margin-top:16px">
+          <span style="font-size:38px;font-weight:700;letter-spacing:-0.03em;color:${rampColor(d)};line-height:1">${Math.round(d)}</span>
+          <span style="font-family:var(--f-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-3)">Demand index</span>
+        </div>`;
+
+  h += `<dl class="readout"><dt>Contributing generators at ${tb.label}</dt><dd>`;
+  rows.forEach(r => {
+    h += `<div class="gen-bar"><span>${r.g.label}</span>
+            <span class="gen-track"><span class="gen-fill" style="width:${Math.max(2, (r.raw / top) * 100)}%"></span></span>
+            <b>${r.raw.toFixed(1)}</b></div>`;
+  });
+  h += `</dd>`;
+
+  h += `<dt>Staging nodes in zone</dt><dd>`;
+  h += nodes.length
+    ? nodes.map(n => `<div style="margin-bottom:6px"><span style="font-family:var(--f-mono);font-size:11px;color:var(--accent);font-weight:600">${n.id}</span> ${n.name} <span style="font-family:var(--f-mono);font-size:10px;color:var(--ink-3)">· curb ${n.curb} · ${n.cap} veh</span></div>`).join("")
+    : `<span style="color:var(--ink-3)">None designated — served from adjacent zones.</span>`;
+  h += `</dd></dl>`;
+
+  document.getElementById("zoneout").innerHTML = h;
+}
+
+function drawHeat() {
+  let h = `<thead><tr><th class="rowh">Zone</th>`;
+  TIME_BLOCKS.forEach(t => { h += `<th title="${t.span}">${t.label}</th>`; });
+  h += `</tr></thead><tbody>`;
+
+  const ordered = ZONES.slice().sort((a, b) =>
+    Math.max(...TIME_BLOCKS.map(t => demand(b, t.id))) - Math.max(...TIME_BLOCKS.map(t => demand(a, t.id))));
+
+  ordered.forEach(z => {
+    h += `<tr><th class="rowh">${z.name}</th>`;
+    TIME_BLOCKS.forEach(t => {
+      const d = demand(z, t.id);
+      h += `<td style="background:${rampColor(d)};color:${rampInk(d)}">${Math.round(d)}</td>`;
+    });
+    h += `</tr>`;
+  });
+  h += `</tbody>`;
+  document.getElementById("heatmap").innerHTML = h;
+}
+
+/* ============================================================
+   RENDER — corridors
+   ============================================================ */
+
+let corridorSort = "sei";
+function drawCorridors() {
+  const rows = CORRIDORS.map(x => ({ ...x, sei: sei(x.c) }));
+  if (corridorSort === "sei") rows.sort((a, b) => b.sei - a.sei);
+  else if (corridorSort === "name") rows.sort((a, b) => a.name.localeCompare(b.name));
+  else rows.sort((a, b) => b.c[corridorSort] - a.c[corridorSort]);
+
+  const body = rows.map(r => {
+    const v = verdict(r.sei);
+    const col = v === "prefer" ? cssv("--st-good") : v === "conditional" ? cssv("--alert") : cssv("--st-critical");
+    return `<tr>
+      <td><span class="nm">${r.name}</span><span class="sub">${r.seg}</span></td>
+      <td style="font-size:12px">${r.cls}</td>
+      <td class="num">${r.c.volatility}</td>
+      <td class="num">${r.c.pedConflict}</td>
+      <td class="num">${r.c.signalDelay}</td>
+      <td class="num">${r.c.curbDeficit}</td>
+      <td class="num">${r.c.energyIndex}</td>
+      <td class="num">${r.c.turnExposure}</td>
+      <td class="num"><span class="sei"><span class="sei-track"><span class="sei-fill" style="width:${Math.max(3, r.sei)}%;background:${col}"></span></span><b style="color:var(--ink)">${r.sei.toFixed(1)}</b></span></td>
+      <td><span class="pill ${v}">${v}</span></td>
+      <td class="note">${r.note}</td>
+    </tr>`;
+  }).join("");
+  document.getElementById("corridor-body").innerHTML = body;
+}
+
+/* ============================================================
+   RENDER — rulebook
+   ============================================================ */
+
+function drawRulebook() {
+  let h = "";
+  RULES.forEach(f => {
+    h += `<div class="family">Family ${f.fam} — ${f.famName}<span>${f.famNote}</span></div><div class="rules">`;
+    f.items.forEach(r => {
+      h += `<article class="rule">
+        <div class="rule-h"><span class="rule-id">${r.id}</span><span class="rule-n">${r.name}</span></div>
+        <dl>
+          <dt>Human instinct</dt><dd class="human">“${r.human}”</dd>
+          <dt>Machine trigger</dt><dd class="trig">${r.trig.replace(/\n/g, "<br>")}</dd>
+          <dt>Action</dt><dd>${r.act}</dd>
+          <dt>Fallback if sensing degrades</dt><dd>${r.fb}</dd>
+        </dl>
+        <div class="rule-f"><span>Lead <b>${r.lead}</b></span><span>Confidence <b>${r.conf}</b></span></div>
+      </article>`;
+    });
+    h += `</div>`;
+  });
+  document.getElementById("rulebook").innerHTML = h;
+}
+
+function drawDiagram() {
+  const ink = cssv("--ink"), ink2 = cssv("--ink-2"), ink3 = cssv("--ink-3"),
+        hair = cssv("--hair"), road = cssv("--surface-sunk"),
+        bad = cssv("--st-critical"), good = cssv("--st-good"), acc = cssv("--accent");
+
+  let s = `<svg viewBox="0 0 460 300" role="img" aria-label="Diagram: vehicle defers a right turn onto a queuing street and turns at the next block instead">`;
+
+  /* roads */
+  s += `<rect x="0" y="120" width="460" height="42" fill="${road}"/>`;
+  s += `<rect x="150" y="0" width="40" height="300" fill="${road}"/>`;
+  s += `<rect x="320" y="0" width="40" height="300" fill="${road}"/>`;
+  s += `<line x1="0" y1="141" x2="460" y2="141" stroke="${hair}" stroke-width="1.5" stroke-dasharray="7 7"/>`;
+
+  /* street labels */
+  s += `<text x="8" y="114" fill="${ink3}" font-size="9" letter-spacing="1">E 5TH ST · EASTBOUND</text>`;
+  s += `<text x="170" y="292" fill="${ink3}" font-size="9" text-anchor="middle" letter-spacing="0.5">BRAZOS</text>`;
+  s += `<text x="340" y="292" fill="${ink3}" font-size="9" text-anchor="middle" letter-spacing="0.5">SAN JACINTO</text>`;
+
+  /* queue on the intended turn (Brazos, southbound below 5th) */
+  for (let i = 0; i < 6; i++) {
+    s += `<rect x="161" y="${175 + i * 20}" width="18" height="13" rx="2" fill="${bad}" opacity="${0.92 - i * 0.06}"/>`;
+  }
+  s += `<path d="M196 178 L196 290" stroke="${bad}" stroke-width="1.2" stroke-dasharray="3 3"/>`;
+  s += `<text x="202" y="196" fill="${bad}" font-size="9.5" font-weight="600">queue 12 veh</text>`;
+  s += `<text x="202" y="209" fill="${ink2}" font-size="9">+3 veh / cycle × 2</text>`;
+  s += `<text x="202" y="222" fill="${ink2}" font-size="9">storage ratio 0.74</text>`;
+  s += `<text x="202" y="235" fill="${ink2}" font-size="9">discharge headway 5.1 s</text>`;
+
+  /* rejected turn — eastbound traffic runs in the south half (y > centreline),
+     so a right turn drops south onto Brazos, into the growing queue. */
+  s += `<path d="M122 152 L152 152 Q170 152 170 168 L170 176" fill="none" stroke="${bad}" stroke-width="2.4" stroke-dasharray="6 4"/>`;
+  s += `<circle cx="128" cy="176" r="10" fill="none" stroke="${bad}" stroke-width="2"/>`;
+  s += `<line x1="121.5" y1="169.5" x2="134.5" y2="182.5" stroke="${bad}" stroke-width="2"/>`;
+  s += `<text x="116" y="180" fill="${bad}" font-size="9.5" font-weight="600" text-anchor="end">turn deferred</text>`;
+
+  /* chosen path */
+  s += `<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="${good}"/></marker></defs>`;
+  s += `<path d="M66 152 L332 152 Q340 152 340 166 L340 198" fill="none" stroke="${good}" stroke-width="2.8" marker-end="url(#ah)"/>`;
+
+  /* ego vehicle */
+  s += `<rect x="34" y="145" width="24" height="13" rx="2.5" fill="${acc}"/>`;
+  s += `<text x="46" y="139" fill="${ink}" font-size="9" font-weight="600" text-anchor="middle">ego</text>`;
+
+  s += `<text x="255" y="146" fill="${good}" font-size="9.5" font-weight="600" text-anchor="middle">continue through</text>`;
+  s += `<text x="352" y="214" fill="${good}" font-size="9.5" font-weight="600">turn here</text>`;
+  s += `<text x="352" y="227" fill="${ink2}" font-size="9">−214 s · −0.09 kWh</text>`;
+
+  /* map state note */
+  s += `<text x="8" y="24" fill="${ink3}" font-size="9" letter-spacing="1">MAP STATE AT THIS MOMENT</text>`;
+  s += `<rect x="8" y="32" width="11" height="11" rx="2" fill="${good}"/>`;
+  s += `<text x="25" y="42" fill="${ink2}" font-size="9.5">Brazos SB — reported clear. No probe report for 2m 40s.</text>`;
+
+  s += `</svg>`;
+  document.getElementById("diagram-a01").innerHTML = s;
+}
+
+/* ============================================================
+   RENDER — staging
+   ============================================================ */
+
+let stageTB = "LATE", stageSeason = "SUMMER", stageEvent = "NONE";
+
+function drawStaging() {
+  const ranked = scoreNodes(stageTB, stageSeason, stageEvent);
+  const tb = TIME_BLOCKS.find(t => t.id === stageTB);
+  const ev = EVENTS.find(e => e.id === stageEvent);
+
+  document.getElementById("stagectx").textContent =
+    `${tb.label} · ${stageSeason === "SUMMER" ? "Summer" : "Cool season"}${ev.id !== "NONE" ? " · " + ev.label : ""}`;
+
+  const maxAbs = Math.max(...ranked.map(r =>
+    Math.abs(r.parts.local) + Math.abs(r.parts.reach) + Math.abs(r.parts.dh) + Math.abs(r.parts.curb) + Math.abs(r.parts.event)));
+
+  const html = ranked.map((r, i) => {
+    const p = r.parts;
+    const seg = (val, color) => val === 0 ? "" :
+      `<i style="width:${(Math.abs(val) / maxAbs) * 100}%;background:${color}" title="${val.toFixed(1)}"></i>`;
+    return `<div class="node${i < 3 ? " top3" : ""}">
+      <div class="node-rk">${i + 1}</div>
+      <div>
+        <div class="node-nm">${r.n.name}</div>
+        <div class="node-meta">${r.n.id} · ${r.n.zone} · curb ${r.n.curb} · cap ${r.n.cap} · deadhead ${r.dh.toFixed(1)} min</div>
+        <div class="node-note">${r.n.note}</div>
+      </div>
+      <div class="bars">
+        ${seg(p.local, cssv("--series-1"))}
+        ${seg(p.reach, cssv("--series-3"))}
+        ${seg(Math.max(0, p.event), cssv("--series-2"))}
+        ${seg(p.dh, cssv("--hair-strong"))}
+        ${seg(p.curb, cssv("--hair-strong"))}
+        ${seg(Math.min(0, p.event), cssv("--st-critical"))}
+      </div>
+      <div class="node-sc">${r.sps.toFixed(1)}</div>
+    </div>`;
+  }).join("");
+  document.getElementById("nodelist").innerHTML = html;
+
+  const t = ranked[0], p = t.parts;
+  const row = (k, v, c) => `<div style="display:grid;grid-template-columns:1fr auto;gap:10px;font-family:var(--f-mono);font-size:11px;padding:3px 0;border-bottom:1px solid var(--hair)">
+      <span style="color:var(--ink-3)">${k}</span><b style="color:${c || 'var(--ink)'};font-variant-numeric:tabular-nums">${v}</b></div>`;
+
+  document.getElementById("directive").innerHTML =
+    `<div style="font-size:17px;font-weight:600;letter-spacing:-0.015em;margin-bottom:2px">${t.n.name}</div>
+     <div style="font-family:var(--f-mono);font-size:10px;letter-spacing:0.09em;color:var(--ink-3);margin-bottom:13px">${t.n.id} · zone ${t.n.zone} · curb grade ${t.n.curb}</div>
+     ${row("SPS", t.sps.toFixed(1), "var(--accent)")}
+     ${row("local demand", "+" + p.local.toFixed(1))}
+     ${row("reachability", "+" + p.reach.toFixed(1))}
+     ${row("event bonus", (p.event >= 0 ? "+" : "") + p.event.toFixed(1))}
+     ${row("deadhead", p.dh.toFixed(1))}
+     ${row("curb penalty", p.curb.toFixed(1))}
+     ${ev.note ? `<p style="font-size:13px;color:var(--ink-2);line-height:1.5;margin:13px 0 0"><b style="color:var(--ink)">${ev.label}:</b> ${ev.note}</p>` : ""}`;
+}
+
+/* ============================================================
+   RENDER — field log
+   ============================================================ */
+
+const LS_KEY = "sixthsense.fieldintel.v1";
+
+function loadEntries() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) { /* private mode / blocked storage — fall through to seeds */ }
+  return SEED_ENTRIES.slice();
+}
+function saveEntries(list) {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(list)); } catch (e) { /* non-fatal */ }
+}
+
+let entries = loadEntries();
+
+function drawEntries() {
+  document.getElementById("entries").innerHTML = entries.map(e => `
+    <div class="entry">
+      <div class="entry-w">${e.at}<br>${e.window || "—"}</div>
+      <div class="entry-b"><span class="entry-tag">${e.rule}</span><b>${e.corridor}</b> — ${e.obs}
+        <div style="font-family:var(--f-mono);font-size:10px;color:var(--ink-3);margin-top:5px">${e.who}</div>
+      </div>
+    </div>`).join("");
+}
+
+function initLog() {
+  const sel = document.getElementById("log-rule");
+  const all = RULES.flatMap(f => f.items);
+  sel.innerHTML = all.map(r => `<option value="${r.id}">${r.id} — ${r.name}</option>`).join("");
+
+  document.getElementById("logform").addEventListener("submit", ev => {
+    ev.preventDefault();
+    const corridor = document.getElementById("log-corridor").value.trim();
+    const obs = document.getElementById("log-obs").value.trim();
+    if (!corridor || !obs) return;
+    entries.unshift({
+      corridor,
+      window: document.getElementById("log-window").value.trim(),
+      rule: sel.value,
+      obs,
+      who: "You · this session",
+      at: new Date().toISOString().slice(0, 10)
+    });
+    saveEntries(entries);
+    drawEntries();
+    document.getElementById("logform").reset();
+    document.getElementById("log-corridor").focus();
+  });
+
+  document.getElementById("log-export").addEventListener("click", () => {
+    const payload = {
+      schema: "sixthsense.field_intel/1",
+      exportedAt: new Date().toISOString(),
+      entries: entries.map(e => ({
+        corridor: e.corridor, timeWindow: e.window || null,
+        ruleId: e.rule, observation: e.obs, observer: e.who, observedOn: e.at
+      }))
+    };
+    const w = document.getElementById("entries");
+    const pre = document.createElement("pre");
+    pre.className = "code";
+    pre.style.marginTop = "16px";
+    pre.textContent = JSON.stringify(payload, null, 2);
+    const old = document.getElementById("export-out");
+    if (old) old.remove();
+    pre.id = "export-out";
+    w.parentNode.insertBefore(pre, w.nextSibling);
+    pre.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  });
+}
+
+/* ============================================================
+   LIVE COVERAGE — fleet simulation + coordinator
+   ============================================================ */
+
+function liveTimeBlock(d) {
+  const day = d.getDay(), hr = d.getHours() + d.getMinutes() / 60;
+  if ((day === 0 || day === 6) && hr >= 10 && hr < 18) return "WKD";
+  if (hr >= 6.5 && hr < 9.5)  return "AM";
+  if (hr >= 9.5 && hr < 15)   return "MID";
+  if (hr >= 15 && hr < 18.5)  return "PM";
+  if (hr >= 18.5 && hr < 22)  return "EVE";
+  return "LATE";
+}
+
+let FLEET = [];
+let vehicleSeq = 0;
+function spawnVehicle(zone) {
+  vehicleSeq++;
+  return {
+    id: "ATX-" + String(1000 + vehicleSeq),
+    x: zone.x + (Math.random() - 0.5) * zone.r * 1.2,
+    y: zone.y + (Math.random() - 0.5) * zone.r * 1.2,
+    zone: zone.id, targetZone: null, fromZone: null,
+    status: "available", tripLeft: 0
+  };
+}
+function initFleet() {
+  FLEET = [];
+  const weights = ZONES.map(z => Math.max(1, demand(z, "PM")));
+  const total = weights.reduce((a, b) => a + b, 0);
+  const counts = ZONES.map((z, i) => Math.max(1, Math.round(FLEET_SIZE * weights[i] / total)));
+  let diff = FLEET_SIZE - counts.reduce((a, b) => a + b, 0), gi = 0;
+  while (diff !== 0) {
+    const idx = gi % counts.length;
+    if (diff > 0) { counts[idx]++; diff--; }
+    else if (counts[idx] > 0) { counts[idx]--; diff++; }
+    gi++;
+  }
+  ZONES.forEach((z, i) => { for (let k = 0; k < counts[i]; k++) FLEET.push(spawnVehicle(z)); });
+}
+
+const CR_KEY = "sixthsense.crowdreports.v1";
+let crowdReports = [];
+function loadReports() {
+  try {
+    const raw = localStorage.getItem(CR_KEY);
+    crowdReports = raw ? JSON.parse(raw).filter(r => r.expiresAt > Date.now()) : [];
+  } catch (e) { crowdReports = []; }
+}
+function saveReports() {
+  try { localStorage.setItem(CR_KEY, JSON.stringify(crowdReports)); } catch (e) { /* non-fatal */ }
+}
+function crowdBonus(zoneId) {
+  const now = Date.now();
+  let b = 0;
+  crowdReports.forEach(r => {
+    if (r.zoneId !== zoneId) return;
+    b += r.sev * 9 * Math.max(0, (r.expiresAt - now) / REPORT_DECAY_MS);
+  });
+  return b;
+}
+
+function coverageTargets(block) {
+  const targets = {}, demands = {};
+  ZONES.forEach(z => {
+    const d = demand(z, block) + crowdBonus(z.id);
+    demands[z.id] = d;
+    targets[z.id] = Math.min(COVERAGE_CAP, Math.max(COVERAGE_FLOOR, Math.ceil(d / DEMAND_PER_VEHICLE)));
+  });
+  return { targets, demands };
+}
+
+let directiveLog = [];
+let dispatchSeq = 0;
+let redundantPrevented = 0;
+let liveTimer = null, liveRunning = false;
+let lastBlock = "PM", lastDemands = {}, lastTargets = {};
+
+function committedFor(zoneId, availByZone, enrByZone) {
+  return (availByZone[zoneId] || 0) + (enrByZone[zoneId] || 0);
+}
+
+function tick() {
+  const block = liveTimeBlock(new Date());
+  const { targets, demands } = coverageTargets(block);
+
+  const availByZone = {}, enrByZone = {};
+  ZONES.forEach(z => { availByZone[z.id] = 0; enrByZone[z.id] = 0; });
+  FLEET.forEach(v => {
+    if (v.status === "available") availByZone[v.zone]++;
+    else if (v.status === "enroute") enrByZone[v.targetZone]++;
+  });
+
+  /* how many dispatches were avoided because a vehicle was already committed
+     to this zone before this tick's new decisions are made */
+  ZONES.forEach(z => {
+    const naiveNeed = Math.max(0, targets[z.id] - availByZone[z.id]);
+    const realNeed  = Math.max(0, targets[z.id] - committedFor(z.id, availByZone, enrByZone));
+    redundantPrevented += Math.max(0, naiveNeed - realNeed);
+  });
+
+  const deficits = ZONES.map(z => ({
+    zone: z,
+    need: targets[z.id] - committedFor(z.id, availByZone, enrByZone)
+  })).filter(d => d.need > 0)
+     .sort((a, b) => b.need - a.need || demands[b.zone.id] - demands[a.zone.id]);
+
+  let pool = FLEET.filter(v => v.status === "available" && availByZone[v.zone] > targets[v.zone]);
+
+  deficits.forEach(def => {
+    let n = def.need;
+    while (n > 0 && pool.length) {
+      let bestI = -1, bestT = Infinity;
+      pool.forEach((v, i) => {
+        const t = travelMin(v.x, v.y, def.zone.x, def.zone.y);
+        if (t < bestT) { bestT = t; bestI = i; }
+      });
+      if (bestI === -1 || bestT > MAX_DISPATCH_MIN) break;
+      const v = pool[bestI];
+      v.fromZone = v.zone; v.status = "enroute"; v.targetZone = def.zone.id;
+      availByZone[v.fromZone]--;
+      pool.splice(bestI, 1);
+      dispatchSeq++;
+      directiveLog.unshift({ id: dispatchSeq, veh: v.id, from: v.fromZone, to: def.zone.id, eta: bestT, ts: Date.now() });
+      n--;
+    }
+  });
+  directiveLog = directiveLog.slice(0, 24);
+
+  FLEET.forEach(v => {
+    if (v.status === "enroute") {
+      const tz = ZONES.find(z => z.id === v.targetZone);
+      const dx = tz.x - v.x, dy = tz.y - v.y, dist = Math.hypot(dx, dy);
+      if (dist < VEHICLE_STEP) {
+        v.x = tz.x + (Math.random() - 0.5) * tz.r * 0.7;
+        v.y = tz.y + (Math.random() - 0.5) * tz.r * 0.7;
+        v.zone = tz.id; v.status = "available"; v.targetZone = null;
+      } else {
+        v.x += (dx / dist) * VEHICLE_STEP;
+        v.y += (dy / dist) * VEHICLE_STEP;
+      }
+    } else if (v.status === "available") {
+      const z = ZONES.find(zz => zz.id === v.zone);
+      v.x = Math.max(z.x - z.r, Math.min(z.x + z.r, v.x + (Math.random() - 0.5) * 5));
+      v.y = Math.max(z.y - z.r, Math.min(z.y + z.r, v.y + (Math.random() - 0.5) * 5));
+      const p = Math.min(0.15, (demands[v.zone] || 10) / 950);
+      if (Math.random() < p) { v.status = "occupied"; v.tripLeft = 3 + Math.floor(Math.random() * 6); }
+    } else {
+      v.tripLeft--;
+      if (v.tripLeft <= 0) {
+        const dest = Math.random() < 0.55 ? ZONES.find(z => z.id === v.zone) : ZONES[Math.floor(Math.random() * ZONES.length)];
+        v.zone = dest.id; v.status = "available";
+        v.x = dest.x + (Math.random() - 0.5) * dest.r;
+        v.y = dest.y + (Math.random() - 0.5) * dest.r;
+      }
+    }
+  });
+
+  crowdReports = crowdReports.filter(r => r.expiresAt > Date.now());
+  saveReports();
+
+  lastBlock = block; lastDemands = demands; lastTargets = targets;
+  drawLive(block, demands, targets);
+}
+
+function fmtAgo(ts) {
+  const s = Math.max(0, Math.round((Date.now() - ts) / 1000));
+  return s < 60 ? s + "s ago" : Math.round(s / 60) + "m ago";
+}
+
+function drawLiveMap(targets) {
+  const ink3 = cssv("--ink-3"), surf = cssv("--surface"), hair = cssv("--hair-strong");
+  let s = `<svg viewBox="0 0 1000 700" role="img" aria-label="Live simulated fleet positions and zone coverage">`;
+  s += `<path d="M0 386 C 160 378, 300 402, 430 400 C 560 398, 700 384, 1000 392 L1000 414 C 700 406, 560 420, 430 422 C 300 424, 160 400, 0 408 Z" fill="${cssv('--series-1')}" opacity="0.14"/>`;
+  s += `<line x1="604" y1="0" x2="604" y2="700" stroke="${hair}" stroke-width="6" opacity="0.55"/>`;
+  s += `<text x="614" y="660" fill="${ink3}" font-size="10" font-weight="600" letter-spacing="1">I-35</text>`;
+
+  ZONES.forEach(z => {
+    const committed = FLEET.filter(v => (v.status === "available" && v.zone === z.id) || (v.status === "enroute" && v.targetZone === z.id)).length;
+    const target = targets[z.id], delta = committed - target;
+    const ring = delta >= 0 ? cssv("--st-good") : delta === -1 ? cssv("--st-warning") : cssv("--st-critical");
+    /* the committed/target ratio sits INSIDE the circle (not above it) so it never
+       collides with a close neighbor's name label — the failure mode this replaced */
+    s += `<circle cx="${z.x}" cy="${z.y}" r="${z.r}" fill="${ring}" fill-opacity="0.08" stroke="${ring}" stroke-width="${delta < 0 ? 2.6 : 1.4}" stroke-dasharray="${delta < 0 ? "4 3" : "none"}" opacity="0.9"/>`;
+    /* both labels get a surface-colour halo (paint-order stroke) so they stay
+       legible where the downtown cluster's circles overlap a neighbour's label */
+    s += `<text x="${z.x}" y="${z.y + 4}" fill="${ring}" font-size="12" font-weight="700" text-anchor="middle" paint-order="stroke" stroke="${surf}" stroke-width="3" stroke-linejoin="round">${committed}/${target}</text>`;
+    s += `<text x="${z.x}" y="${z.y + z.r + 13}" fill="${ink3}" font-size="9" text-anchor="middle" paint-order="stroke" stroke="${surf}" stroke-width="3" stroke-linejoin="round">${z.name}</text>`;
+  });
+
+  FLEET.forEach(v => {
+    const col = v.status === "available" ? cssv("--st-good") : v.status === "enroute" ? cssv("--st-warning") : cssv("--ink-3");
+    s += `<circle cx="${v.x.toFixed(1)}" cy="${v.y.toFixed(1)}" r="4" fill="${col}" stroke="${surf}" stroke-width="1.1"/>`;
+  });
+  s += `</svg>`;
+  document.getElementById("livemapwrap").innerHTML = s;
+}
+
+function drawReports() {
+  const sel = document.getElementById("rep-zone");
+  if (sel && !sel.dataset.filled) {
+    sel.innerHTML = ZONES.map(z => `<option value="${z.id}">${z.name}</option>`).join("");
+    sel.dataset.filled = "1";
+  }
+  const list = document.getElementById("reportlist");
+  if (!crowdReports.length) {
+    list.innerHTML = `<p class="report-empty">No active reports. Submit one on the left — it shifts that zone's target on the next tick.</p>`;
+    return;
+  }
+  const sevLabel = { 1: "elevated", 2: "heavy", 3: "severe" };
+  list.innerHTML = crowdReports.slice().sort((a, b) => b.at - a.at).map(r => {
+    const z = ZONES.find(zz => zz.id === r.zoneId);
+    const remain = Math.max(0, (r.expiresAt - Date.now()) / REPORT_DECAY_MS);
+    return `<div class="reportcard">
+      <div class="reportcard-h"><b>${z ? z.name : r.zoneId}</b><span class="sev-tag ${sevLabel[r.sev]}">${sevLabel[r.sev]}</span></div>
+      <p>${r.note}</p>
+      <div class="decaybar"><i style="width:${(remain * 100).toFixed(0)}%"></i></div>
+    </div>`;
+  }).join("");
+}
+
+function drawLive(block, demands, targets) {
+  const zonesOk = ZONES.filter(z => {
+    const committed = FLEET.filter(v => (v.status === "available" && v.zone === z.id) || (v.status === "enroute" && v.targetZone === z.id)).length;
+    return committed >= targets[z.id];
+  }).length;
+  const avail = FLEET.filter(v => v.status === "available").length;
+  const enroute = FLEET.filter(v => v.status === "enroute").length;
+  const occ = FLEET.filter(v => v.status === "occupied").length;
+
+  document.getElementById("live-stats").innerHTML = `
+    <div class="stat"><div class="stat-v">${zonesOk}<small>/ ${ZONES.length}</small></div><div class="stat-l">Zones at target</div><div class="stat-d">Recomputed every tick from live demand plus active reports.</div></div>
+    <div class="stat"><div class="stat-v">${avail}<small> free</small></div><div class="stat-l">Fleet state</div><div class="stat-d">${enroute} repositioning · ${occ} on trip · ${FLEET.length} total.</div></div>
+    <div class="stat"><div class="stat-v">${dispatchSeq}</div><div class="stat-l">Directives issued</div><div class="stat-d">Reposition orders sent so far this session.</div></div>
+    <div class="stat"><div class="stat-v">${redundantPrevented}</div><div class="stat-l">Redundant dispatches prevented</div><div class="stat-d">Times a second car was <em>not</em> sent because one was already en route.</div></div>`;
+
+  document.getElementById("live-clock").textContent =
+    new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) + " local · resolved to " + TIME_BLOCKS.find(t => t.id === block).label;
+
+  drawLiveMap(targets);
+
+  const tk = document.getElementById("ticker");
+  tk.innerHTML = directiveLog.length ? directiveLog.map(d => {
+    const fz = ZONES.find(z => z.id === d.from), tz = ZONES.find(z => z.id === d.to);
+    return `<div class="tick-row"><div class="tick-time">${fmtAgo(d.ts)}</div>
+      <div><b>${d.veh}</b> <span class="arrow">${fz ? fz.name : d.from} → ${tz ? tz.name : d.to}</span>
+      <span class="tick-sub">eta ${d.eta.toFixed(1)} min · closing a coverage gap</span></div></div>`;
+  }).join("") : `<div class="tick-empty">No repositioning needed right now — every zone is at or above target.</div>`;
+
+  const rows = ZONES.map(z => {
+    const committed = FLEET.filter(v => (v.status === "available" && v.zone === z.id) || (v.status === "enroute" && v.targetZone === z.id)).length;
+    const delta = committed - targets[z.id];
+    const cls = delta >= 0 ? "prefer" : delta === -1 ? "conditional" : "avoid";
+    const label = delta >= 0 ? "covered" : delta === -1 ? "watch" : "deficit";
+    return { z, demand: demands[z.id], target: targets[z.id], committed, delta, cls, label };
+  }).sort((a, b) => a.delta - b.delta || b.demand - a.demand);
+
+  document.getElementById("coverage-table").innerHTML =
+    `<thead><tr><th>Zone</th><th class="num">Demand</th><th class="num">Target</th><th class="num">Committed</th><th class="num">Delta</th><th>Status</th></tr></thead>
+     <tbody>${rows.map(r => `<tr>
+        <td class="nm">${r.z.name}</td>
+        <td class="num">${Math.round(r.demand)}</td>
+        <td class="num">${r.target}</td>
+        <td class="num">${r.committed}</td>
+        <td class="num" style="color:${r.delta < 0 ? "var(--st-critical)" : "var(--ink-2)"}">${r.delta > 0 ? "+" : ""}${r.delta}</td>
+        <td><span class="pill ${r.cls}">${r.label}</span></td>
+      </tr>`).join("")}</tbody>`;
+
+  drawReports();
+}
+
+function repaintLive() { if (FLEET.length) drawLive(lastBlock, lastDemands, lastTargets); }
+
+function startLive() { if (!liveTimer) liveTimer = setInterval(tick, TICK_MS); liveRunning = true; updateLiveBadge(); }
+function stopLive() { clearInterval(liveTimer); liveTimer = null; liveRunning = false; updateLiveBadge(); }
+function updateLiveBadge() {
+  const b = document.getElementById("livebadge");
+  if (!b) return;
+  b.classList.toggle("paused", !liveRunning);
+  document.getElementById("livebadge-text").textContent = liveRunning ? "Live" : "Paused";
+}
+
+function initLive() {
+  document.getElementById("dpv-label").textContent = DEMAND_PER_VEHICLE;
+  initFleet();
+  loadReports();
+
+  segbar(document.getElementById("playbar"), [
+    { id: "play", label: "Play" }, { id: "pause", label: "Pause" }, { id: "reset", label: "Reset" }
+  ], "play", id => {
+    if (id === "play") startLive();
+    else if (id === "pause") stopLive();
+    else { initFleet(); directiveLog = []; dispatchSeq = 0; redundantPrevented = 0; tick(); }
+  });
+
+  document.getElementById("reportform").addEventListener("submit", ev => {
+    ev.preventDefault();
+    const note = document.getElementById("rep-note").value.trim();
+    if (!note) return;
+    crowdReports.push({
+      id: "R" + Date.now(),
+      zoneId: document.getElementById("rep-zone").value,
+      sev: parseInt(document.getElementById("rep-sev").value, 10),
+      note, at: Date.now(), expiresAt: Date.now() + REPORT_DECAY_MS
+    });
+    saveReports();
+    document.getElementById("reportform").reset();
+    document.getElementById("rep-sev").value = "2";
+    drawReports();
+  });
+
+  document.querySelectorAll("[data-goto]").forEach(el => {
+    el.addEventListener("click", ev => { ev.preventDefault(); document.getElementById(el.dataset.goto).click(); });
+  });
+
+  tick();
+  startLive();
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+
+function drawRampLegend() {
+  document.getElementById("ramp-legend").innerHTML =
+    SEQ.map(v => `<i style="background:${cssv(v)}"></i>`).join("");
+}
+
+function boot() {
+  segbar(document.getElementById("timebar"),
+    TIME_BLOCKS.map(t => ({ id:t.id, label:t.label, title:t.span })), activeTB,
+    id => { activeTB = id; drawMap(); drawZoneOut(); });
+
+  segbar(document.getElementById("sortbar"), [
+    { id:"sei",         label:"SEI" },
+    { id:"volatility",  label:"Volatility" },
+    { id:"pedConflict", label:"Pedestrian" },
+    { id:"curbDeficit", label:"Curb" },
+    { id:"name",        label:"A–Z" }
+  ], "sei", id => { corridorSort = id; drawCorridors(); });
+
+  segbar(document.getElementById("timebar2"),
+    TIME_BLOCKS.map(t => ({ id:t.id, label:t.label, title:t.span })), stageTB,
+    id => { stageTB = id; drawStaging(); });
+
+  segbar(document.getElementById("seasonbar"), [
+    { id:"SUMMER", label:"Summer" },
+    { id:"COOL",   label:"Cool" }
+  ], stageSeason, id => { stageSeason = id; drawStaging(); });
+
+  segbar(document.getElementById("eventbar"),
+    EVENTS.map(e => ({ id:e.id, label:e.label })), stageEvent,
+    id => { stageEvent = id; drawStaging(); });
+
+  chartLead();
+  chartEnergy();
+  drawRampLegend();
+  drawMap();
+  drawZoneOut();
+  drawHeat();
+  drawCorridors();
+  drawRulebook();
+  drawDiagram();
+  drawStaging();
+  initLog();
+  drawEntries();
+  initLive();
+}
+
+/* SVG fills are resolved to literals at draw time, so they have to be redrawn
+   when the theme changes — both the OS setting and the viewer's own stamp. */
+function repaint() {
+  chartLead(); chartEnergy(); drawRampLegend(); drawMap();
+  drawZoneOut(); drawHeat(); drawDiagram(); drawStaging(); drawCorridors(); repaintLive();
+}
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", repaint);
+new MutationObserver(repaint).observe(document.documentElement, {
+  attributes: true, attributeFilter: ["data-theme"]
+});
+
+boot();
+</script>
