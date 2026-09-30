@@ -1022,7 +1022,7 @@ svg text { font-family: var(--f-mono); }
         <div><span>Service area</span><b>Austin, TX core</b></div>
         <div><span>Platform</span><b>Uber-dispatched AV</b></div>
         <div><span>Vehicle</span><b>Jaguar I-PACE BEV</b></div>
-        <div><span>Layer</span><b>Advisory — non-safety</b></div>
+        <div><span>Layer</span><b>Advisory, non-safety</b></div>
         <div><span>Rules</span><b>15 across 5 families</b></div>
         <div><span>Revision</span><b>B · 2026-09-14</b></div>
       </div>
@@ -1048,7 +1048,7 @@ svg text { font-family: var(--f-mono); }
 <!-- ============================ 01 BRIEF ============================ -->
 <section class="pane" id="pane-brief" role="tabpanel" aria-labelledby="tab-brief">
 
-  <p class="lede">A human driver reads the road two blocks ahead. They see the queue building on the street they were about to turn onto, keep going straight, and take the next right instead. No map told them to. <strong>Sixth Sense is the layer that gives an autonomous fleet that same instinct</strong> — and then spends it on arriving sooner, picking up cleaner, and burning fewer kilowatt-hours.</p>
+  <p class="lede">A human driver reads the road two blocks ahead. They see the queue building on the street they were about to turn onto, so they keep going straight and take the next right instead. No map told them to do that. <strong>Sixth Sense is the layer that gives an autonomous fleet that same instinct,</strong> then spends it on arriving sooner, picking up cleaner, and burning fewer kilowatt-hours.</p>
 
   <div class="stats">
     <div class="stat">
@@ -1059,7 +1059,7 @@ svg text { font-family: var(--f-mono); }
     <div class="stat">
       <div class="stat-v">30–35<small>mph</small></div>
       <div class="stat-l">Energy optimum</div>
-      <div class="stat-d">Where an I-PACE with a live sensor stack is cheapest per mile — not the freeway.</div>
+      <div class="stat-d">Where an I-PACE with a live sensor stack is cheapest per mile. It's not the freeway.</div>
     </div>
     <div class="stat">
       <div class="stat-v">15</div>
@@ -1080,9 +1080,9 @@ svg text { font-family: var(--f-mono); }
     </div>
     <div class="split">
       <div class="prose">
-        <p>Routing engines are <strong>reactive by construction</strong>. Crowd-sourced traffic needs enough probe vehicles to slow down, report, and clear a confidence threshold before a link turns red. On an arterial with thin probe coverage that takes minutes. By the time the map knows, the vehicle is already committed to the turn pocket.</p>
-        <p>An autonomous vehicle already carries the sensors that would have told it earlier. The lidar returns and camera frames that keep the car in its lane <strong>also contain the queue</strong> — its length, its growth rate, whether it is discharging. That signal is generated locally and is available in seconds, not minutes. It is simply not being used for routing.</p>
-        <p>Sixth Sense reads those same streams for <em>operational</em> intent rather than control intent, and converts them into three decisions: which link to take, where to wait, and when moving is worth the energy.</p>
+        <p>Routing engines are <strong>reactive by design</strong>. Crowd-sourced traffic needs enough probe vehicles to slow down, report in, and clear a confidence threshold before a link turns red on the map. On an arterial with thin probe coverage, that takes minutes. By the time the map knows, the vehicle is already committed to the turn pocket.</p>
+        <p>An autonomous vehicle already carries the sensors that would have told it earlier. The lidar returns and camera frames that keep the car in its lane <strong>also show the queue</strong>: how long it is, how fast it's growing, whether it's actually moving. That signal shows up locally, in seconds rather than minutes. It just isn't being used for routing yet.</p>
+        <p>Sixth Sense reads those same streams for <em>operational</em> intent instead of control intent, and turns them into three decisions: which link to take, where to wait, and when moving is worth the energy it costs.</p>
       </div>
       <div class="panel">
         <p class="panel-t">Detection latency by source <span class="modeled">Modeled</span></p>
@@ -1116,20 +1116,20 @@ svg text { font-family: var(--f-mono); }
     </div>
 
     <div class="callout">
-      <h4>A correction worth making up front</h4>
-      <p>The brief asked about conserving gas. Waymo's Austin fleet is the <strong>all-electric Jaguar I-PACE</strong>, and that flips several conclusions rather than just changing the units. Regenerative braking recovers roughly two-thirds of the energy a stop would otherwise waste, so stop-and-go traffic is <em>less</em> punishing for this fleet than for a combustion car. Aerodynamic drag, meanwhile, scales with the square of speed, so freeway running is <em>more</em> punishing.</p>
-      <p>And there is a third term a passenger car does not have: <strong>the sensor and compute stack draws roughly 1.2 kW whenever the vehicle is awake</strong>, plus 0.5–3.5 kW of climate load in an Austin summer. That draw is billed per <em>second</em>, not per mile. A vehicle creeping at 10 mph pays it over six minutes to cover one mile; at 35 mph it pays for under two. Time in traffic is therefore a direct energy cost even when the motor is barely working — which is why the optimum sits on a moving arterial rather than on either the freeway or the crawl.</p>
+      <h4>One correction worth making up front</h4>
+      <p>The original brief asked about conserving gas. Waymo's Austin fleet is the <strong>all-electric Jaguar I-PACE</strong>, and that changes more than the units. Regenerative braking recovers roughly two-thirds of the energy a stop would otherwise waste, so stop-and-go traffic is actually <em>less</em> punishing for this fleet than for a gas car. Aerodynamic drag scales with the square of speed, though, so freeway running is <em>more</em> punishing.</p>
+      <p>There's also a third cost a passenger car doesn't have. <strong>The sensor and compute stack draws roughly 1.2 kW whenever the vehicle is awake,</strong> plus 0.5 to 3.5 kW of climate load in an Austin summer. That draw gets billed per <em>second</em>, not per mile. A vehicle creeping along at 10 mph pays for it over six minutes to cover one mile; at 35 mph it pays for under two. So time in traffic is a direct energy cost even when the motor is barely working. That's why the optimum speed sits on a moving arterial, not on the freeway and not in the crawl.</p>
     </div>
 
     <div class="split">
       <div class="panel">
-        <p class="panel-t">Energy per mile vs. average speed — I-PACE with live AV stack <span class="modeled">Modeled</span></p>
+        <p class="panel-t">Energy per mile vs. average speed: I-PACE with live AV stack <span class="modeled">Modeled</span></p>
         <div id="chart-energy"></div>
       </div>
       <div class="prose">
-        <p><strong>The curve is the argument.</strong> Propulsion alone falls to a floor and then climbs with drag. Overhead — compute plus climate — is a hyperbola: enormous at low speed, negligible at freeway speed. Their sum is a shallow bowl with its floor around <strong>30–35 mph</strong>.</p>
-        <p>Practically: a signal-coordinated Austin arterial held at 35 beats both the I-35 run at 65 and the downtown crawl at 12. The fleet's cheapest mile is the mile that keeps moving at a moderate, predictable speed — which is exactly the mile the anticipation rules are trying to protect.</p>
-        <p>It also means <strong>idling to wait is never free</strong>. A vehicle staged on a curb with the stack awake burns about 0.02 kWh a minute and covers no distance at all. Rule C-01 exists because of this number.</p>
+        <p><strong>The curve makes the case on its own.</strong> Propulsion alone drops to a floor and then climbs with drag. Overhead, compute plus climate combined, behaves like a hyperbola: huge at low speed, almost nothing at freeway speed. Add them together and you get a shallow bowl with its floor around <strong>30 to 35 mph</strong>.</p>
+        <p>In practice, a signal-coordinated Austin arterial held at 35 beats both the I-35 run at 65 and the downtown crawl at 12. The fleet's cheapest mile is the one that keeps moving at a moderate, predictable speed. That's exactly the mile the anticipation rules are trying to protect.</p>
+        <p>It also means <strong>idling to wait is never free.</strong> A vehicle staged on a curb with the stack awake burns about 0.02 kWh a minute and covers no distance at all. That number is the reason Rule C-01 exists.</p>
       </div>
     </div>
   </div>
@@ -1141,17 +1141,17 @@ svg text { font-family: var(--f-mono); }
     </div>
     <div class="callout pine">
       <h4>Advisory layer, explicitly outside the safety case</h4>
-      <p>Sixth Sense <strong>biases route and dispatch cost. It does not command the vehicle.</strong> Every output is a weight handed to the planner, which remains free to ignore it, and no rule here can cause or prevent a maneuver. The safety-critical driving stack — perception, prediction, planning, the fallback behaviours — is untouched and remains the authority.</p>
-      <p>That boundary is deliberate. A routing heuristic that can veto a planner decision inherits the planner's entire validation burden. Keeping the layer advisory means a bad threshold produces a slightly worse route, never an unsafe one, and lets the rules be tuned on operational data at operational speed.</p>
+      <p>Sixth Sense <strong>biases route and dispatch cost. It does not command the vehicle.</strong> Every output is a weight handed to the planner, and the planner stays free to ignore it. No rule here can cause or prevent a maneuver. The safety-critical driving stack (perception, prediction, planning, the fallback behaviors) is untouched and stays in charge.</p>
+      <p>That line is drawn on purpose. A routing heuristic that can override a planner decision would inherit the planner's entire validation burden. Keeping this layer advisory means a bad threshold produces a slightly worse route, never an unsafe one, and lets the rules get tuned on real operational data at operational speed.</p>
     </div>
-    <p class="fn"><b>Data provenance.</b> Every figure on this page marked <span class="modeled">Modeled</span> is generated from the stated assumptions in this document, not from Waymo, Uber or City of Austin telemetry — none of which is public at this granularity. Street-level characteristics, service-area geography and event constraints reflect real Austin conditions. The models are structured so that real data can replace the synthetic inputs without changing the logic; the integration section names the exact fields that would be swapped.</p>
+    <p class="fn"><b>Where the numbers come from.</b> Every figure on this page marked <span class="modeled">Modeled</span> is generated from the assumptions stated in this document, not from Waymo, Uber, or City of Austin telemetry. None of that data is public at this level of detail. Street-level characteristics, service-area geography, and event constraints reflect real Austin conditions. The models are built so real data can replace the synthetic inputs without changing the underlying logic, and the Integration tab names the exact fields that would get swapped.</p>
   </div>
 </section>
 
 <!-- ============================ 02 LANDSCAPE ============================ -->
 <section class="pane" id="pane-landscape" role="tabpanel" aria-labelledby="tab-landscape" hidden>
 
-  <p class="lede">Austin has been solving this problem since 1985. Any model of where Waymos should go has to answer to the system already on the street, the rail already under construction, and a growing body of research on what actually happens when a private AV fleet moves into a transit city. This section is built entirely from public sources — CapMetro's own service data, Austin's adopted mobility plan, and peer-reviewed and CPUC-filed research on ride-hail and robotaxi effects. <span class="sourced">Sourced</span></p>
+  <p class="lede">Austin has been working on this problem since 1985. Any model of where Waymos should go has to account for the system already on the street, the rail line already under construction, and a growing body of research on what actually happens when a private AV fleet moves into a transit city. This section is built entirely from public sources: CapMetro's own service data, Austin's adopted mobility plan, and peer-reviewed and CPUC-filed research on ride-hail and robotaxi effects. <span class="sourced">Sourced</span></p>
 
   <div class="block">
     <div class="sec-head">
@@ -1162,21 +1162,21 @@ svg text { font-family: var(--f-mono); }
       <div class="stat"><div class="stat-v">72,400</div><div class="stat-l">Weekday bus riders</div><div class="stat-d">CapMetro Bus, Q1 2026. About 35× the "hundreds" of vehicles Waymo has said its Austin fleet will grow to.</div></div>
       <div class="stat"><div class="stat-v">24.7M</div><div class="stat-l">Annual ridership, 2025</div><div class="stat-d">Bus (24.1M) plus Red Line rail (0.62M). The system Sixth Sense has to coexist with, not replace.</div></div>
       <div class="stat"><div class="stat-v">2</div><div class="stat-l">MetroRapid BRT lines</div><div class="stat-d">Route 801 (N Lamar–Guadalupe–S Congress) and 803 (Burnet–S Lamar), each running since 2014 with dedicated downtown transit-priority lanes.</div></div>
-      <div class="stat"><div class="stat-v">59<small>%</small></div><div class="stat-l">Drive-alone commute share</div><div class="stat-d">Down from 74% at the 2019 baseline. Austin's Strategic Mobility Plan targets 50% by 2039 — the yardstick any private mobility service in this city gets measured against.</div></div>
+      <div class="stat"><div class="stat-v">59<small>%</small></div><div class="stat-l">Drive-alone commute share</div><div class="stat-d">Down from 74% at the 2019 baseline. Austin's Strategic Mobility Plan targets 50% by 2039, and that's the yardstick any private mobility service in this city gets measured against.</div></div>
     </div>
     <p class="fn">801 connects Tech Ridge to Southpark Meadows via UT and Downtown; 803 connects The Domain to Westgate the same way. Both use the Guadalupe/Lavaca couplet through downtown, where 1.25 miles of lane are reserved for transit priority.</p>
   </div>
 
   <div class="block">
     <div class="sec-head">
-      <h2>Where our own model already agrees — and where it didn't</h2>
+      <h2>Where our own model already agreed, and where it didn't</h2>
       <span class="code">Sec 02.2 · Corridor overlay</span>
     </div>
     <div class="split">
       <div class="prose">
-        <p>Overlaying Route 801's actual path against the Corridors tab (§04), built independently and earlier, for volatility, pedestrian conflict and curb reasons rather than transit policy: <strong>three of that route's segments were already scored AVOID</strong> — North Lamar, Guadalupe/The Drag, and South Congress. A model tuned to keep an AV off unpredictable, pedestrian-heavy streets landed, without being told to, on almost the exact spine Austin's busiest bus rapid transit line runs.</p>
-        <p>The overlay also found a real conflict, not just an accidental alignment. The Corridors tab's <strong>downtown default was the Lavaca/Guadalupe pair</strong> — the same streets that carry 801 and 803's dedicated transit-priority lanes through downtown. Recommending that pair as the default through-route put Sixth Sense's own logic in direct competition with the exact lanes the city built to keep buses out of car traffic.</p>
-        <p><strong>Fixed as of this revision</strong> <span class="fix-tag">Applied</span> — the downtown default now points to the Brazos/Colorado pair one block over, which the Corridors tab already scored higher on curb availability for unrelated reasons. Lavaca/Guadalupe drops from an unconditional default to conditional: fine as through-traffic outside peak transit-priority hours, wrong as a place to stop and pick someone up.</p>
+        <p>We overlaid Route 801's actual path against the Corridors tab (§04), which was built independently and earlier for reasons that had nothing to do with transit policy: volatility, pedestrian conflict, curb access. <strong>Three of that route's segments were already scored AVOID</strong>: North Lamar, Guadalupe/The Drag, and South Congress. A model tuned to keep an AV off unpredictable, pedestrian-heavy streets landed, without being told to, on almost the exact spine Austin's busiest bus rapid transit line runs.</p>
+        <p>The overlay also turned up a real conflict, not just a coincidence. The Corridors tab's <strong>downtown default was the Lavaca/Guadalupe pair,</strong> the same streets that carry 801 and 803's dedicated transit-priority lanes through downtown. Recommending that pair as the default through-route put Sixth Sense's own logic in direct competition with the exact lanes the city built to keep buses out of car traffic.</p>
+        <p><strong>Fixed as of this revision</strong> <span class="fix-tag">Applied</span>. The downtown default now points to the Brazos/Colorado pair one block over, which the Corridors tab had already scored higher on curb availability for unrelated reasons. Lavaca/Guadalupe drops from an unconditional default to a conditional one: fine as through-traffic outside peak transit-priority hours, wrong as a place to stop and pick someone up.</p>
       </div>
       <div class="panel">
         <p class="panel-t">Route 801's spine vs. this project's corridor scores</p>
@@ -1191,28 +1191,28 @@ svg text { font-family: var(--f-mono); }
       <span class="code">Sec 02.3 · 2029 horizon</span>
     </div>
     <div class="prose">
-      <p>Austin voters approved Project Connect in 2020. Phase 1 light rail — 9.8 miles, 15 stops, running from 38th Street down through Downtown to East Riverside — is under construction, alongside the future Orange Line (North Lamar to Stassney Lane) and Blue Line (Downtown to the airport), both targeting revenue service as early as 2029.</p>
-      <p>Two places this changes the model directly. <strong>East Riverside</strong> — already flagged in the Corridors tab as the highest re-survey priority in the set because "light-rail construction is actively changing lane geometry" — turns out to be Phase 1's own alignment; that note was written from street-level reasoning before this research pass confirmed it names a real, dated project. <strong>ABIA Airport staging (SN-12)</strong> — currently justified by a long but predictable deadhead from the core — gets a second real competitor once the Blue Line opens: a rider choosing between a $2.50 rail fare and an Uber-dispatched Waymo for a downtown–airport trip is a genuinely different economic decision than the one the current staging model assumes.</p>
+      <p>Austin voters approved Project Connect in 2020. Phase 1 light rail (9.8 miles, 15 stops, running from 38th Street down through Downtown to East Riverside) is under construction now, alongside the future Orange Line (North Lamar to Stassney Lane) and Blue Line (Downtown to the airport). Both are targeting revenue service as early as 2029.</p>
+      <p>Two places this changes the model directly. <strong>East Riverside</strong> was already flagged in the Corridors tab as the highest re-survey priority in the set, because "light-rail construction is actively changing lane geometry." It turns out that note describes Phase 1's own alignment. It was written from street-level reasoning first, and this research pass later confirmed it names a real, dated project. <strong>ABIA Airport staging (SN-12)</strong> is currently justified by a long but predictable deadhead from the core, and it gets a real competitor once the Blue Line opens. A rider choosing between a $2.50 rail fare and an Uber-dispatched Waymo for a downtown-to-airport trip is making a genuinely different decision than the one the current staging model assumes.</p>
     </div>
   </div>
 
   <div class="block">
     <div class="sec-head">
-      <h2>Does ride-hail help or hurt transit? The honest answer: it depends.</h2>
+      <h2>Does ride-hail help or hurt transit? It depends.</h2>
       <span class="code">Sec 02.4 · Substitution research</span>
     </div>
     <div class="split">
       <div class="prose">
-        <p>The research doesn't agree, and the disagreement itself is the useful part. A University of Kentucky study found TNC entry cuts rail ridership about 1.3% a year and bus ridership about 1.7%; UC Davis found more than half of ride-hail trips replace a more sustainable mode, with transit the single most common one displaced. Other work finds the opposite sign — Uber as a net complement for the average transit agency, lifting ridership roughly 5% after two years, with bus benefiting more than rail.</p>
-        <p>The pattern that reconciles both findings: substitution concentrates on trips that compete directly with a frequent line during its service span; complementarity concentrates on trips transit doesn't cover well — after last call, before first bus, or from a stop that's a 12-minute walk from anywhere. <strong>That's the segmentation this project should run on</strong>, not a blanket stance in either direction.</p>
+        <p>The research doesn't agree with itself, and that disagreement is actually the useful part. A University of Kentucky study found that ride-hail entry cuts rail ridership about 1.3% a year and bus ridership about 1.7%. UC Davis found that more than half of ride-hail trips replace a more sustainable mode, with transit the single most common one displaced. Other work finds the opposite: Uber as a net complement for the average transit agency, lifting ridership roughly 5% after two years, with bus benefiting more than rail.</p>
+        <p>Here's the pattern that reconciles both findings. Substitution shows up on trips that compete directly with a frequent line during its service hours. Complementarity shows up on trips transit doesn't cover well: after last call, before the first bus, or from a stop that's a 12-minute walk from anywhere. <strong>That's the split this project should actually run on,</strong> not a blanket stance in either direction.</p>
       </div>
       <div class="panel">
         <p class="panel-t">A fifth rule family, added from this research</p>
-        <p style="font-size:13.5px;color:var(--ink-2);line-height:1.55;margin:0 0 10px">Families A–D predate this research pass. The substitution evidence above justified a new one — now live in the Rulebook (§05) as <strong>Family E · Transit awareness</strong>:</p>
+        <p style="font-size:13.5px;color:var(--ink-2);line-height:1.55;margin:0 0 10px">Families A through D predate this research pass. The substitution evidence above justified adding a new one, now live in the Rulebook (§05) as <strong>Family E · Transit awareness</strong>:</p>
         <div style="border:1px solid var(--hair);border-radius:var(--r);padding:13px 14px;background:var(--surface)">
           <div style="font-family:var(--f-mono);font-size:10px;color:var(--accent);font-weight:700;letter-spacing:.06em">E-01 · TRANSIT-AWARE DISPATCH <span class="fix-tag">Added</span></div>
-          <p style="font-size:13px;color:var(--ink);margin:8px 0 0;line-height:1.5"><em>"If a frequent bus or train covers this exact trip right now, I'm not the fastest or cheapest option — let the app know."</em></p>
-          <p style="font-size:12px;color:var(--ink-3);margin:8px 0 0;line-height:1.5">Trigger: pickup and dropoff both within 400m of an 801/803/Rail stop pair with a scheduled departure inside the rider's stated wait tolerance. Action: no cost penalty — this is a dispatch-time signal to the rider-facing app, not a routing constraint on the vehicle.</p>
+          <p style="font-size:13px;color:var(--ink);margin:8px 0 0;line-height:1.5"><em>"If a frequent bus or train covers this exact trip right now, I'm probably not the fastest or cheapest option, so let the app know."</em></p>
+          <p style="font-size:12px;color:var(--ink-3);margin:8px 0 0;line-height:1.5">Trigger: pickup and dropoff both within 400m of an 801/803/Rail stop pair, with a scheduled departure inside the rider's stated wait tolerance. Action: no cost penalty. This is a dispatch-time signal to the rider-facing app, not a routing constraint on the vehicle.</p>
         </div>
       </div>
     </div>
@@ -1225,8 +1225,8 @@ svg text { font-family: var(--f-mono); }
     </div>
     <div class="callout">
       <h4>This project's staging premise has a real cost attached to it</h4>
-      <p>Independent analysis of California robotaxi filings puts Waymo's miles-traveled multiplier — total miles driven per passenger mile delivered — at <strong>1.71</strong>, against 1.49 for New York's existing high-volume for-hire fleet; roughly 44–45% of Waymo's California miles carry no passenger at all. NACTO has warned that, left unmanaged, this is exactly how AVs increase citywide VMT and undermine transit even while individual rides feel efficient to the person taking them.</p>
-      <p><strong>Pre-positioning is not exempt from this.</strong> The Staging (§06) and Live Coverage (§07) tabs exist to cut rider wait time by moving idle vehicles toward anticipated demand before a trip is requested — but every one of those repositioning miles is, structurally, exactly the empty mile this research is describing. Rule C-01 ("never circle, park stationary instead") and the Live Coverage anti-redundancy check ("don't send a second car to a zone that already has one committed") are real mitigations, not a proof the tradeoff disappears. <code>DEMAND_PER_VEHICLE</code> is the actual dial: raise it and the fleet holds a thinner, more reactive posture — fewer deadhead miles, longer rider waits; lower it and coverage gets proactive at real energy and congestion cost. A production deployment needs that dial set by a measured VMT budget, not a guess, and needs to report its own multiplier the way Waymo's regulatory filings already do.</p>
+      <p>Independent analysis of California robotaxi filings puts Waymo's miles-traveled multiplier (total miles driven per passenger mile delivered) at <strong>1.71</strong>, compared to 1.49 for New York's existing high-volume for-hire fleet. Roughly 44 to 45% of Waymo's California miles carry no passenger at all. NACTO has warned that, left unmanaged, this is exactly how AVs increase citywide VMT and undermine transit even while individual rides feel efficient to the person taking them.</p>
+      <p><strong>Pre-positioning doesn't get a pass here.</strong> The Staging (§06) and Live Coverage (§07) tabs exist to cut rider wait time by moving idle vehicles toward anticipated demand before a trip is even requested, but every one of those repositioning miles is, structurally, the same empty mile this research is describing. Rule C-01 ("never circle, park stationary instead") and the Live Coverage anti-redundancy check ("don't send a second car to a zone that already has one committed") are real mitigations, but they don't make the tradeoff disappear. <code>DEMAND_PER_VEHICLE</code> is the actual dial here. Raise it and the fleet holds a thinner, more reactive posture: fewer deadhead miles, but longer rider waits. Lower it and coverage gets proactive, at a real cost in energy and congestion. A production deployment needs that dial set by a measured VMT budget, not a guess, and it needs to report its own multiplier the way Waymo's regulatory filings already do.</p>
     </div>
   </div>
 
@@ -1237,9 +1237,9 @@ svg text { font-family: var(--f-mono); }
     </div>
     <div class="split">
       <div class="prose">
-        <p>Northwest and Southwest Austin have bus stops more than a 10-minute walk from where people actually live and work. Lower-income households in the metro travel 10–15 miles farther per day than higher-income ones, and a transit trip commonly takes four to five times as long as the same trip by car — exactly the gap CapMetro's Equifare discount program and its Equitable Transit-Oriented Development policy exist to close.</p>
-        <p><strong>The honest complication:</strong> nothing about Sixth Sense as specified closes that gap on its own. Uber-dispatched Waymo pricing isn't need-based, and a rulebook optimized for operational efficiency and rider satisfaction has no reason to prioritize a transit desert over a high-margin downtown corridor — it will do the opposite by default, since that's where the demand and the fares are.</p>
-        <p>If closing the access gap is a real goal rather than a side effect, it has to be underwritten deliberately: a subsidized first/last-mile fare tied to Equifare eligibility, or a standing coverage floor for NW/SW Austin zones even where <code>DEMAND_PER_VEHICLE</code> alone wouldn't justify one. That's a pricing and policy decision, not something the routing math resolves by itself.</p>
+        <p>Northwest and Southwest Austin have bus stops more than a 10-minute walk from where people actually live and work. Lower-income households in the metro travel 10 to 15 miles farther per day than higher-income ones, and a transit trip commonly takes four to five times as long as the same trip by car. That's exactly the gap CapMetro's Equifare discount program and its Equitable Transit-Oriented Development policy exist to close.</p>
+        <p><strong>Here's the complication, honestly:</strong> nothing about Sixth Sense as specified closes that gap on its own. Uber-dispatched Waymo pricing isn't need-based, and a rulebook optimized for operational efficiency and rider satisfaction has no built-in reason to prioritize a transit desert over a high-margin downtown corridor. Left alone, it will do the opposite, because that's where the demand and the fares are.</p>
+        <p>If closing the access gap is a real goal and not just a side effect, it has to be underwritten on purpose: a subsidized first/last-mile fare tied to Equifare eligibility, or a standing coverage floor for NW/SW Austin zones even where <code>DEMAND_PER_VEHICLE</code> alone wouldn't justify one. That's a pricing and policy decision, not something the routing math resolves by itself.</p>
       </div>
       <div class="panel">
         <p class="panel-t">Competitive landscape</p>
@@ -1250,7 +1250,7 @@ svg text { font-family: var(--f-mono); }
               <tr><td class="nm">CapMetro Rapid (801/803)</td><td>High-frequency trunk corridors</td><td class="note">Defer. Never the through-route default on their spine; see §02.2 fix.</td></tr>
               <tr><td class="nm">CapMetro Rail</td><td>Fixed, scheduled, cheap long-haul</td><td class="note">Complement. Dispatch-aware handoff (E-01) rather than competing on price.</td></tr>
               <tr><td class="nm">CapMetro Bikeshare</td><td>Short first/last-mile hops</td><td class="note">Complement. Genuinely different trip length, little overlap.</td></tr>
-              <tr><td class="nm">Human-driven Uber/Lyft</td><td>Anywhere, anytime, today</td><td class="note">Direct competitor. Same app, same rider — this is a dispatch-quality contest.</td></tr>
+              <tr><td class="nm">Human-driven Uber/Lyft</td><td>Anywhere, anytime, today</td><td class="note">Direct competitor. Same app, same rider: this comes down to dispatch quality.</td></tr>
               <tr><td class="nm">Personal vehicle</td><td>Full control, sunk cost</td><td class="note">The real target. Every trip this replaces is a 50/50-goal win if shared, a wash if solo.</td></tr>
             </tbody>
           </table>
@@ -1265,26 +1265,26 @@ svg text { font-family: var(--f-mono); }
       <span class="code">Sec 02.7</span>
     </div>
     <ul class="cite-list">
-      <li><a href="https://www.capmetro.org/rapid" target="_blank" rel="noopener">Capital Metro — Rapid (801/803 route pages)</a></li>
-      <li><a href="https://en.wikipedia.org/wiki/CapMetro_Rapid" target="_blank" rel="noopener">CapMetro Rapid — route history, downtown transit-priority lanes</a></li>
-      <li><a href="https://www.austinmonitor.com/stories/2025/08/capmetro-shares-ridership-numbers-touts-continued-post-pandemic-rally/" target="_blank" rel="noopener">Austin Monitor — CapMetro 2025 ridership figures</a></li>
-      <li><a href="https://en.wikipedia.org/wiki/CapMetro_Rail" target="_blank" rel="noopener">CapMetro Rail — Red Line ridership</a></li>
-      <li><a href="https://www.austintexas.gov/transportation-public-works/austin-strategic-mobility-plan" target="_blank" rel="noopener">Austin Strategic Mobility Plan — 50/50 mode share goal</a></li>
-      <li><a href="https://austinmonitor.com/stories/2023/08/austin-mobility-leaders-praise-land-use-changes-in-support-of-50-50-transit-shift/" target="_blank" rel="noopener">Austin Monitor — mode-share progress toward the 2039 target</a></li>
-      <li><a href="https://myneighborhoodnews.com/austin-light-rail-update-2026-voter-approved-project-connect-reaches-federal-milestone-construction-timeline-takes-shape" target="_blank" rel="noopener">Project Connect — 2026 construction and timeline update</a></li>
-      <li><a href="https://en.wikipedia.org/wiki/Orange_Line_(CapMetro)" target="_blank" rel="noopener">Orange Line (CapMetro) — planned corridor and timeline</a></li>
-      <li><a href="https://en.wikipedia.org/wiki/Blue_Line_(CapMetro)" target="_blank" rel="noopener">Blue Line (CapMetro) — airport corridor and timeline</a></li>
-      <li><a href="https://www.smartcitiesdive.com/news/uber-lyft-riders-choose-over-transit-university-michigan-study/740278/" target="_blank" rel="noopener">Smart Cities Dive — University of Michigan study on ride-hail vs. transit</a></li>
-      <li><a href="https://usa.streetsblog.org/2019/01/22/study-uber-and-lyft-are-responsible-for-u-s-transit-decline" target="_blank" rel="noopener">Streetsblog — University of Kentucky substitution study</a></li>
-      <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0094119018300731" target="_blank" rel="noopener">ScienceDirect — "Is Uber a substitute or complement for public transit?"</a></li>
-      <li><a href="https://waymo.com/blog/2024/09/waymo-and-uber-expand-partnership/" target="_blank" rel="noopener">Waymo — Uber partnership expansion to Austin (2024 announcement)</a></li>
-      <li><a href="https://www.axios.com/local/austin/2025/07/17/waymo-expands-austin-service-area" target="_blank" rel="noopener">Axios Austin — Waymo service-area expansion, July 2025</a></li>
-      <li><a href="https://www.planning.org/planning/2026/jul/as-robotaxis-arrive-cities-face-a-new-transportation-challenge/" target="_blank" rel="noopener">American Planning Association — cities and robotaxi policy, incl. NACTO position</a></li>
-      <li><a href="https://findingspress.org/article/161870-millions-of-trips-waymo-empty-miles-california-s-first-thousand-days-of-commercial-robotaxi-service" target="_blank" rel="noopener">Findings — California robotaxi empty-miles analysis (VMT multiplier)</a></li>
-      <li><a href="https://usa.streetsblog.org/2026/06/08/why-robot-driverless-taxis-spend-as-much-time-without-passengers-as-normal-taxis-study-shows" target="_blank" rel="noopener">Streetsblog — MIT study on robotaxi deadheading</a></li>
-      <li><a href="https://communityimpact.com/north-central-austin/transportation/capmetros-latest-approved-plan-signals-shift-in-commuter-behavior/" target="_blank" rel="noopener">Community Impact — CapMetro service-gap and commute-distance findings</a></li>
-      <li><a href="https://www.capmetro.org/fare/general-fares-overview/equifare" target="_blank" rel="noopener">Capital Metro — Equifare low-income fare program</a></li>
-      <li><a href="https://www.capmetro.org/bikeshare" target="_blank" rel="noopener">Capital Metro — Bikeshare (formerly MetroBike)</a></li>
+      <li><a href="https://www.capmetro.org/rapid" target="_blank" rel="noopener">Capital Metro: Rapid (801/803 route pages)</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/CapMetro_Rapid" target="_blank" rel="noopener">CapMetro Rapid: route history, downtown transit-priority lanes</a></li>
+      <li><a href="https://www.austinmonitor.com/stories/2025/08/capmetro-shares-ridership-numbers-touts-continued-post-pandemic-rally/" target="_blank" rel="noopener">Austin Monitor: CapMetro 2025 ridership figures</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/CapMetro_Rail" target="_blank" rel="noopener">CapMetro Rail: Red Line ridership</a></li>
+      <li><a href="https://www.austintexas.gov/transportation-public-works/austin-strategic-mobility-plan" target="_blank" rel="noopener">Austin Strategic Mobility Plan: 50/50 mode share goal</a></li>
+      <li><a href="https://austinmonitor.com/stories/2023/08/austin-mobility-leaders-praise-land-use-changes-in-support-of-50-50-transit-shift/" target="_blank" rel="noopener">Austin Monitor: mode-share progress toward the 2039 target</a></li>
+      <li><a href="https://myneighborhoodnews.com/austin-light-rail-update-2026-voter-approved-project-connect-reaches-federal-milestone-construction-timeline-takes-shape" target="_blank" rel="noopener">Project Connect: 2026 construction and timeline update</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Orange_Line_(CapMetro)" target="_blank" rel="noopener">Orange Line (CapMetro): planned corridor and timeline</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Blue_Line_(CapMetro)" target="_blank" rel="noopener">Blue Line (CapMetro): airport corridor and timeline</a></li>
+      <li><a href="https://www.smartcitiesdive.com/news/uber-lyft-riders-choose-over-transit-university-michigan-study/740278/" target="_blank" rel="noopener">Smart Cities Dive: University of Michigan study on ride-hail vs. transit</a></li>
+      <li><a href="https://usa.streetsblog.org/2019/01/22/study-uber-and-lyft-are-responsible-for-u-s-transit-decline" target="_blank" rel="noopener">Streetsblog: University of Kentucky substitution study</a></li>
+      <li><a href="https://www.sciencedirect.com/science/article/abs/pii/S0094119018300731" target="_blank" rel="noopener">ScienceDirect: "Is Uber a substitute or complement for public transit?"</a></li>
+      <li><a href="https://waymo.com/blog/2024/09/waymo-and-uber-expand-partnership/" target="_blank" rel="noopener">Waymo: Uber partnership expansion to Austin (2024 announcement)</a></li>
+      <li><a href="https://www.axios.com/local/austin/2025/07/17/waymo-expands-austin-service-area" target="_blank" rel="noopener">Axios Austin: Waymo service-area expansion, July 2025</a></li>
+      <li><a href="https://www.planning.org/planning/2026/jul/as-robotaxis-arrive-cities-face-a-new-transportation-challenge/" target="_blank" rel="noopener">American Planning Association: cities and robotaxi policy, incl. NACTO position</a></li>
+      <li><a href="https://findingspress.org/article/161870-millions-of-trips-waymo-empty-miles-california-s-first-thousand-days-of-commercial-robotaxi-service" target="_blank" rel="noopener">Findings: California robotaxi empty-miles analysis (VMT multiplier)</a></li>
+      <li><a href="https://usa.streetsblog.org/2026/06/08/why-robot-driverless-taxis-spend-as-much-time-without-passengers-as-normal-taxis-study-shows" target="_blank" rel="noopener">Streetsblog: MIT study on robotaxi deadheading</a></li>
+      <li><a href="https://communityimpact.com/north-central-austin/transportation/capmetros-latest-approved-plan-signals-shift-in-commuter-behavior/" target="_blank" rel="noopener">Community Impact: CapMetro service-gap and commute-distance findings</a></li>
+      <li><a href="https://www.capmetro.org/fare/general-fares-overview/equifare" target="_blank" rel="noopener">Capital Metro: Equifare low-income fare program</a></li>
+      <li><a href="https://www.capmetro.org/bikeshare" target="_blank" rel="noopener">Capital Metro: Bikeshare (formerly MetroBike)</a></li>
     </ul>
     <p class="fn" style="margin-top:14px">Every other tab's <span class="modeled" style="margin-left:0">Modeled</span> badge marks figures generated from this project's own stated assumptions. This tab's <span class="sourced" style="margin-left:0">Sourced</span> badge marks claims traceable to the public sources above, current as of this research pass.</p>
   </div>
@@ -1293,7 +1293,7 @@ svg text { font-family: var(--f-mono); }
 <!-- ============================ 03 NETWORK ============================ -->
 <section class="pane" id="pane-network" role="tabpanel" aria-labelledby="tab-network" hidden>
 
-  <p class="lede">Demand is not a heat blob — it is the sum of generators with different clocks. An office tower and a bar on Rainey want cars at opposite ends of the day, and a staging plan that ignores which is which will always be two hours late.</p>
+  <p class="lede">Demand isn't a heat blob. It's the sum of generators that run on different clocks. An office tower and a bar on Rainey want cars at opposite ends of the day, and a staging plan that ignores which is which will always be two hours late.</p>
 
   <div class="controls">
     <span class="ctl-label">Time block</span>
@@ -1311,7 +1311,7 @@ svg text { font-family: var(--f-mono); }
         <span class="legend-item"><span class="swatch" style="background:var(--accent)"></span>Staging node</span>
         <span class="legend-item"><span class="swatch" style="background:var(--series-1);opacity:.3"></span>Lady Bird Lake</span>
       </div>
-      <p class="fn" style="margin-top:14px"><b>Schematic, not survey-accurate.</b> Relative positions, the I-35 seam and the river crossings are correct; distances are compressed. Travel time between any two points is computed as straight-line distance plus a <b>+3.5 min penalty for crossing I-35</b> and <b>+2.5 min for crossing the river</b> — the two barriers that actually govern cross-town time in Austin.</p>
+      <p class="fn" style="margin-top:14px"><b>This is schematic, not survey-accurate.</b> Relative positions, the I-35 seam, and the river crossings are correct, but distances are compressed. Travel time between any two points is computed as straight-line distance plus a <b>+3.5 min penalty for crossing I-35</b> and <b>+2.5 min for crossing the river</b>. Those are the two barriers that actually govern cross-town time in Austin.</p>
     </div>
     <div class="panel" id="zonepanel">
       <p class="panel-t">Zone readout</p>
@@ -1327,7 +1327,7 @@ svg text { font-family: var(--f-mono); }
     <div class="tblscroll">
       <table class="heat" id="heatmap"></table>
     </div>
-    <p class="fn"><b>Method.</b> Each zone carries an intensity 0–10 for seven generator classes — office, nightlife, residential, campus, retail, transport, event. Each class carries a demand profile across the six time blocks. Zone demand is the dot product of the two, normalised so the busiest cell on the grid reads 100. Values are printed in every cell so the reading never depends on colour alone.</p>
+    <p class="fn"><b>How it's calculated.</b> Each zone carries an intensity from 0 to 10 for seven generator classes: office, nightlife, residential, campus, retail, transport, event. Each class carries its own demand profile across the six time blocks. Zone demand is the dot product of the two, normalized so the busiest cell on the grid reads 100. Values are printed in every cell so the reading never depends on color alone.</p>
   </div>
 </section>
 
@@ -1338,7 +1338,7 @@ svg text { font-family: var(--f-mono); }
 
   <div class="split" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-bottom:34px">
     <div class="panel">
-      <p class="panel-t">Segment Efficiency Index — composition</p>
+      <p class="panel-t">Segment Efficiency Index: composition</p>
       <pre class="code">SEI = 100 − 10 × Σ (wᵢ · cᵢ)
 
 <span class="c">where each cᵢ is scored 0–10, worse = higher</span>
@@ -1357,8 +1357,8 @@ svg text { font-family: var(--f-mono); }
     </div>
     <div class="prose">
       <p><strong>Volatility is weighted highest on purpose.</strong> A corridor that is reliably slow can be planned around; a corridor that is fine four days in five and catastrophic on the fifth destroys ETA accuracy, and ETA accuracy is what riders actually rate. Predictability beats raw speed.</p>
-      <p><strong>Curb deficit earns its own term</strong> because a fast corridor you cannot legally stop on is not a fast corridor — it is a fast corridor plus a lap around the block, which is 4–7 minutes of rider-visible delay and roughly 0.4 kWh.</p>
-      <p><strong>AVOID is rarely absolute.</strong> Most avoided segments here are high-demand destinations. The rule is to avoid them <em>as through-routes</em> and approach them only on the final block — which is exactly what the parallel-pair recommendations in the notes column encode.</p>
+      <p><strong>Curb deficit gets its own term</strong> because a fast corridor you can't legally stop on isn't really a fast corridor. It's a fast corridor plus a lap around the block, which adds 4 to 7 minutes of rider-visible delay and roughly 0.4 kWh.</p>
+      <p><strong>AVOID rarely means never.</strong> Most avoided segments here are high-demand destinations. The point is to avoid them <em>as through-routes</em> and approach them only on the final block, which is exactly what the parallel-pair recommendations in the notes column encode.</p>
     </div>
   </div>
 
@@ -1387,7 +1387,7 @@ svg text { font-family: var(--f-mono); }
       <tbody id="corridor-body"></tbody>
     </table>
   </div>
-  <p class="fn"><b>Component scores</b> are 0–10 where higher is worse, authored from street geometry, signal spacing, land use and known event constraints. <b>SEI is computed</b> from them by the formula above — the table is derived, not asserted, so re-weighting the model changes every verdict consistently. <span class="modeled">Modeled</span></p>
+  <p class="fn"><b>Component scores</b> run 0 to 10, where higher is worse, and come from street geometry, signal spacing, land use, and known event constraints. <b>SEI is computed</b> from them using the formula above, so the table is derived rather than asserted. Re-weighting the model changes every verdict consistently. <span class="modeled">Modeled</span></p>
 </section>
 
 <!-- ============================ 05 RULEBOOK ============================ -->
@@ -1397,25 +1397,25 @@ svg text { font-family: var(--f-mono); }
 
   <div class="split" style="align-items:stretch;margin-bottom:10px">
     <div class="panel">
-      <p class="panel-t">Rule A-01 in the field — the originating scenario</p>
+      <p class="panel-t">Rule A-01 in the field: the scenario it started from</p>
       <div id="diagram-a01"></div>
     </div>
     <div class="prose">
-      <p><strong>The scenario the whole system was specified around.</strong> The vehicle intends to turn right at the next intersection. Over two consecutive signal cycles its cameras watch the queue on that receiving approach grow — six cars, then nine, then twelve — without the front of the queue discharging normally.</p>
-      <p>The map still shows the link green. No probe vehicle has finished traversing it slowly enough to trigger a report, and none will for another two minutes.</p>
-      <p>A human keeps going straight and turns at the next signal, losing one block and saving four minutes. <strong>Sixth Sense raises the traversal cost of that link by 4.2× for 180 seconds</strong> and lets the planner reach the same conclusion on its own — then logs the firing so the threshold can be scored against what actually happened.</p>
+      <p><strong>This is the scenario the whole system was built around.</strong> The vehicle intends to turn right at the next intersection. Over two consecutive signal cycles, its cameras watch the queue on that receiving approach grow: six cars, then nine, then twelve, without the front of the queue discharging normally.</p>
+      <p>The map still shows the link green. No probe vehicle has driven it slowly enough to trigger a report, and none will for another two minutes.</p>
+      <p>A human driver keeps going straight and turns at the next signal instead, losing one block but saving four minutes. <strong>Sixth Sense raises the traversal cost of that link by 4.2x for 180 seconds</strong> and lets the planner reach the same conclusion on its own. It then logs the firing so the threshold can be scored against what actually happened.</p>
     </div>
   </div>
 
   <div id="rulebook"></div>
 
-  <p class="fn" style="margin-top:30px"><b>Thresholds are starting points, not findings.</b> Each is set to a value that is defensible from traffic-engineering first principles — saturation headway, storage ratio, cycle length — and every one is expected to move once scored against real firings. The integration section defines the precision/recall loop that does the moving. <span class="modeled">Modeled</span></p>
+  <p class="fn" style="margin-top:30px"><b>These thresholds are starting points, not findings.</b> Each one is set to a value defensible from traffic-engineering first principles (saturation headway, storage ratio, cycle length), and every one is expected to move once it's scored against real firings. The Integration tab defines the precision/recall loop that does that scoring. <span class="modeled">Modeled</span></p>
 </section>
 
 <!-- ============================ 06 STAGING ============================ -->
 <section class="pane" id="pane-staging" role="tabpanel" aria-labelledby="tab-staging" hidden>
 
-  <p class="lede">An idle vehicle is a decision, not a pause. The Staging Position Score ranks every legal waiting spot in the service area against the demand that is about to exist, the cost of reaching it, and whether the curb will actually work when a rider walks up.</p>
+  <p class="lede">An idle vehicle is a decision, not a pause. The Staging Position Score ranks every legal waiting spot in the service area against the demand that's about to show up, the cost of reaching it, and whether the curb will actually work when a rider walks up.</p>
 
   <div class="split" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-bottom:30px">
     <div class="panel">
@@ -1448,7 +1448,7 @@ svg text { font-family: var(--f-mono); }
         <div class="segbar" id="eventbar" role="group" aria-label="Active event"></div>
       </div>
       <div class="panel" style="margin-top:6px">
-        <p class="panel-t">Directive — top node</p>
+        <p class="panel-t">Directive: top node</p>
         <div id="directive"></div>
       </div>
     </div>
@@ -1465,18 +1465,18 @@ svg text { font-family: var(--f-mono); }
     <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>Event bonus</span>
     <span class="legend-item"><span class="swatch" style="background:var(--hair-strong)"></span>Deadhead + curb penalty</span>
   </div>
-  <p class="fn"><b>Bars show the score decomposition</b>, not just the total — so a dispatcher can see <em>why</em> a node ranks where it does and override on grounds the model does not carry. A node that scores well purely on reachability is a different instruction from one that scores well on local demand. <span class="modeled">Modeled</span></p>
+  <p class="fn"><b>Bars show the score breakdown,</b> not just the total, so a dispatcher can see <em>why</em> a node ranks where it does and override on grounds the model doesn't carry. A node that scores well purely on reachability is telling you something different than one that scores well on local demand. <span class="modeled">Modeled</span></p>
 </section>
 
 <!-- ============================ 07 LIVE COVERAGE ============================ -->
 <section class="pane" id="pane-live" role="tabpanel" aria-labelledby="tab-live" hidden>
 
-  <p class="lede">A staging plan picked once a shift is a snapshot. This is the same fleet a minute later — vehicles reporting position, a coordinator matching surplus to deficit before a rider ever opens the app, and every dispatch checked against what the rest of the fleet already committed to.</p>
+  <p class="lede">A staging plan picked once a shift is just a snapshot. This is the same fleet a minute later: vehicles reporting position, a coordinator matching surplus to deficit before a rider ever opens the app, and every dispatch checked against what the rest of the fleet already committed to.</p>
 
   <div class="callout pine">
     <h4>What's actually running on this tab</h4>
-    <p><strong>The coordination algorithm is real and live</strong> — it re-runs in your browser roughly every 1.5 seconds: recomputing demand, checking which zones sit below target, matching the nearest free vehicle to the largest gap, and refusing to send a second car to a zone that already has one en route. That refusal is the entire point of fleet-to-fleet awareness, and you can watch it happen in the ticker on the right.</p>
-      <p><strong>What isn't real:</strong> the 48 vehicles are a simulated fleet, not Waymo's actual cars — no outside party has access to that telemetry, and this project is an independent concept, not affiliated with or endorsed by Waymo. The reports you submit below are stored in this browser only, the same way the field-intel log on the Staging tab works. The <a href="#" data-goto="tab-integrate" style="color:inherit">Integration tab</a> gives the exact message schema this would run on against real fleet and rider data.</p>
+    <p><strong>The coordination algorithm is real and live.</strong> It re-runs in your browser roughly every 1.5 seconds, recomputing demand, checking which zones sit below target, matching the nearest free vehicle to the largest gap, and refusing to send a second car to a zone that already has one en route. That refusal is the entire point of fleet-to-fleet awareness, and you can watch it happen in the ticker on the right.</p>
+      <p><strong>What isn't real:</strong> the 48 vehicles are a simulated fleet, not Waymo's actual cars. No outside party has access to that telemetry, and this project is an independent concept, not affiliated with or endorsed by Waymo. The reports you submit below are stored in this browser only, the same way the field-intel log on the Staging tab works. The <a href="#" data-goto="tab-integrate" style="color:inherit">Integration tab</a> gives the exact message schema this would run on against real fleet and rider data.</p>
   </div>
 
   <div class="stats" id="live-stats"></div>
@@ -1511,12 +1511,12 @@ svg text { font-family: var(--f-mono); }
     <div class="tblscroll">
       <table class="dt" id="coverage-table"></table>
     </div>
-    <p class="fn">The "at least 4 free cars on a busy corridor" example from the brief falls directly out of this rule once demand is high enough — it isn't a hardcoded case for South Congress. The same formula sets a lower target for Mueller at 2am and a higher one for the UT campus zone during a football egress.</p>
+    <p class="fn">The "at least 4 free cars on a busy corridor" example from the brief comes straight out of this rule once demand is high enough. It's not a special case written in for South Congress. The same formula sets a lower target for Mueller at 2am and a higher one for the UT campus zone during a football egress.</p>
   </div>
 
   <div class="split" style="margin-top:34px;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)">
     <div class="panel">
-      <p class="panel-t">Report live conditions <span style="text-transform:none;letter-spacing:0;font-weight:400">— this browser only</span></p>
+      <p class="panel-t">Report live conditions <span style="text-transform:none;letter-spacing:0;font-weight:400">(this browser only)</span></p>
       <form class="logform" id="reportform">
         <div class="field">
           <label for="rep-zone">Zone</label>
@@ -1559,7 +1559,7 @@ svg text { font-family: var(--f-mono); }
       <div class="flow-step">
         <div class="flow-k">Upstream</div>
         <div class="flow-t">Perception stack</div>
-        <div class="flow-d">Existing detections and tracks. Read-only subscription — no new sensors, no new compute on the safety path.</div>
+        <div class="flow-d">Existing detections and tracks. Read-only subscription: no new sensors, no new compute on the safety path.</div>
       </div>
       <div class="flow-step hi">
         <div class="flow-k">This layer</div>
@@ -1591,7 +1591,7 @@ svg text { font-family: var(--f-mono); }
     </div>
     <div class="split" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
       <div>
-        <p class="panel-t">RouteAdvisory — emitted per firing</p>
+        <p class="panel-t">RouteAdvisory: emitted per firing</p>
         <pre class="code">{
   <span class="k">"schema"</span>: <span class="s">"sixthsense.route_advisory/1"</span>,
   <span class="k">"vehicleId"</span>: <span class="s">"ATX-0417"</span>,
@@ -1624,7 +1624,7 @@ svg text { font-family: var(--f-mono); }
 }</pre>
       </div>
       <div>
-        <p class="panel-t">StagingDirective — emitted per idle vehicle</p>
+        <p class="panel-t">StagingDirective: emitted per idle vehicle</p>
         <pre class="code">{
   <span class="k">"schema"</span>: <span class="s">"sixthsense.staging_directive/1"</span>,
   <span class="k">"vehicleId"</span>: <span class="s">"ATX-0417"</span>,
@@ -1654,11 +1654,11 @@ svg text { font-family: var(--f-mono); }
 }</pre>
       </div>
     </div>
-    <p class="fn" style="margin-top:16px">The <b>Live Coverage</b> tab runs a client-side simulation of this same exchange — a coordinator receiving positions, computing coverage, and emitting directives — on a 1.5 s tick instead of a message bus. Its dispatch decisions serialize to the same shape as <code>RouteAdvisory.effect</code> above, shown below as the production contract for that loop.</p>
+    <p class="fn" style="margin-top:16px">The <b>Live Coverage</b> tab runs a client-side simulation of this same exchange (a coordinator receiving positions, computing coverage, and emitting directives) on a 1.5 s tick instead of a message bus. Its dispatch decisions serialize to the same shape as <code>RouteAdvisory.effect</code> above, shown below as the production contract for that loop.</p>
   </div>
 
   <div class="block">
-    <p class="panel-t">CoverageDirective — emitted by the fleet coordinator per reposition</p>
+    <p class="panel-t">CoverageDirective: emitted by the fleet coordinator per reposition</p>
     <pre class="code">{
   <span class="k">"schema"</span>: <span class="s">"sixthsense.coverage_directive/1"</span>,
   <span class="k">"issuedAt"</span>: <span class="s">"2026-09-14T21:58:12.004Z"</span>,
@@ -1677,7 +1677,7 @@ svg text { font-family: var(--f-mono); }
     <span class="k">"crowdReportBonus"</span>: 14.6
   }
 }</pre>
-    <p class="fn" style="margin-top:10px"><code>skippedAlreadyEnroute</code> is the field the whole "vehicles know where every other one is" requirement rests on — every candidate zone is scored on vehicles <em>already committed</em> (available on-site plus already en route), never on available vehicles alone, so a second car is never dispatched to close a gap the fleet has already closed.</p>
+    <p class="fn" style="margin-top:10px"><code>skippedAlreadyEnroute</code> is the field the whole "vehicles know where every other one is" requirement rests on. Every candidate zone is scored on vehicles <em>already committed</em> (available on-site plus already en route), never on available vehicles alone, so a second car is never dispatched to close a gap the fleet has already closed.</p>
   </div>
 
   <div class="block">
@@ -1689,7 +1689,7 @@ svg text { font-family: var(--f-mono); }
       <table class="dt">
         <thead><tr><th>Model input</th><th>Currently</th><th>Production source</th><th class="note">Notes</th></tr></thead>
         <tbody>
-          <tr><td class="nm">Zone demand</td><td>Generator dot product</td><td>Uber trip-request density, 15-min bins, H3 res-8</td><td class="note">Requests, not completed trips — unserved demand is the signal that matters for staging.</td></tr>
+          <tr><td class="nm">Zone demand</td><td>Generator dot product</td><td>Uber trip-request density, 15-min bins, H3 res-8</td><td class="note">Requests, not completed trips. Unserved demand is the signal that matters for staging.</td></tr>
           <tr><td class="nm">Travel time</td><td>Distance + barrier penalties</td><td>Fleet GPS traces, per-link per-time-block percentiles</td><td class="note">Carry p50 and p90; the gap between them <em>is</em> the volatility term.</td></tr>
           <tr><td class="nm">Corridor components</td><td>Authored 0–10 scores</td><td>City of Austin signal inventory, ATD crash and volume data, fleet disengagement logs</td><td class="note">Curb deficit from the city's curb inventory plus observed successful-stop rate per segment.</td></tr>
           <tr><td class="nm">Rule thresholds</td><td>First-principles estimates</td><td>Scored firings, nightly precision/recall</td><td class="note">A firing is a true positive if the avoided link's realised travel time exceeded its prediction by the margin the rule claimed.</td></tr>
@@ -1710,12 +1710,12 @@ svg text { font-family: var(--f-mono); }
     <div class="stats">
       <div class="stat"><div class="stat-v" style="color:var(--ink)">Deadhead ratio</div><div class="stat-l">Primary · fleet</div><div class="stat-d">Unoccupied miles ÷ total miles. The single number the staging model is accountable for.</div></div>
       <div class="stat"><div class="stat-v" style="color:var(--ink)">p90 ETA error</div><div class="stat-l">Primary · rider</div><div class="stat-d">Riders rate the tail, not the median. Volatility reduction should show here first.</div></div>
-      <div class="stat"><div class="stat-v" style="color:var(--ink)">kWh / paid mile</div><div class="stat-l">Primary · energy</div><div class="stat-d">Paid, not total — otherwise staging improvements hide inside the denominator.</div></div>
+      <div class="stat"><div class="stat-v" style="color:var(--ink)">kWh / paid mile</div><div class="stat-l">Primary · energy</div><div class="stat-d">Paid, not total. Otherwise staging improvements hide inside the denominator.</div></div>
       <div class="stat"><div class="stat-v" style="color:var(--ink)">Rule precision</div><div class="stat-l">Guardrail</div><div class="stat-d">Per rule. A rule below 0.6 gets its threshold widened or is retired.</div></div>
     </div>
     <div class="callout">
       <h4>The metric that would kill this if ignored</h4>
-      <p><strong>Reroute churn.</strong> A layer that fires often enough to change the route every 30 seconds will improve every metric above while making the ride feel erratic and the ETA feel dishonest. Cap advisories at one accepted reroute per 4 minutes per vehicle, and track the cap's hit rate — if it is binding often, the thresholds are too loose regardless of what precision says.</p>
+      <p><strong>Reroute churn.</strong> A layer that fires often enough to change the route every 30 seconds will improve every metric above while making the ride feel erratic and the ETA feel dishonest. Cap advisories at one accepted reroute per 4 minutes per vehicle, and track how often that cap gets hit. If it's hitting often, the thresholds are too loose no matter what precision says.</p>
     </div>
   </div>
 
@@ -1725,7 +1725,7 @@ svg text { font-family: var(--f-mono); }
       <span class="code">Sec 06.5 · Human loop</span>
     </div>
     <div class="prose" style="margin-bottom:20px">
-      <p>The rules encode what a driver knows. The log is how the fleet keeps learning things no sensor will report — that a specific curb is blocked every Tuesday morning, that a construction detour has moved, that a venue changed its egress route. Ops staff and field technicians enter observations against a corridor and a rule; those entries feed threshold tuning and, where a pattern is stable, become a scheduled constraint.</p>
+      <p>The rules encode what a driver knows. The log is how the fleet keeps learning things no sensor will report: that a specific curb is blocked every Tuesday morning, that a construction detour has moved, that a venue changed its egress route. Ops staff and field technicians enter observations against a corridor and a rule, and those entries feed threshold tuning. Where a pattern holds steady, it becomes a scheduled constraint.</p>
     </div>
     <div class="panel">
       <form class="logform" id="logform">
@@ -1819,18 +1819,18 @@ const RIVER_Y = 396;
 const I35_X   = 604;
 
 const STAGING = [
-  { id:"SN-01", name:"Brazos St @ 4th",           zone:"DTC", x:528, y:330, curb:"B", cap:3, note:"One-way northbound, low pedestrian load. The quiet parallel to Congress — use it instead of Congress for any downtown approach." },
+  { id:"SN-01", name:"Brazos St @ 4th",           zone:"DTC", x:528, y:330, curb:"B", cap:3, note:"One-way northbound, low pedestrian load. This is the quiet parallel to Congress, so use it instead for any downtown approach." },
   { id:"SN-02", name:"Red River @ 8th",           zone:"SIX", x:566, y:290, curb:"C", cap:4, note:"Closest legal staging to the 6th Street closure perimeter. Thu–Sat nights this is the only sane way to serve the district." },
-  { id:"SN-03", name:"Driskill St @ Rainey",      zone:"RNY", x:588, y:368, curb:"D", cap:2, note:"Rainey has effectively one way in and out. Do not stage here 22:00–02:30 — vehicles get trapped behind the pickup queue. Use SN-04." },
+  { id:"SN-03", name:"Driskill St @ Rainey",      zone:"RNY", x:588, y:368, curb:"D", cap:2, note:"Rainey has effectively one way in and out. Don't stage here 22:00-02:30, since vehicles get trapped behind the pickup queue. Use SN-04 instead." },
   { id:"SN-04", name:"River St @ Rainey",         zone:"RNY", x:570, y:376, curb:"C", cap:5, note:"Preferred Rainey node. Sits outside the choke point with a walkable approach for riders leaving the district." },
   { id:"SN-05", name:"Nueces St @ 24th",          zone:"UTC", x:436, y:200, curb:"B", cap:4, note:"Parallel to Guadalupe. Keeps the vehicle off The Drag's pedestrian load entirely while staying a two-minute walk from it." },
   { id:"SN-06", name:"E 5th @ Robert T. Martinez",zone:"EAS", x:690, y:312, curb:"B", cap:4, note:"Good curb, wide street, east of the I-35 seam so it serves East Austin without paying the crossing penalty." },
-  { id:"SN-07", name:"Aldrich St @ Mueller Blvd", zone:"MUE", x:768, y:210, curb:"A", cap:6, note:"Best curb geometry in the service area — wide, new, shaded, generous loading zones. The default northeast anchor." },
+  { id:"SN-07", name:"Aldrich St @ Mueller Blvd", zone:"MUE", x:768, y:210, curb:"A", cap:6, note:"Best curb geometry in the service area: wide, new, shaded, with generous loading zones. The default northeast anchor." },
   { id:"SN-08", name:"S 1st @ Monroe",            zone:"BLD", x:444, y:512, curb:"A", cap:4, note:"The under-used parallel to South Congress. Nearly all SoCo demand is reachable from here without touching SoCo's curb problem." },
   { id:"SN-09", name:"S Congress @ Elizabeth",    zone:"SOC", x:512, y:484, curb:"C", cap:2, note:"High demand, poor curb: angled parking, constant backing movements, heavy jaywalking. Stage only when SN-08 is saturated." },
-  { id:"SN-10", name:"Riverside @ Pleasant Valley",zone:"ERV",x:712, y:476, curb:"B", cap:6, note:"Dense student-housing catchment. Light-rail construction is reshaping the corridor — re-survey this node quarterly." },
+  { id:"SN-10", name:"Riverside @ Pleasant Valley",zone:"ERV",x:712, y:476, curb:"B", cap:6, note:"Dense student-housing catchment. Light-rail construction is reshaping the corridor, so re-survey this node quarterly." },
   { id:"SN-11", name:"Barton Springs @ Azie Morton",zone:"ZLK",x:316,y:470, curb:"C", cap:3, note:"Zilker gateway. Unusable during ACL weekends and Trail of Lights; the event bonus turns negative and the model pushes vehicles out." },
-  { id:"SN-12", name:"Presidential Blvd cell lot", zone:"AUS",x:866, y:626, curb:"A", cap:12,note:"Airport TNC staging. Deep queue, predictable service rate — but a long deadhead back to the core, so only worth holding when arrivals are heavy." },
+  { id:"SN-12", name:"Presidential Blvd cell lot", zone:"AUS",x:866, y:626, curb:"A", cap:12,note:"Airport TNC staging. Deep queue and a predictable service rate, but a long deadhead back to the core, so it's only worth holding when arrivals are heavy." },
   { id:"SN-13", name:"Burnet Rd @ Koenig",        zone:"HYD", x:412, y:126, curb:"B", cap:3, note:"North anchor. Covers Hyde Park and North Loop and gives a fast run south on Lamar when downtown demand spikes." },
   { id:"SN-14", name:"Domain Dr @ Rock Rose",     zone:"DOM", x:338, y:58,  curb:"B", cap:5, note:"Serves a genuinely separate market. Vehicles staged here should be treated as a distinct pool, not as core-fleet overflow." },
   { id:"SN-15", name:"Lavaca St @ 15th",          zone:"DTC", x:502, y:296, curb:"B", cap:3, note:"Capitol complex. Strong on weekday mornings and at session close; near-dead at night. The clearest example of a time-conditional node." }
@@ -1844,23 +1844,23 @@ const EVENTS = [
   { id:"UTFB",  label:"UT football",     zones:{ UTC:-10, HYD:8, DTC:7, SIX:6, EAS:4 }, note:"DKR egress floods the campus ring. Stage north and downtown, never inside the stadium ring." },
   { id:"MOODY", label:"Moody Center",    zones:{ SIX:9, DTC:7, EAS:5, UTC:-6 },         note:"Red River and the 6th Street district absorb most post-event demand on foot." },
   { id:"Q2",    label:"Austin FC (Q2)",  zones:{ DOM:10, HYD:7, DTC:4 },                note:"Q2 Stadium egress runs north. The Domain node becomes the primary, not the core fleet." },
-  { id:"BATS",  label:"Bat emergence",   zones:{ RNY:7, DTC:5, SOC:4, BLD:3 },          note:"Sunset bat flight at the Congress Ave bridge, March–October. Real, seasonal, and reliably mis-modelled by every routing engine — the bridge sidewalks and both approaches choke for about 40 minutes." }
+  { id:"BATS",  label:"Bat emergence",   zones:{ RNY:7, DTC:5, SOC:4, BLD:3 },          note:"Sunset bat flight at the Congress Ave bridge, March to October. Real, seasonal, and reliably missed by every routing engine. The bridge sidewalks and both approaches choke for about 40 minutes." }
 ];
 
 /* corridors: component scores 0–10, higher = worse */
 const CORRIDORS = [
   { name:"Lavaca St (NB) / Guadalupe St (SB)", seg:"Downtown, Cesar Chavez–15th", cls:"One-way pair",
     c:{ volatility:3, pedConflict:5, signalDelay:4, curbDeficit:6, energyIndex:3, turnExposure:3 },
-    note:"Signal-coordinated with good progression, but carries CapMetro's dedicated 801/803 transit-priority lanes through downtown — see Landscape §02.2. Fine as a through-route outside peak transit hours; wrong as a place to stop. No longer the default — see the Brazos/Colorado pair." },
+    note:"Signal-coordinated with good progression, but it carries CapMetro's dedicated 801/803 transit-priority lanes through downtown (see Landscape §02.2). Fine as a through-route outside peak transit hours, wrong as a place to stop. No longer the default; see the Brazos/Colorado pair." },
   { name:"Brazos St (NB) / Colorado St (SB)", seg:"Downtown, 2nd–11th", cls:"One-way pair",
     c:{ volatility:3, pedConflict:3, signalDelay:5, curbDeficit:2, energyIndex:3, turnExposure:2 },
-    note:"The recommended downtown default. Quieter than the Lavaca pair, materially better curb availability, and — confirmed in Landscape §02.2 — doesn't compete with CapMetro's dedicated transit lanes the way Lavaca/Guadalupe does." },
+    note:"The recommended downtown default. Quieter than the Lavaca pair, with noticeably better curb availability, and confirmed in Landscape §02.2 not to compete with CapMetro's dedicated transit lanes the way Lavaca/Guadalupe does." },
   { name:"Aldrich St / Mueller Blvd", seg:"Mueller district", cls:"Local arterial",
     c:{ volatility:2, pedConflict:3, signalDelay:3, curbDeficit:1, energyIndex:2, turnExposure:2 },
     note:"Best-performing segment in the set. Modern geometry, generous loading zones, predictable signals, shade." },
   { name:"S 1st St", seg:"Riverside–Oltorf", cls:"Minor arterial",
     c:{ volatility:3, pedConflict:3, signalDelay:4, curbDeficit:3, energyIndex:3, turnExposure:3 },
-    note:"The under-used parallel to South Congress. Nearly the same catchment at roughly half the delay — route here and walk the last block." },
+    note:"The under-used parallel to South Congress. It covers nearly the same catchment at roughly half the delay, so route here and walk the last block." },
   { name:"Airport Blvd", seg:"Manor Rd–I-35", cls:"Major arterial",
     c:{ volatility:3, pedConflict:2, signalDelay:4, curbDeficit:3, energyIndex:3, turnExposure:4 },
     note:"Reconstructed corridor, consistent speeds in the 30–35 band. Sits close to the fleet energy optimum." },
@@ -1881,7 +1881,7 @@ const CORRIDORS = [
     note:"Baseline performance is fine; ACL weekends and Trail of Lights make it unusable. Calendar-gate this segment rather than scoring it statically." },
   { name:"E Riverside Dr", seg:"I-35–Pleasant Valley", cls:"Major arterial",
     c:{ volatility:6, pedConflict:5, signalDelay:6, curbDeficit:5, energyIndex:5, turnExposure:5 },
-    note:"Very high residential demand density. Confirmed in Landscape §02.3: this is Project Connect Phase 1's own alignment (Downtown–East Riverside, targeting 2029) — highest re-survey priority in the set, and worth re-scoring entirely once stations open nearby." },
+    note:"Very high residential demand density. Confirmed in Landscape §02.3: this is Project Connect Phase 1's own alignment (Downtown to East Riverside, targeting 2029), the highest re-survey priority in the set, and worth re-scoring entirely once stations open nearby." },
   { name:"S Congress Ave (SoCo)", seg:"Riverside–Oltorf", cls:"Major arterial",
     c:{ volatility:6, pedConflict:9, signalDelay:6, curbDeficit:8, energyIndex:5, turnExposure:5 },
     note:"Destination, not a through-route. Angled parking, constant backing movements and heavy mid-block crossing. Approach on S 1st, turn in for the last block only." },
@@ -1893,7 +1893,7 @@ const CORRIDORS = [
     note:"Continuous mid-block pedestrian crossing plus bus dwell. An AV behaves correctly here and is punished for it. Run parallel on Nueces; touch The Drag for the final block only." },
   { name:"E 6th St", seg:"I-35–Brazos", cls:"Entertainment",
     c:{ volatility:9, pedConflict:10, signalDelay:6, curbDeficit:9, energyIndex:6, turnExposure:5 },
-    note:"Closed to vehicles Thu–Sat nights. Even open, pedestrian density makes it a trap. Serve the district from Red River and 7th — never enter the closure box." },
+    note:"Closed to vehicles Thu–Sat nights. Even open, pedestrian density makes it a trap. Serve the district from Red River and 7th, and never enter the closure box." },
   { name:"I-35 frontage roads", seg:"Riverside–MLK", cls:"Frontage",
     c:{ volatility:9, pedConflict:4, signalDelay:7, curbDeficit:9, energyIndex:8, turnExposure:9 },
     note:"Braided merges, very short weaving sections and constant ramp conflict. High volatility and no usable curb. Avoid as a through-route regardless of what the map's travel time says." }
@@ -1917,7 +1917,7 @@ const RULES = [
       { id:"A-03", name:"Green starvation",
         human:"That light is green and nobody is moving. Something is blocking it past the intersection.",
         trig:"signalState = GREEN\n  AND dischargeHeadway > 4.0 s at stop bar\n  for > 8 s of green time",
-        act:"Treat the link as blocked irrespective of signal state. Cost ×6.0 for 240 s. This is the highest-value rule in the book — a map sees a green light and a short link and reports no problem at all.",
+        act:"Treat the link as blocked regardless of signal state. Cost x6.0 for 240 s. This is the highest-value rule in the book: a map sees a green light and a short link and reports no problem at all.",
         lead:"30–90 s", conf:"High", fb:"None. Rule disables without signal-state estimation rather than guessing." },
       { id:"A-04", name:"Cross-street spillback",
         human:"Cars from the cross street are sitting in the box. This intersection is going to lock.",
@@ -1930,23 +1930,23 @@ const RULES = [
       { id:"B-01", name:"Double-park displacement",
         human:"There's a delivery truck on the curb where I was told to stop. I'll pull up just past it.",
         trig:"classifier = {box_truck, van} AND hazards = ON\n  AND occupancy of target curb segment > 60%",
-        act:"Shift the pickup point to the next legal curb segment and push the updated pin to the rider before arrival — never after. The rider standing in the wrong place is the failure, not the truck.",
-        lead:"Pre-arrival", conf:"High", fb:"Reassign on arrival with an in-app message; degrade gracefully." },
+        act:"Shift the pickup point to the next legal curb segment and push the updated pin to the rider before arrival, never after. The rider standing in the wrong place is the failure here, not the truck.",
+        lead:"Pre-arrival", conf:"High", fb:"Reassign on arrival with an in-app message and degrade gracefully." },
       { id:"B-02", name:"Far-side preference",
-        human:"I'll stop past the light, not before it — otherwise I'm sitting in the queue with the door shut.",
+        human:"I'll stop past the light, not before it. Otherwise I'm sitting in the queue with the door shut.",
         trig:"candidate curb within 40 m of signalised\n  intersection on the approach side",
-        act:"Prefer the far-side curb. The rider walks with the signal and the vehicle is not held in the discharging queue with a door open. Borrowed directly from transit stop placement practice.",
-        lead:"Planning", conf:"High", fb:"None needed — geometric, not sensor-dependent." },
+        act:"Prefer the far-side curb. The rider walks with the signal and the vehicle isn't held in the discharging queue with a door open. Borrowed directly from transit stop placement practice.",
+        lead:"Planning", conf:"High", fb:"None needed. This is geometric, not sensor-dependent." },
       { id:"B-03", name:"No unprotected crossing",
         human:"I'm not making someone run across six lanes of Lamar to reach me.",
         trig:"rider path crosses roadway with ≥ 3 lanes\n  or AADT ≥ 25,000\n  AND no signalised crossing within 45 m",
         act:"Reject the candidate pickup point outright. Re-solve on the rider's side of the roadway even at a time cost.",
-        lead:"Planning", conf:"High", fb:"None — this is a hard constraint, not a preference." },
+        lead:"Planning", conf:"High", fb:"None. This is a hard constraint, not a preference." },
       { id:"B-04", name:"Curb-side door rule",
         human:"They should be getting in from the sidewalk, not from the traffic lane.",
         trig:"assigned stop orientation places rider\n  entry on the travel-lane side",
         act:"Re-solve for a stop where the rider's nearest door faces the curb. On one-way streets this constrains which side of the street is eligible at all.",
-        lead:"Planning", conf:"High", fb:"None needed — geometric." }
+        lead:"Planning", conf:"High", fb:"None needed. This is geometric." }
     ]},
   { fam:"C", famName:"Positioning & staging", famNote:"Where to wait, and what waiting costs",
     items:[
@@ -1958,7 +1958,7 @@ const RULES = [
       { id:"C-02", name:"Shade staging",
         human:"It's 103 out. I'm not parking in the sun.",
         trig:"month ∈ May–Sep AND ambient ≥ 32 °C\n  AND dwell forecast > 6 min",
-        act:"Prefer a shaded or covered node within 3 minutes. Cabin soak at Austin summer ambient costs 2–3.5 kW of recovery load across the first five minutes of the trip, and the rider gets into a hot car — an energy cost and a satisfaction cost in one.",
+        act:"Prefer a shaded or covered node within 3 minutes. Cabin soak at Austin summer ambient costs 2 to 3.5 kW of recovery load across the first five minutes of the trip, and the rider gets into a hot car. That's an energy cost and a satisfaction cost at the same time.",
         lead:"Continuous", conf:"Medium", fb:"Use static canopy data where live thermal is unavailable." },
       { id:"C-03", name:"Egress pre-position",
         human:"The show lets out in twenty minutes. I want to be where they walk to, not where they walk from.",
@@ -1968,7 +1968,7 @@ const RULES = [
       { id:"C-04", name:"Demand gradient climb",
         human:"Is it worth driving across town for that, or do I hold here?",
         trig:"ΔSPS(target, current) · fareValue\n  > (deadheadMin · timeCost + ΔkWh · energyCost)",
-        act:"Reposition only when the inequality holds. Prevents the whole fleet chasing the same surge and arriving together after it has cleared — the classic repositioning failure mode.",
+        act:"Reposition only when the inequality holds. This stops the whole fleet from chasing the same surge and arriving together after it's already cleared, which is the classic repositioning failure mode.",
         lead:"Continuous", conf:"Medium", fb:"Hold position; holding is the safe default." }
     ]},
   { fam:"D", famName:"Energy discipline", famNote:"Where a BEV with a live sensor stack differs from a car",
@@ -1976,25 +1976,25 @@ const RULES = [
       { id:"D-01", name:"Speed-band targeting",
         human:"The highway isn't always faster, and here it isn't cheaper either.",
         trig:"freeway alternative saves < 4 min\n  AND arterial sustains 28–38 mph",
-        act:"Prefer the arterial. Total energy per mile bottoms out at 30–35 mph for this platform; a 65 mph freeway mile costs roughly 22% more than a 35 mph arterial mile.",
+        act:"Prefer the arterial. Total energy per mile bottoms out at 30 to 35 mph for this platform, so a 65 mph freeway mile costs roughly 22% more than a 35 mph arterial mile.",
         lead:"Planning", conf:"High", fb:"Use posted speeds where live speed data is unavailable." },
       { id:"D-02", name:"Regen corridor preference",
         human:"I'd rather coast into a light I can see changing than get surprised by it.",
         trig:"corridor has coordinated signals\n  OR net downgrade on the return leg",
-        act:"Prefer corridors where deceleration is predictable. Anticipated braking recovers roughly 60–70% through regen; a surprise stop dumps it into the friction brakes.",
+        act:"Prefer corridors where deceleration is predictable. Anticipated braking recovers roughly 60 to 70% through regen, while a surprise stop dumps that energy into the friction brakes instead.",
         lead:"Planning", conf:"Medium", fb:"Signal-coordination flag from the city inventory." },
       { id:"D-03", name:"Time-cost of compute",
         human:"Sitting still isn't free.",
-        trig:"always active — applied as a cost term",
-        act:"Charge ~0.02 kWh per stationary minute against every routing decision. This converts delay directly into energy and is what makes the anticipation rules pay for themselves rather than merely improving ETAs.",
-        lead:"Continuous", conf:"High", fb:"None — a constant, not a detection." }
+        trig:"always active, applied as a cost term",
+        act:"Charge about 0.02 kWh per stationary minute against every routing decision. This turns delay directly into an energy cost, which is what makes the anticipation rules pay for themselves instead of just improving ETAs.",
+        lead:"Continuous", conf:"High", fb:"None. This is a constant, not a detection." }
     ]},
-  { fam:"E", famName:"Transit awareness", famNote:"Added from the Landscape research pass, §02.4 — not present in the original rulebook",
+  { fam:"E", famName:"Transit awareness", famNote:"Added from the Landscape research pass, §02.4. Not present in the original rulebook.",
     items:[
       { id:"E-01", name:"Transit-aware dispatch",
-        human:"If a bus or train covers this exact trip right now, I'm not the fastest or cheapest option — let the app know.",
+        human:"If a bus or train covers this exact trip right now, I'm probably not the fastest or cheapest option, so let the app know.",
         trig:"pickup AND dropoff both within 400m\n  of an 801 / 803 / Rail stop pair\n  AND scheduled departure within rider's stated wait tolerance",
-        act:"No cost penalty on the vehicle's own routing — this is a dispatch-time signal surfaced to the rider-facing app alongside the ride offer, not a constraint on the AV. Justified by real substitution research (Landscape §02.4): ride-hail displaces transit most where it competes head-on with a frequent line already covering the trip.",
+        act:"No cost penalty on the vehicle's own routing. This is a dispatch-time signal surfaced to the rider-facing app alongside the ride offer, not a constraint on the AV. It's justified by real substitution research (Landscape §02.4): ride-hail displaces transit most where it competes head-on with a frequent line already covering the trip.",
         lead:"Dispatch-time", conf:"Medium", fb:"Falls back to CapMetro's published static schedule where a live GTFS-RT feed isn't wired in." }
     ]}
 ];
@@ -2003,7 +2003,7 @@ const SEED_ENTRIES = [
   { corridor:"Red River @ 8th", window:"Thu–Sat 22:00–02:30", rule:"C-03", obs:"APD sets the 6th Street barricades at the 7th/Red River corner about 20 minutes earlier than the published time on Halloween weekend and during SXSW. Staging here got blocked in twice.", who:"Field tech · ATX-N", at:"2026-09-09" },
   { corridor:"S Congress @ Elizabeth", window:"Sat–Sun 11:00–16:00", rule:"B-01", obs:"Angled-parking vehicles back out across the whole curb lane with no warning. The curb reads as free to the classifier right up until it isn't. Suggest treating the entire block face as grade D on weekends.", who:"Dispatch · shift 2", at:"2026-09-11" },
   { corridor:"Congress Ave bridge", window:"Mar–Oct, sunset −15 to +40 min", rule:"A-04", obs:"Bat crowd spills off the sidewalks into the traffic lane on the south approach. Pedestrian density spikes hard enough that vehicles hold for minutes. Every routing engine we've used treats this as normal traffic.", who:"Field tech · ATX-S", at:"2026-09-12" },
-  { corridor:"E Riverside @ Wickersham", window:"Weekdays, all day", rule:"A-03", obs:"Light-rail construction moved the temporary signal again. Green starvation firing constantly here — genuinely blocked, not a false positive, but the geometry changed so the storage ratio baseline is stale.", who:"Ops engineer", at:"2026-09-13" }
+  { corridor:"E Riverside @ Wickersham", window:"Weekdays, all day", rule:"A-03", obs:"Light-rail construction moved the temporary signal again. Green starvation is firing constantly here. It's actually blocked, not a false positive, but the geometry changed so the storage ratio baseline is stale.", who:"Ops engineer", at:"2026-09-13" }
 ];
 
 /* live coverage tuning */
@@ -2131,8 +2131,8 @@ function segbar(el, items, initial, onPick) {
 
 function chartLead() {
   const rows = [
-    { label:"Onboard — queue growth",  lo:15,  hi:40,  s:"--series-3" },
-    { label:"Onboard — green starve",  lo:20,  hi:50,  s:"--series-3" },
+    { label:"Onboard: queue growth",  lo:15,  hi:40,  s:"--series-3" },
+    { label:"Onboard: green starve",  lo:20,  hi:50,  s:"--series-3" },
     { label:"V2I signal feed",         lo:45,  hi:90,  s:"--series-1" },
     { label:"Fleet peer reports",      lo:60,  hi:140, s:"--series-1" },
     { label:"Crowd-sourced map",       lo:150, hi:420, s:"--series-2" }
@@ -2355,7 +2355,7 @@ function drawZoneOut() {
   h += `<dt>Staging nodes in zone</dt><dd>`;
   h += nodes.length
     ? nodes.map(n => `<div style="margin-bottom:6px"><span style="font-family:var(--f-mono);font-size:11px;color:var(--accent);font-weight:600">${n.id}</span> ${n.name} <span style="font-family:var(--f-mono);font-size:10px;color:var(--ink-3)">· curb ${n.curb} · ${n.cap} veh</span></div>`).join("")
-    : `<span style="color:var(--ink-3)">None designated — served from adjacent zones.</span>`;
+    : `<span style="color:var(--ink-3)">None designated. Served from adjacent zones.</span>`;
   h += `</dd></dl>`;
 
   document.getElementById("zoneout").innerHTML = h;
@@ -2419,7 +2419,7 @@ function drawCorridors() {
 function drawRulebook() {
   let h = "";
   RULES.forEach(f => {
-    h += `<div class="family">Family ${f.fam} — ${f.famName}<span>${f.famNote}</span></div><div class="rules">`;
+    h += `<div class="family">Family ${f.fam}: ${f.famName}<span>${f.famNote}</span></div><div class="rules">`;
     f.items.forEach(r => {
       h += `<article class="rule">
         <div class="rule-h"><span class="rule-id">${r.id}</span><span class="rule-n">${r.name}</span></div>
@@ -2448,7 +2448,7 @@ function drawRoute801() {
     { label: "Tech Ridge",              sub: "801 north terminus",        status: "endpoint" },
     { label: "North Lamar Blvd",        sub: "this project: AVOID",       status: "avoid" },
     { label: "Guadalupe St (The Drag)", sub: "this project: AVOID",       status: "avoid" },
-    { label: "Lavaca / Guadalupe",      sub: "downtown transit-priority lanes — fixed this revision", status: "fixed" },
+    { label: "Lavaca / Guadalupe",      sub: "downtown transit-priority lanes, fixed this revision", status: "fixed" },
     { label: "South Congress (SoCo)",   sub: "this project: AVOID",       status: "avoid" },
     { label: "Southpark Meadows",       sub: "801 south terminus",        status: "endpoint" }
   ];
@@ -2523,7 +2523,7 @@ function drawDiagram() {
   /* map state note */
   s += `<text x="8" y="24" fill="${ink3}" font-size="9" letter-spacing="1">MAP STATE AT THIS MOMENT</text>`;
   s += `<rect x="8" y="32" width="11" height="11" rx="2" fill="${good}"/>`;
-  s += `<text x="25" y="42" fill="${ink2}" font-size="9.5">Brazos SB — reported clear. No probe report for 2m 40s.</text>`;
+  s += `<text x="25" y="42" fill="${ink2}" font-size="9.5">Brazos SB: reported clear. No probe report for 2m 40s.</text>`;
 
   s += `</svg>`;
   document.getElementById("diagram-a01").innerHTML = s;
@@ -2609,7 +2609,7 @@ function drawEntries() {
   document.getElementById("entries").innerHTML = entries.map(e => `
     <div class="entry">
       <div class="entry-w">${e.at}<br>${e.window || "—"}</div>
-      <div class="entry-b"><span class="entry-tag">${e.rule}</span><b>${e.corridor}</b> — ${e.obs}
+      <div class="entry-b"><span class="entry-tag">${e.rule}</span><b>${e.corridor}</b>: ${e.obs}
         <div style="font-family:var(--f-mono);font-size:10px;color:var(--ink-3);margin-top:5px">${e.who}</div>
       </div>
     </div>`).join("");
@@ -2618,7 +2618,7 @@ function drawEntries() {
 function initLog() {
   const sel = document.getElementById("log-rule");
   const all = RULES.flatMap(f => f.items);
-  sel.innerHTML = all.map(r => `<option value="${r.id}">${r.id} — ${r.name}</option>`).join("");
+  sel.innerHTML = all.map(r => `<option value="${r.id}">${r.id}: ${r.name}</option>`).join("");
 
   document.getElementById("logform").addEventListener("submit", ev => {
     ev.preventDefault();
@@ -2867,7 +2867,7 @@ function drawReports() {
   }
   const list = document.getElementById("reportlist");
   if (!crowdReports.length) {
-    list.innerHTML = `<p class="report-empty">No active reports. Submit one on the left — it shifts that zone's target on the next tick.</p>`;
+    list.innerHTML = `<p class="report-empty">No active reports. Submit one on the left and it shifts that zone's target on the next tick.</p>`;
     return;
   }
   const sevLabel = { 1: "elevated", 2: "heavy", 3: "severe" };
@@ -2908,7 +2908,7 @@ function drawLive(block, demands, targets) {
     return `<div class="tick-row"><div class="tick-time">${fmtAgo(d.ts)}</div>
       <div><b>${d.veh}</b> <span class="arrow">${fz ? fz.name : d.from} → ${tz ? tz.name : d.to}</span>
       <span class="tick-sub">eta ${d.eta.toFixed(1)} min · closing a coverage gap</span></div></div>`;
-  }).join("") : `<div class="tick-empty">No repositioning needed right now — every zone is at or above target.</div>`;
+  }).join("") : `<div class="tick-empty">No repositioning needed right now. Every zone is at or above target.</div>`;
 
   const rows = ZONES.map(z => {
     const committed = FLEET.filter(v => (v.status === "available" && v.zone === z.id) || (v.status === "enroute" && v.targetZone === z.id)).length;
